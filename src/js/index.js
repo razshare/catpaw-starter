@@ -1,5 +1,6 @@
 (async ()=>{
     //=============LOAD COMPONENTS HERE
+    await use.component("Assets/PageWrapper");
     await use.component("Assets/Button");
     await use.component("Assets/PrimaryButton");
     await use.component("Assets/ArticleButton");
