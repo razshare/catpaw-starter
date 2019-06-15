@@ -1,4 +1,6 @@
 Component.About=function($this){
+    Component.PageWrapper($this);
+
     let page1 = create("h3","Test page 1");
     let page2 = create("h3","Test page 2");
     let page3 = create("h3","Test page 3");
