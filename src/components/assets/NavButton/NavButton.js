@@ -1,0 +1,10 @@
+Component.NavButton=function($this){
+    Component.Button($this);
+    $this.classList.add("p-5");
+    $this.classList.remove("rounded");
+    $this.classList.add("border-r");
+    $this.addEventListener("click",e=>{
+        content.component($this.dataset.component);
+        state($this.dataset.state);
+    });
+};

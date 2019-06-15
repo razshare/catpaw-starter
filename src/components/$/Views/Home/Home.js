@@ -1,0 +1,3 @@
+Component.Home=function($this){
+    
+};

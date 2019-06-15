@@ -1,0 +1,28 @@
+{
+	"name":"tncrazvan/catpawskeleton",
+	"type": "project",
+	"description": "A php CatServer template",
+	"keywords": ["php","cli","server","http","websocket","catserver","template"],
+	"homepage": "https://github.com/tncrazvan/cattemplate",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Razvan Tanase",
+			"email": "tangent.jotey@gmail.com",
+			"homepage": "https://github.com/tncrazvan",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"":["src","vendor"]
+		}
+	},
+	"minimum-stability":"dev",
+	"require": {
+		"php": ">=7.2.6",
+		"tncrazvan/catpaw":"dev-master",
+		"tncrazvan/elk":"dev-master",
+		"tncrazvan/book":"dev-master"
+	}
+}

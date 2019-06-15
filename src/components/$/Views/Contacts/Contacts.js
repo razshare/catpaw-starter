@@ -1,0 +1,3 @@
+Component.Contacts=function($this){
+        
+};
