@@ -4,7 +4,7 @@ Component.NavButton=function($this){
     $this.classList.remove("rounded");
     $this.classList.add("border-r");
     $this.addEventListener("click",e=>{
-        content.component($this.dataset.component);
+        content.view($this.dataset.view);
         state($this.dataset.state);
     });
 };

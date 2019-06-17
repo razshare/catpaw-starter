@@ -1,28 +1,28 @@
 (async ()=>{
     //=============LOAD COMPONENTS HERE
-    await use.component("Assets/PageWrapper");
-    await use.component("Assets/Button");
-    await use.component("Assets/PrimaryButton");
-    await use.component("Assets/ArticleButton");
-    await use.component("Assets/NavButton");
+    await use.js("Component/Assets/PageWrapper");
+    await use.js("Component/Assets/Button");
+    await use.js("Component/Assets/PrimaryButton");
+    await use.js("Component/Assets/ArticleButton");
+    await use.js("Component/Assets/NavButton");
     //loading navigation bar
-    await nav.component("$/NavMenu");
+    await nav.view("NavMenu");
     //loading content area
-    await main.component("$/Content");
+    await main.view("Content");
 
 
     //=============DEFINE ROUTES HERE
     await use.route("^/(home)?$",location=>{
-        content.component("$/Views/Home");
+        content.view("Home");
     });
     await use.route("^/about$",location=>{
-        content.component("$/Views/About");
+        content.view("About");
     });
     await use.route("^/contacts$",location=>{
-        content.component("$/Views/Contacts");
+        content.view("Contacts");
     });
     await use.route("^/article/(?=.*$)",location=>{
-        content.component("$/Views/Article",{
+        content.view("Article",{
             article: location.args[0]
         });
     });
