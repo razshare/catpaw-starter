@@ -25,5 +25,8 @@
 		"tncrazvan/elk":"dev-master",
 		"tncrazvan/book":"dev-master",
 		"matthiasmullie/minify": "dev-master"
-	}
+	},
+	"config": {
+		"preferred-install": "source"
+    	}
 }
