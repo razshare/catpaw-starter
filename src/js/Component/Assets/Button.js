@@ -1,10 +1,10 @@
-Component.Button=function($this){
-    $this.classList.add("relative");
-    $this.classList.add("flex");
-    $this.classList.add("p-3");
-    $this.classList.add("font-bold");
-    $this.classList.add("crop-text");
-    $this.classList.add("cursor-pointer");
+Component.Button=function(){
+    this.classList.add("relative");
+    this.classList.add("flex");
+    this.classList.add("p-3");
+    this.classList.add("font-bold");
+    this.classList.add("crop-text");
+    this.classList.add("cursor-pointer");
 
-    $this.setClickEffect(50,50,50);
+    this.setClickEffect(50,50,50);
 };

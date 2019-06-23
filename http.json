@@ -11,5 +11,8 @@
         "allow":false,
         "size":"1024M"
     },
-    "compress":["deflate"]
+    "compress":["deflate"],
+    "header":{
+        "Cache-Control":"no-store"
+    }
 }

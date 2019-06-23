@@ -1,28 +1,22 @@
 (async ()=>{
-    //=============LOAD COMPONENTS HERE
-    await use.js("Component/Assets/PageWrapper");
-    await use.js("Component/Assets/Button");
-    await use.js("Component/Assets/PrimaryButton");
-    await use.js("Component/Assets/ArticleButton");
-    await use.js("Component/Assets/NavButton");
     //loading navigation bar
-    await nav.view("NavMenu");
+    await nav.module("NavMenu");
     //loading content area
-    await main.view("Content");
+    await main.module("Content");
 
 
     //=============DEFINE ROUTES HERE
     await use.route("^/(home)?$",location=>{
-        content.view("Home");
+        content.module("Home");
     });
     await use.route("^/about$",location=>{
-        content.view("About");
+        content.module("About");
     });
     await use.route("^/contacts$",location=>{
-        content.view("Contacts");
+        content.module("Contacts");
     });
     await use.route("^/article/(?=.*$)",location=>{
-        content.view("Article",{
+        content.module("Article",{
             article: location.args[0]
         });
     });

@@ -1,3 +1,3 @@
-Component.Contacts=function($this){
-    Component.PageWrapper($this);
+Component.Contacts=function(){
+    this.extends("PageWrapper");
 };

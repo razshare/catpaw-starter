@@ -1,3 +1,3 @@
-Component.Home=function($this){
-    Component.PageWrapper($this);
+Component.Home=function(){
+    this.extends("PageWrapper");
 };

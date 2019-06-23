@@ -13,8 +13,7 @@ echo "CSS minified in $css\n";
 
 $js=__DIR__."/src/js/minified.js";
 Strings::minify([
-    __DIR__."/vendor/tncrazvan/elk/Main.js",
-    __DIR__."/src/js/index.js",
+    //__DIR__."/vendor/tncrazvan/elk/Main.js",
     __DIR__."/vendor/tncrazvan/book/Book.js",
     __DIR__."/src/js/index.js",
     __DIR__."/src/js/Component/Assets/ArticleButton.js",
