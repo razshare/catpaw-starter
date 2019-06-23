@@ -6,7 +6,7 @@ Component.NavButton=function(){
     this.classList.add("border-r");
     this.addEventListener("click",e=>{
         if(!this.dataset.view) return;
-        content.module(this.dataset.view);
+        content.module("Views/"+this.dataset.view);
         state(this.dataset.state);
     });
     this.data={

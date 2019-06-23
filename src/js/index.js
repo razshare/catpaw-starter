@@ -7,16 +7,16 @@
 
     //=============DEFINE ROUTES HERE
     await use.route("^/(home)?$",location=>{
-        content.module("Home");
+        content.module("Views/Home");
     });
     await use.route("^/about$",location=>{
-        content.module("About");
+        content.module("Views/About");
     });
     await use.route("^/contacts$",location=>{
-        content.module("Contacts");
+        content.module("Views/Contacts");
     });
     await use.route("^/article/(?=.*$)",location=>{
-        content.module("Article",{
+        content.module("Views/Article",{
             article: location.args[0]
         });
     });
