@@ -11,6 +11,7 @@ Component.NavButton=function(){
     });
 
     this.data={
+        sample: "hello",
         list:[
             {order: 0,state:"/home",view:"Home",text:"Home"},
             {order: 2,state:"/about",view:"About",text:"About"},
