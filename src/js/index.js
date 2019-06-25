@@ -1,22 +1,21 @@
 (async ()=>{
     //loading navigation bar
-    await nav.module("NavMenu");
+    await nav.template("NavMenu");
     //loading content area
-    await main.module("Content");
-
+    let result = await main.template("Content");
 
     //=============DEFINE ROUTES HERE
     await use.route("^/(home)?$",location=>{
-        content.module("Views/Home");
+        content.template("Views/Home");
     });
     await use.route("^/about$",location=>{
-        content.module("Views/About");
+        content.template("Views/About");
     });
     await use.route("^/contacts$",location=>{
-        content.module("Views/Contacts");
+        content.template("Views/Contacts");
     });
     await use.route("^/article/(?=.*$)",location=>{
-        content.module("Views/Article",{
+        content.template("Views/Article",{
             article: location.args[0]
         });
     });

@@ -1,0 +1,9 @@
+<NavMenu id="nav" replace export>
+    <NavButton @foreach="list" data-state="@value.state" data-view="@value.view" @sortby="order">
+        @value.text
+    </NavButton>
+
+    <NavButton >
+        @sample
+    </NavButton>
+</NavMenu>
