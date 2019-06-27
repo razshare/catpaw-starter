@@ -1,20 +1,17 @@
-Component.NavButton=function(){
-    this.extends("Button");
-    
-    this.classList.add("p-5");
-    this.classList.remove("rounded");
-    this.classList.add("border-r");
+Components.NavButton=function(){
     this.addEventListener("click",e=>{
-        if(!this.dataset.view) return;
         content.template("Views/"+this.dataset.view);
         state(this.dataset.state);
     });
-    this.data={
-        sample: "hello",
-        list: [
-            {order: 0,state:"/home",view:"Home",text:"Home"},
-            {order: 2,state:"/about",view:"About",text:"About"},
-            {order: 1,state:"/contacts",view:"Contacts",text:"Contacts"}
-        ]
-    };
+
+    if(this.hasAttribute("@foreach")){
+        this.data={
+            list:[
+                {content:create("a","Home"),state:"/home",view:"Home"},
+                {content:create("a","About"),state:"/about",view:"About"},
+                {content:create("a","Contacts"),state:"/contacts",view:"Contacts"},
+                {content:create("a","Article"),state:"/article/1",view:"Article"}
+            ]
+        }
+    }
 };

@@ -1,9 +1,7 @@
-(async ()=>{
-    //loading navigation bar
-    await nav.template("NavMenu");
+document.addEventListener("DOMContentLoaded", async function(event) { 
     //loading content area
-    let result = await main.template("Content");
-
+    await main.template("Wrappers/Nav");
+    await main.template("Wrappers/Content");
     //=============DEFINE ROUTES HERE
     await use.route("^/(home)?$",location=>{
         content.template("Views/Home");
@@ -19,4 +17,4 @@
             article: location.args[0]
         });
     });
-})();
+});

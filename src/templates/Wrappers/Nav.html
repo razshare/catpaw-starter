@@ -1,0 +1,7 @@
+<Nav id="nav" export>
+    <a href="#" class="brand-logo">Logo</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li extends="NavButton" @foreach="list" data-state="@value.state" data-view="@value.view">@value.content</li>
+      </ul>
+    </div>
+</Nav>
