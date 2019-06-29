@@ -4,14 +4,12 @@ Components.NavButton=function(){
         state(this.dataset.state);
     });
 
-    if(this.hasAttribute("@foreach")){
-        this.data={
-            list:[
-                {text:"Home",state:"/home",view:"Home"},
-                {text:"About",state:"/about",view:"About"},
-                {text:"Contacts",state:"/contacts",view:"Contacts"},
-                {text:"Article",state:"/article/1",view:"Article"}
-            ]
-        }
+    this.data={
+        list:[
+            {text:"Home",state:"/home",view:"Home"},
+            {text:"About",state:"/about",view:"About"},
+            {text:"Contacts",state:"/contacts",view:"Contacts"},
+            {text:"Article",state:"/article/1",view:"Article"}
+        ]
     }
 };
