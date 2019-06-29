@@ -1,6 +1,9 @@
 Components.NavButton=function(){
     this.addEventListener("click",e=>{
-        content.template("Views/"+this.dataset.view);
+        content.template("Views/"+this.dataset.view,this.data.article?{
+            article: this.data.article
+        }:null);
+        
         state(this.dataset.state);
     });
 
@@ -9,7 +12,7 @@ Components.NavButton=function(){
             {text:"Home",state:"/home",view:"Home"},
             {text:"About",state:"/about",view:"About"},
             {text:"Contacts",state:"/contacts",view:"Contacts"},
-            {text:"Article",state:"/article/1",view:"Article"}
+            {text:"Article",state:"/article/1",view:"Article", article: 1}
         ]
     }
 };

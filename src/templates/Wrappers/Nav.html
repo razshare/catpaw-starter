@@ -1,9 +1,9 @@
 <Nav id="nav" export>
     <a @if="this.title" href="#" class="brand-logo">@this.title</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li extends="NavButton" @foreach="this.list" data-state="@this.state" data-view="@this.view">
-          <a>@this.text</a>
-        </li>
-      </ul>
-    </div>
+
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li extends="NavButton" @foreach="this.list" data-state="@this.state" data-view="@this.view">
+        <a>@this.text</a>
+      </li>
+    </ul>
 </Nav>
