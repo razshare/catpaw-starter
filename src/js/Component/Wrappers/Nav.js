@@ -22,4 +22,8 @@ Components.Nav=function(){
     //large desktop
     this.classList.add("xl6");
     this.classList.add("offset-xl3");
+
+    this.data = {
+        title: "Logo"
+    };
 };

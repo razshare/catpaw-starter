@@ -7,10 +7,10 @@ Components.NavButton=function(){
     if(this.hasAttribute("@foreach")){
         this.data={
             list:[
-                {content:create("a","Home"),state:"/home",view:"Home"},
-                {content:create("a","About"),state:"/about",view:"About"},
-                {content:create("a","Contacts"),state:"/contacts",view:"Contacts"},
-                {content:create("a","Article"),state:"/article/1",view:"Article"}
+                {text:"Home",state:"/home",view:"Home"},
+                {text:"About",state:"/about",view:"About"},
+                {text:"Contacts",state:"/contacts",view:"Contacts"},
+                {text:"Article",state:"/article/1",view:"Article"}
             ]
         }
     }
