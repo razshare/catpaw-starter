@@ -1,6 +1,6 @@
 Components.SubmitArticle=function(){
     this.extends("Button");
-    let home = this.parentNode.parentNode.parentNode;
+    let home = this.getParentComponent();
     let list = home.ref("articles-list");
     let articleName = home.ref("article-name");
     this.addEventListener("click",e=>{

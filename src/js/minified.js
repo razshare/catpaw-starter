@@ -389,6 +389,33 @@ const ComponentResolver=function(item,allowVariables,extra){
         }
     };
 
+    let getParentComponent = function(){
+        let parent = item.parentNode;
+        let key = parent.tagName;
+        if(parent.hasAttribute("extends")){
+            key = parent.getAttribute("extends");
+        }
+        while(true){
+            for ( let c in Components ) {
+                if(c.toLowerCase() === key.toLowerCase()){
+                    return parent;
+                }
+            }
+            if(parent.parentNode){
+                parent = parent.parentNode;
+                key = parent.tagName;
+                if(parent.hasAttribute("extends")){
+                    key = parent.getAttribute("extends");
+                }
+            }else{
+                return null;
+            }
+        }
+    };
+
+    item.getParentComponent=function(){
+        return getParentComponent();
+    };
 
     let key = item.tagName;
     parse();
@@ -13810,15 +13837,15 @@ Components.DeleteArticle=function(){
         this.classList.remove("accent-4");
         this.classList.add("darken-3");
     });
-
+    let list = this.getParentComponent();
     this.addEventListener("click",e=>{
-        delete this.parentNode.parentNode.data.articles[this.key];
-        this.parentNode.parentNode.refresh();
+        delete list.data.articles[this.key];
+        list.refresh();
     });
 };
 Components.SubmitArticle=function(){
     this.extends("Button");
-    let home = this.parentNode.parentNode.parentNode;
+    let home = this.getParentComponent();
     let list = home.ref("articles-list");
     let articleName = home.ref("article-name");
     this.addEventListener("click",e=>{

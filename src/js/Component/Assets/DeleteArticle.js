@@ -16,9 +16,9 @@ Components.DeleteArticle=function(){
         this.classList.remove("accent-4");
         this.classList.add("darken-3");
     });
-
+    let list = this.getParentComponent();
     this.addEventListener("click",e=>{
-        delete this.parentNode.parentNode.data.articles[this.key];
-        this.parentNode.parentNode.refresh();
+        delete list.data.articles[this.key];
+        list.refresh();
     });
 };
