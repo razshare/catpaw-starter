@@ -7,6 +7,7 @@ Components.NavButton=function(){
         state(this.dataset.state);
     });
 
+
     this.data={
         list:[
             {text:"Home",state:"/home",view:"Home"},

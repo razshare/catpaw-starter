@@ -1,4 +1,19 @@
 <Home export replace>
-    this is Home
-    <Button>button</Button>
+    <ul extends="ArticlesList" ref="articles-list" class="collection">
+        <li @foreach="this.articles" @desc desc class="collection-item row">
+            <span class="col s11">@this</span>
+            <DeleteArticle class="col s1"><i class="material-icons">cancel</i></DeleteArticle>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="input-field col s10">
+            <input ref="article-name" id="articleName" type="text" class="validate">
+            <label for="articleName">Article name</label>
+        </div>
+        <div class="input-field col s2">
+            <SubmitArticle ref="submit" class="col s12">Submit</SubmitArticle>
+        </div>
+    </div>
+
 </Home>
