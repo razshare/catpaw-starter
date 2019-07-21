@@ -23,7 +23,6 @@
 		"php": ">=7.2.6",
 		"tncrazvan/catpaw":"dev-master",
 		"tncrazvan/elk":"dev-master",
-		"tncrazvan/book":"dev-master",
 		"tncrazvan/phporm":"dev-master",
 		"matthiasmullie/minify": "dev-master"
 	},
