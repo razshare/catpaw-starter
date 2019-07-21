@@ -95,18 +95,14 @@
         <li class="collection-item">
             <p>
                 We're gonna use the default namespace for this example.<br />
-                Make a new file under <b>/controllers/http/</b> named <b>Hello.php</b> and throw in the basics: namespace and a class with the same name as the file:
+                Make a new file under <b>/controllers/http/</b> named <b>Hello.php</b> 
+                and throw in the basics: namespace and a class with the same name as the file:
             </p>
             <Coding language="php">@this.project.example.controller1</Coding>
         </li>
         <li class="collection-item">
             <p>
                 Now we extend the HttpController in order to allow this class to act as a controller.
-            </p>
-            <Coding language="php">@this.project.example.controller2</Coding>
-        </li>
-        <li class="collection-item">
-            <p>
                 The HttpController class is an abstract class, and it contains 2 
                 abstract methods which must be defined: <b>&main</b> and <b>onClose:void</b>
             </p>
@@ -146,7 +142,6 @@
                 http: await (await fetch("/templates/docs/examples/http.json")).text(),
                 example: {
                     controller1: (await (await fetch("/templates/docs/examples/Hello/1.php")).text()).replace(REGEX,""),
-                    controller2: (await (await fetch("/templates/docs/examples/Hello/2.php")).text()).replace(REGEX,""),
                     controller3: (await (await fetch("/templates/docs/examples/Hello/3.php")).text()).replace(REGEX,""),
                     controller4: (await (await fetch("/templates/docs/examples/Hello/4.php")).text()).replace(REGEX,""),
                     controller5: (await (await fetch("/templates/docs/examples/Hello/5.php")).text()).replace(REGEX,""),
