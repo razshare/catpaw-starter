@@ -1,6 +1,6 @@
 {
     "port":80,
-    "webRoot":"/src",
+    "webRoot":"/public",
     "bindAddress":"0.0.0.0",
     "controllers":{
         "http":"App\\Http",

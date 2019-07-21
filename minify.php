@@ -7,34 +7,35 @@ define("DEBUG",true);
 
 $input=[
     "css"=>[
-        __DIR__."/src/css/fonts/meterial.css",
-        __DIR__."/src/css/highlighter.css",
-        __DIR__."/src/css/materialize.css",
-        __DIR__."/src/css/style.css"
+        __DIR__."/public/css/fonts/meterial.css",
+        __DIR__."/public/css/hopscotch.css",
+        __DIR__."/public/css/materialize.css",
+        __DIR__."/public/css/style.css"
     ],
     "js"=>[
         //MAIN LIBS
         __DIR__."/vendor/tncrazvan/elk/Main.js",
-        __DIR__."/src/js/materialize.js",
-        __DIR__."/src/js/highlighter.js",
+        __DIR__."/public/js/materialize.js",
+        __DIR__."/public/js/highlighter.js",
         //VIEWS
         //...
         //WRAPPERS
-        __DIR__."/src/js/Component/Wrappers/Nav.js",
-        __DIR__."/src/js/Component/Wrappers/Content.js",
-        __DIR__."/src/js/Component/Wrappers/Container.js",
+        __DIR__."/public/js/Component/Wrappers/Nav.js",
+        __DIR__."/public/js/Component/Wrappers/Content.js",
+        __DIR__."/public/js/Component/Wrappers/Container.js",
         //ASSETS
-        __DIR__."/src/js/Component/Assets/Coding.js",
-        __DIR__."/src/js/Component/Assets/Button.js",
-        __DIR__."/src/js/Component/Assets/NavButton.js",
-        __DIR__."/src/js/Component/Assets/DeleteArticle.js",
-        __DIR__."/src/js/index.js"
+        __DIR__."/public/js/Component/Assets/SectionTitle.js",
+        __DIR__."/public/js/Component/Assets/Coding.js",
+        __DIR__."/public/js/Component/Assets/Button.js",
+        __DIR__."/public/js/Component/Assets/NavButton.js",
+        __DIR__."/public/js/Component/Assets/DeleteArticle.js",
+        __DIR__."/public/js/index.js"
     ]
 ];
 
 $output=[
-    "css"=>__DIR__."/src/css/minified.css",
-    "js"=>__DIR__."/src/js/minified.js"
+    "css"=>__DIR__."/public/css/minified.css",
+    "js"=>__DIR__."/public/js/minified.js"
 ];
 
 

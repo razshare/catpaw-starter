@@ -1,0 +1,165 @@
+<style scoped>
+    .top-logo{
+        position: relative;
+        top: 1em;
+        width: 5em;
+        display: inline-block;
+        border: 1px solid #f1f1f1;
+        border-radius: 50%;
+    }
+    .top-title{
+        margin-left: 1em;
+        display: inline-block;
+    }
+</style>
+
+<Container extends="Home" style="padding-left: 1em;padding-right: 1em" export replace>
+    <!--##################### WHAT IS CATPAW #####################-->
+    <img class="top-logo" src="/images/logo.png">
+    <h4 class="top-title">What is CatPaw?</h4>
+    <p>
+        CatPaw is a lightweight web server written in Php for <b>Linux</b>.<br />
+        Although it's not complete yet, it offers a few unique features such as an MVC design pattern and a WebSocket API.
+    </p>
+    <hr/>
+
+    <!--##################### HOW TO START #####################-->
+    <SectionTitle id="start">How to start</SectionTitle>
+    <ul class="collection">
+        <li class="collection-item">
+            <b>Make sure you have php 7.2 or higher installed</b>
+        </li>
+        <li class="collection-item">
+            <b>Install composer</b><br />
+            In order to run the server you'll need composer.<br />
+            Composer is a package manager for php and it also offser an autoloader.
+            <hr>
+            <a extends="Button" style="color: #c54531" target="_blank" href="https://getcomposer.org/"><b>Download composer</b></a>
+        </li>
+        <li class="collection-item">
+            <b>Make a project</b><br />
+            Run 
+            <Coding language="bash">composer create-project <b>@this.project.location</b> ProjectName -sdev</Coding>
+            to make a new CatPaw project from the public skeleton template
+        </li>
+        <li class="collection-item">
+            <b>Update the project</b><br />
+            Now you need to get all the required libraries for the website to work, so run 
+            <Coding language="bash">composer update</Coding>
+            inside the project directory
+        </li>
+        <li class="collection-item">
+            <b>Run the server</b><br  />
+            Now you need to run CatPaw from the terminal using 
+            <Coding language="bash">php start.php</Coding>
+        </li>
+    </ul>
+
+    <!--##################### MINIFY #####################-->
+    <SectionTitle id="minify">Minify</SectionTitle>
+    <p>
+        The project comes with a few handy scripts, one of the scripts is <b>minify.php</b>.<br /><br />
+        <b>Minify.php</b> will minify your CSS and JS files as long as you specify them in the $input array inside the script.<br />
+        
+        You can <b>watch</b> the script every 0.1 second in order to automate the process by running 
+        <Coding language="bash">watch -n0.1 php minify.php</Coding>
+    </p>
+
+
+    <!--##################### CONTROLLERS #####################-->
+    <SectionTitle id="controllers">Controllers</SectionTitle>
+    <p>
+        Controllers play a central role when developing a web service.<br />
+        A controller has the role of serving or fetching data from client http or websocket requests.
+    </p>
+    <p>
+        All your controllers are located under <b>/controllers/</b> by default, 
+        their location in the file system doesn't really matter as long as they are loaded correctly to your application.<br />
+    </p>
+    <p>
+        In order to define your controllers, your application must first know where to find them exactly, 
+        and since the file system is not a reliable way to locate them under a project, we're using namespaces.<br />
+    </p>
+    <p>
+        Open <b>/http.json</b> in a text editor. You should see something like this:<br /><br />
+        <Coding language="json">@this.project.http</Coding><br /><br />
+        All you need to do in order to define a namespace for your controller is to change 
+        <Coding language="json">controllers.http: "..."</Coding> to whatever you want your namespace to be.<br />
+        As you can see <b>App\Http</b> is the default namespace for http controllers.<br />
+    </p>
+
+
+    <!--##################### CONTROLLER EXAMPLE #####################-->
+    <SectionTitle id="controllers">Controller Example</SectionTitle>
+    <ul class="collection">
+        <li class="collection-item">
+            <p>
+                We're gonna use the default namespace for this example.<br />
+                Make a new file under <b>/controllers/http/</b> named <b>Hello.php</b> and throw in the basics: namespace and a class with the same name as the file:
+            </p>
+            <Coding language="php">@this.project.example.controller1</Coding>
+        </li>
+        <li class="collection-item">
+            <p>
+                Now we extend the HttpController in order to allow this class to act as a controller.
+            </p>
+            <Coding language="php">@this.project.example.controller2</Coding>
+        </li>
+        <li class="collection-item">
+            <p>
+                The HttpController class is an abstract class, and it contains 2 
+                abstract methods which must be defined: <b>&main</b> and <b>onClose:void</b>
+            </p>
+            <Coding language="php">@this.project.example.controller3</Coding>
+        </li>
+        <li class="collection-item">
+            <p>
+                The <b>&main</b> method is called only when no method is specified in the controller request, 
+                so we can look at it as a default method.<br />
+                The <b>onClose</b> method is always called. This method is supposed to be used to undo changes, 
+                or close database connections before closing the http connection itself.
+            </p>
+            <br />
+            <p>
+                The next step is to reply to the client with a message.<br />
+                We'll reply with "hello".
+            </p>
+            <p>
+                One way to reply to the client is to simply call the method
+                <b>HttpEvent::send($data)</b> on the event <b>$e</b>, like so:
+            </p>
+            <Coding language="php">@this.project.example.controller4</Coding>
+            <p>
+                Another way of replying is to return a proper HttpResponse object.
+            </p>
+            <Coding language="php">@this.project.example.controller5</Coding>
+        </li>
+    </ul>
+</Container>
+
+<script>
+    Components.Home = async function(){
+        const REGEX = /^\<\?php\r?\n?/g;
+        this.data={
+            project:{
+                location: "tncrazvan/catpawskeleton",
+                http: await (await fetch("/templates/docs/examples/http.json")).text(),
+                example: {
+                    controller1: (await (await fetch("/templates/docs/examples/Hello/1.php")).text()).replace(REGEX,""),
+                    controller2: (await (await fetch("/templates/docs/examples/Hello/2.php")).text()).replace(REGEX,""),
+                    controller3: (await (await fetch("/templates/docs/examples/Hello/3.php")).text()).replace(REGEX,""),
+                    controller4: (await (await fetch("/templates/docs/examples/Hello/4.php")).text()).replace(REGEX,""),
+                    controller5: (await (await fetch("/templates/docs/examples/Hello/5.php")).text()).replace(REGEX,""),
+                }
+            }
+        };
+
+        await this.refresh();
+
+        let parent = this.getParentComponent();
+        parent.css({
+            opacity: 1,
+            top: Pixel(0)
+        });
+    }
+</script>
