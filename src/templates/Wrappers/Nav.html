@@ -1,9 +1,7 @@
-<Nav id="nav" @if="this.enabled" export>
-  <a extends="Logo" class="brand-logo">@this.title</a>
-
-  <ul id="nav-mobile" class="right hide-on-med-and-down">
-    <li extends="NavButton" @foreach="this.list" data-state="@this.state" data-view="@this.view">
-      <a ref="@this.view">@this.text</a>
-    </li>
-  </ul>
-</Nav>
+<div extends="Nav" id="nav" export>
+  <Container>
+      <NavButton @foreach="this.list" data-state="@this.state" data-view="@this.view">
+          @this.text
+      </NavButton>
+  </Container>
+</div>

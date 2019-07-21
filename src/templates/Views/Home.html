@@ -1,19 +1,61 @@
-<Home export replace>
-    <ul extends="ArticlesList" ref="articles-list" class="collection">
-        <li @foreach="this.articles" @desc desc class="collection-item row">
-            <span class="col s11">@this</span>
-            <DeleteArticle class="col s1"><i class="material-icons">cancel</i></DeleteArticle>
+<Container extends="Home" style="padding-left: 1em;padding-right: 1em" export replace>
+    <!--##################### WHAT IS CATPAW #####################-->
+    <h4>What is CatPaw?</h4>
+    <p>
+        CatPaw is a lightweight web server written in Php for <b>Linux</b>.<br />
+        Although it's not complete yet, it offers a few unique features such as an MVC design pattern and a WebSocket API.
+    </p>
+    <hr/>
+
+    <!--##################### HOW TO START #####################-->
+    <h4>How to start</h4>
+    <ul class="collection">
+        <li class="collection-item">
+            <b>Make sure you have php 7.2 or higher installed</b>
+        </li>
+        <li class="collection-item">
+            <b>Install composer</b><br />
+            In order to run the server you'll need some sort of autoload.<br />
+            Composer is the most common choice, but you can use whatever you want as long as it works.
+            <hr>
+            <a extends="Button" style="color: #c54531" target="_blank" href="https://getcomposer.org/"><b>Download composer</b></a>
+        </li>
+        <li class="collection-item">
+            <b>Make a project</b><br />
+            Run 
+            <Coding language="bash">composer create-project <b>@this.project.location</b> ProjectName -sdev</Coding>
+            to make a new CatPaw project from the public skeleton template
+        </li>
+        <li class="collection-item">
+            <b>Update the project</b><br />
+            Now you need to get all the required libraries for the website to work, so run 
+            <Coding language="bash">composer update</Coding>
+            inside the project directory
+        </li>
+        <li class="collection-item">
+            <b>Run the server</b><br  />
+            Now you need to run CatPaw from the terminal using 
+            <Coding language="bash">php start.php</Coding>
         </li>
     </ul>
 
-    <div class="row">
-        <div class="input-field col s10">
-            <input ref="article-name" id="articleName" type="text" class="validate">
-            <label for="articleName">Article name</label>
-        </div>
-        <div class="input-field col s2">
-            <SubmitArticle ref="submit" class="col s12">Submit</SubmitArticle>
-        </div>
-    </div>
+    <!--##################### MORE #####################-->
+    <h4>Minify.php</h4>
+    <p>
+        The project comes with a few handy scripts, one of the scripts is <b>minify.php</b>.
+        <b>Minify.php</b>, which will minify your CSS and JS files as long as you specify them in the $input array inside the script.<br />
+        
+        You can <b>watch</b> the script every 0.1 second in order to automate the process by running 
+        <Coding language="bash">watch -n0.1 php minify.php</Coding>
+    </p>
+</Container>
 
-</Home>
+<script>
+    Components.Home=function(){
+        this.data={
+            project:{
+                location: "tncrazvan/catpawskeleton"
+            }
+        };
+    }
+</script>

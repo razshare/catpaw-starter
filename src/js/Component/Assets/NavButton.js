@@ -1,19 +1,47 @@
 Components.NavButton=function(){
-    this.addEventListener("click",e=>{
-        content.template("Views/"+this.dataset.view,this.data.article?{
-            article: this.data.article
-        }:null);
-        
-        state(this.dataset.state);
+    let colors={
+        background: {
+            normal: "transparent",
+            hover: "#c54531"
+        },
+        text: {
+            normal: "#ffffff",
+            hover: "#ffffff"
+        }
+    };
+
+    this.css({
+        background: colors.background.normal,
+        color: colors.text.normal,
+        padding: "1em",
+        transition: "all 200ms",
+        display: "inline-block",
+        cursor: "pointer"
     });
 
+    this.addEventListener("mouseover",e=>{
+        this.css({
+            background: colors.background.hover,
+            color: colors.text.hover
+        });
+    });
+
+    this.addEventListener("mouseout",e=>{
+        this.css({
+            background: colors.background.normal,
+            color: colors.text.normal
+        });
+    });
+
+    this.addEventListener("click",async e=>{
+        state(this.dataset.state);
+        await content.change(this.dataset.view);
+    });
 
     this.data={
-        list:[
-            {text:"Home",state:"/home",view:"Home"},
-            {text:"About",state:"/about",view:"About"},
-            {text:"Contacts",state:"/contacts",view:"Contacts"},
-            {text:"Article",state:"/article/1",view:"Article", article: 1}
+        list: [
+            {text:"Quick Start",view:"Views/Home",state:"/home"},
+            {text:"Documentation",view:"Views/Documentation",state:"/documentation"}
         ]
-    }
+    };
 };

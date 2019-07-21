@@ -1,30 +1,13 @@
 Components.Nav=function(){
-    this.classList.add("nav-wrapper");
-    this.classList.add("row");
-    this.classList.add("col");
+    this.css({
+        position: "relative",
+        left: 0,
+        right: 0,
+        top: 0,
+        display: "block "
+    });
 
     //colors
-    this.classList.add("blue");
-    this.classList.add("darken-2");
-
-    //mobile
-    this.classList.add("s12");
-    this.classList.add("offset-s0");
-
-    //tablet
-    this.classList.add("m10");
-    this.classList.add("offset-m1");
-
-    //desktop
-    this.classList.add("l8");
-    this.classList.add("offset-l2");
-
-    //large desktop
-    this.classList.add("xl6");
-    this.classList.add("offset-xl3");
-
-
-    this.data = {
-        enabled: true
-    };
-};
+    this.classList.add("grey");
+    this.classList.add("darken-4");
+}
