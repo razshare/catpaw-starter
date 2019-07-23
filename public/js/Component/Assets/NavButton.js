@@ -1,4 +1,6 @@
 Components.NavButton=function(){
+    const ACTION_DEFAULT = 0;
+    const ACTION_INSTALL = 1;
     let colors={
         background: {
             normal: "transparent",
@@ -58,13 +60,21 @@ Components.NavButton=function(){
 
     this.addEventListener("click",async e=>{
         //state(this.dataset.state);
-        await content.change(this.dataset.view);
+        console.log(this.dataset);
+        switch(parseInt(this.dataset.action)){
+            case ACTION_DEFAULT:
+                await content.change(this.dataset.view);
+            break;
+            case ACTION_INSTALL:
+                modalBottom.open();
+            break;
+        }
     });
 
     this.data={
         list: [
-            {text:"Quick Start",view:"Views/Home",state:"/home"}/*,
-            {text:"Documentation",view:"Views/Documentation",state:"/documentation"}*/
+            {text:"Quick Start",view:"Views/Home",state:"/home",action:ACTION_DEFAULT},
+            {text:"Install",view:"Views/Home",state:"/home",action:ACTION_INSTALL}
         ]
     };
 };
