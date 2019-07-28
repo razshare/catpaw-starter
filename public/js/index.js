@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function(event) {
             })();
         });
     }
-    
+
     //loading content area
     await main.template("Wrappers/Nav");
     await main.template("Wrappers/Content");

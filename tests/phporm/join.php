@@ -11,7 +11,5 @@ ob_implicit_flush();
 use com\github\tncrazvan\Orm\Examples\Example1\ExampleJoin;
 use com\github\tncrazvan\Orm\Examples\Example1\ExampleSelect;
 
-$test = new ExampleSelect();
+$test = new ExampleJoin();
 $test->main();
-/*$test = new ExampleJoin();
-$test->main();*/
