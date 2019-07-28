@@ -66,7 +66,7 @@ Components.NavButton=function(){
                 await content.change(this.dataset.view);
             break;
             case ACTION_INSTALL:
-                modalBottom.open();
+                modal.open();
             break;
         }
     });

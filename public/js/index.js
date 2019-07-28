@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", async function(event) {
             install = e;
 
             (function poll(){
-                if(modalBottom){
+                if(modal){
                     if(!localStorage["autoprompted"])
-                        modalBottom.open();
+                        modal.open();
                     localStorage.setItem("autoprompted",true);
                     return;
                 }

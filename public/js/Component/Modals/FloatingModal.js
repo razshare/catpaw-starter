@@ -1,11 +1,11 @@
-Components.FixedModal=function(){
+Components.FloatingModal=function(){
     this.innerHTML = "";
     this.css({
         background: "#2e2a38"
     });
     let $this = this;
     this.classList.add("modal");
-    this.classList.add("bottom-sheet");
+    //this.classList.add("modal-fixed-footer");
     let header = create("h4",$this.getAttribute("header"));
     let message = create("p",$this.getAttribute("message"));
     let content = create(".modal-content",[header,message]);
@@ -18,7 +18,7 @@ Components.FixedModal=function(){
     });
 
     let footer = create(".modal-footer",[cancel,confirm]).css({
-        background: Rgb(146, 42, 26)
+        background: "#2e2a38"
     });
 
     this.appendChild(content);

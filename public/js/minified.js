@@ -461,7 +461,7 @@ const VariableResolver=function(item,path=[]){
                         (callback)(result,SUCCESS,true);
                     }
                 }catch(e){
-                    console.error("Could not resolve variable "+key+".",item);
+                    console.error("Could not resolve variable "+key,item,e);
                     (callback)(undefined,NO_DATA,false);
                 }
                 
@@ -13603,14 +13603,14 @@ Components.Container=function(){
         display: "block"
     });
 };
-Components.FixedModal=function(){
+Components.FloatingModal=function(){
     this.innerHTML = "";
     this.css({
         background: "#2e2a38"
     });
     let $this = this;
     this.classList.add("modal");
-    this.classList.add("bottom-sheet");
+    //this.classList.add("modal-fixed-footer");
     let header = create("h4",$this.getAttribute("header"));
     let message = create("p",$this.getAttribute("message"));
     let content = create(".modal-content",[header,message]);
@@ -13623,7 +13623,7 @@ Components.FixedModal=function(){
     });
 
     let footer = create(".modal-footer",[cancel,confirm]).css({
-        background: Rgb(146, 42, 26)
+        background: "#2e2a38"
     });
 
     this.appendChild(content);
@@ -13786,7 +13786,7 @@ Components.NavButton=function(){
                 await content.change(this.dataset.view);
             break;
             case ACTION_INSTALL:
-                modalBottom.open();
+                modal.open();
             break;
         }
     });
@@ -13835,9 +13835,9 @@ document.addEventListener("DOMContentLoaded", async function(event) {
             install = e;
 
             (function poll(){
-                if(modalBottom){
+                if(modal){
                     if(!localStorage["autoprompted"])
-                        modalBottom.open();
+                        modal.open();
                     localStorage.setItem("autoprompted",true);
                     return;
                 }

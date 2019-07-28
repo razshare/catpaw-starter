@@ -23,7 +23,7 @@ $input=[
         __DIR__."/public/js/Component/Wrappers/Nav.js",
         __DIR__."/public/js/Component/Wrappers/Content.js",
         __DIR__."/public/js/Component/Wrappers/Container.js",
-        __DIR__."/public/js/Component/Modals/FixedModal.js",
+        __DIR__."/public/js/Component/Modals/FloatingModal.js",
         //ASSETS
         __DIR__."/public/js/Component/Assets/SectionTitle.js",
         __DIR__."/public/js/Component/Assets/Coding.js",
