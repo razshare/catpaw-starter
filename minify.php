@@ -25,11 +25,8 @@ $input=[
         __DIR__."/public/js/Component/Wrappers/Container.js",
         __DIR__."/public/js/Component/Modals/FloatingModal.js",
         //ASSETS
-        __DIR__."/public/js/Component/Assets/SectionTitle.js",
-        __DIR__."/public/js/Component/Assets/Coding.js",
         __DIR__."/public/js/Component/Assets/Button.js",
         __DIR__."/public/js/Component/Assets/NavButton.js",
-        __DIR__."/public/js/Component/Assets/DeleteArticle.js",
         __DIR__."/public/js/index.js"
     ]
 ];

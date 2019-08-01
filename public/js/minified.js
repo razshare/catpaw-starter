@@ -13553,8 +13553,7 @@ Components.Nav=function(){
         left: 0,
         right: 0,
         top: 0,
-        display: "block ",
-        background: "#232128"
+        display: "block "
     });
 }
 Components.Content=function(){
@@ -13605,9 +13604,6 @@ Components.Container=function(){
 };
 Components.FloatingModal=function(){
     this.innerHTML = "";
-    this.css({
-        background: "#2e2a38"
-    });
     let $this = this;
     this.classList.add("modal");
     //this.classList.add("modal-fixed-footer");
@@ -13615,16 +13611,10 @@ Components.FloatingModal=function(){
     let message = create("p",$this.getAttribute("message"));
     let content = create(".modal-content",[header,message]);
 
-    let cancel = create("Button","Cancel").css({
-        color: "#f1f1f1"
-    });
-    let confirm = create("Button","Confirm").css({
-        color: "#f1f1f1"
-    });
+    let cancel = create("Button","Cancel");
+    let confirm = create("Button","Confirm");
 
-    let footer = create(".modal-footer",[cancel,confirm]).css({
-        background: "#2e2a38"
-    });
+    let footer = create(".modal-footer",[cancel,confirm]);
 
     this.appendChild(content);
     this.appendChild(footer);
@@ -13669,183 +13659,29 @@ Components.FloatingModal=function(){
     };
 
 };
-Components.SectionTitle=function(){
-    this.css({
-        display: "block",
-        position: "relative",
-        fontWeight: "bold",
-        fontSize: "1.3em",
-        color: "#922a1a",
-        borderLeft: "0.3em solid #922a1a",
-        paddingLeft: "0.3em"
-    });
-};
-Components.Coding=function(){
-    this.onload=async function(){
-        let html = this.innerHTML;
-        let language = this.hasAttribute("language")?this.getAttribute("language"):"plaintext";
-        this.innerHTML = "";
-        let code = await create("code."+language,html);
-        code.classList.add("selectable");
-        let pre = await create("pre",code)
-        this.appendChild(pre);
-  
-        hljs.highlightBlock(code);
-
-        this.css({
-            display: "inline-block",
-            padding: 0,
-            margin: 0
-        });
-        code.css({
-            display: "inline",
-            background: "transparent",
-            padding: 0,
-            margin: 0
-        });
-        pre.css({
-            margin: 0,
-            paddingLeft: "0.5em",
-            paddingRight: "0.7em",
-            paddingTop: "0.1em",
-            paddingBottom: "0.1em",
-            border: "1px solid #2e2a38"
-        });
-    };
-}
 Components.Button=function(){
     this.classList.add("waves-effect");
     this.classList.add("waves-cat");
     this.classList.add("btn-flat");
 };
 Components.NavButton=function(){
+    this.extends("Button");
     const ACTION_DEFAULT = 0;
     const ACTION_INSTALL = 1;
-    let colors={
-        background: {
-            normal: "transparent",
-            hover: "#922a1a",
-            pressed: Rgba(255,255,255,0.2)
-        },
-        text: {
-            normal: "#ffffff",
-            hover: "#ffffff"
-        }
+
+    this.onclick=function(){
+        content.template(this.dataset.view);
+        state(this.dataset.state);
     };
-
-    this.css({
-        fontWeight: "bold",
-        background: colors.background.normal,
-        color: colors.text.normal,
-        paddingTop: "0.5em",
-        paddingBottom: "0.5em",
-        paddingLeft: "2em",
-        paddingRight: "2em",
-        transition: "all 200ms",
-        display: "inline-block",
-        cursor: "pointer",
-        borderRadius: "2em",
-        marginTop: "0.5em",
-        marginLeft: "0.5em"
-    });
-
-    this.addEventListener("mousedown",e=>{
-        this.css({
-            transform: "scale(0.9)",
-            background: colors.background.pressed
-        });
-    });
-
-    this.addEventListener("mouseup",e=>{
-        this.css({
-            transform: "scale(1)",
-            background: colors.background.normal
-        });
-    });
-
-    this.addEventListener("mouseover",e=>{
-        this.css({
-            background: colors.background.hover,
-            color: colors.text.hover
-        });
-    });
-
-    this.addEventListener("mouseout",e=>{
-        this.css({
-            background: colors.background.normal,
-            color: colors.text.normal,
-            transform: "scale(1)"
-        });
-    });
-
-    this.addEventListener("click",async e=>{
-        //state(this.dataset.state);
-        console.log(this.dataset);
-        switch(parseInt(this.dataset.action)){
-            case ACTION_DEFAULT:
-                await content.change(this.dataset.view);
-            break;
-            case ACTION_INSTALL:
-                modal.open();
-            break;
-        }
-    });
 
     this.data={
         list: [
-            {text:"Quick Start",view:"Views/Home",state:"/home",action:ACTION_DEFAULT},
-            {text:"Install",view:"Views/Home",state:"/home",action:ACTION_INSTALL}
+            {text:"Home",view:"Views/Home",state:"/Home",action:ACTION_DEFAULT},
+            {text:"About",view:"Views/About",state:"/About",action:ACTION_INSTALL}
         ]
     };
 };
-Components.DeleteArticle=function(){
-    this.classList.add("waves-effect");
-    this.classList.add("waves-light");
-    this.classList.add("btn");
-
-    //colors
-    this.classList.add("red");
-    this.classList.add("darken-3");
-
-    this.addEventListener("mouseover",e=>{
-        this.classList.add("accent-4");
-        this.classList.remove("darken-3");
-    });
-
-    this.addEventListener("mouseout",e=>{
-        this.classList.remove("accent-4");
-        this.classList.add("darken-3");
-    });
-    let list = this.getParentComponent();
-    this.addEventListener("click",e=>{
-        delete list.data.articles[this.key];
-        list.refresh();
-    });
-};
 document.addEventListener("DOMContentLoaded", async function(event) { 
-    // Check that service workers are supported
-    window.install = null;
-    if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-        navigator.serviceWorker.register('/worker.js');
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            install = e;
-
-            (function poll(){
-                if(modal){
-                    if(!localStorage["autoprompted"])
-                        modal.open();
-                    localStorage.setItem("autoprompted",true);
-                    return;
-                }
-                setTimeout(poll,500);
-            })();
-        });
-    }
-
     //loading content area
     await main.template("Wrappers/Nav");
     await main.template("Wrappers/Content");
@@ -13853,7 +13689,7 @@ document.addEventListener("DOMContentLoaded", async function(event) {
     await use.route("^/(home|start)?$",location=>{
         content.template("Views/Home");
     });
-    await use.route("^/documentation$",location=>{
-        content.template("Views/Documentation");
+    await use.route("^/about$",location=>{
+        content.template("Views/About");
     });
 });

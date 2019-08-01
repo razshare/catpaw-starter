@@ -1,8 +1,5 @@
 Components.FloatingModal=function(){
     this.innerHTML = "";
-    this.css({
-        background: "#2e2a38"
-    });
     let $this = this;
     this.classList.add("modal");
     //this.classList.add("modal-fixed-footer");
@@ -10,16 +7,10 @@ Components.FloatingModal=function(){
     let message = create("p",$this.getAttribute("message"));
     let content = create(".modal-content",[header,message]);
 
-    let cancel = create("Button","Cancel").css({
-        color: "#f1f1f1"
-    });
-    let confirm = create("Button","Confirm").css({
-        color: "#f1f1f1"
-    });
+    let cancel = create("Button","Cancel");
+    let confirm = create("Button","Confirm");
 
-    let footer = create(".modal-footer",[cancel,confirm]).css({
-        background: "#2e2a38"
-    });
+    let footer = create(".modal-footer",[cancel,confirm]);
 
     this.appendChild(content);
     this.appendChild(footer);

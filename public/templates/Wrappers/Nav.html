@@ -1,6 +1,6 @@
 <div extends="Nav" id="nav" export>
-  <Container style="border-bottom: 1px solid #2e2a38;padding-bottom: 0.5em">
-      <NavButton @foreach="this.list" data-action="@this.action" data-state="@this.state" data-view="@this.view">
+  <Container style="border-bottom: 1px solid #2e2a38;padding-bottom: 0.5em;margin-top: 1em">
+      <NavButton @foreach="this.list" data-state="@this.state" data-view="@this.view">
           @this.text
       </NavButton>
 

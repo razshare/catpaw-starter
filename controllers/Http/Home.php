@@ -1,4 +1,4 @@
 <?php
 namespace App\Http;
 
-class Home extends App{}
+class Home extends \com\github\tncrazvan\CatPaw\Controller\Http\App{}
