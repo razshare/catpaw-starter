@@ -6,7 +6,7 @@
         "http":"App\\Http",
         "ws":"App\\WebSocket"
     },
-    "sessionName":"SESSION",
+    "sessionName":"_SESSION",
     "ramSession":{
         "allow":false,
         "size":"1024M"
