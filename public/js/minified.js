@@ -241,7 +241,8 @@ const ForeachResolver=async function(item,allowVariables,extra){
         item.parentNode.originalHTML = item.parentNode.innerHTML;
         let targetName = item.getAttribute("@foreach");
         let last = item;
-        let tmp = new Function("return "+targetName).call(item.data);
+        let joinedKey = ["this",targetName].join(".");
+        let tmp = new Function("return "+joinedKey).call(item.data);
         if(item.hasAttribute("@sortby")){
             let sort = item.getAttribute("@sortby");
             tmp.sort(sortBy(sort,item.hasAttribute("@desc")));
@@ -263,7 +264,7 @@ const ForeachResolver=async function(item,allowVariables,extra){
 
             clone.originalElement = item;
             clone.isClone=true;
-            new VariableResolver(clone,[]);
+            new VariableResolver(clone,clone.hasAttribute("@bind")?clone.getAttribute("@bind"):"this.data");
             await ComponentResolver(clone,allowVariables,extra);
             clone.data=tmp[key];
             await recursiveParser(clone,allowVariables,extra);
@@ -368,13 +369,13 @@ const ComponentResolver=async function(item,allowVariables,extra){
                             parent.appendChild(this.originalElement);
                             this.originalElement.data=this.data;
                             
-                            new VariableResolver(this.originalElement,[]);
+                            new VariableResolver(this.originalElement,this.originalElement.hasAttribute("@bind")?this.originalElement.getAttribute("@bind"):"this.data");
                             await ForeachResolver(this.originalElement,allowVariables,extra);
                             await parseElement(this.originalElement,allowVariables,extra,true);
                             new ConditionResolver(this.originalElement,extra);
                         }else{
                             this.innerHTML = this.originalHTML;
-                            new VariableResolver(this,[]);
+                            new VariableResolver(this,this.hasAttribute("@bind")?this.getAttribute("@bind"):"this.data");
                             await recursiveParser(this,allowVariables,extra);
                             new ConditionResolver(this,extra);
                         }
@@ -430,7 +431,7 @@ const ComponentResolver=async function(item,allowVariables,extra){
     }
 };
 
-const VariableResolver=function(item,path=[]){
+const VariableResolver=function(item,path="this.data"){
     const REGEX = /@[A-z0-9\.]*/g;
     const SUCCESS = 0, NO_DATA = 1, NO_MATCH = 2;
     let resolve = function(input,callback){
@@ -442,9 +443,9 @@ const VariableResolver=function(item,path=[]){
         }
         matches.forEach(match=>{
             let key = match.substr(1);
-            let data = item.data;
+            let data = new Function("return "+path+";").call(item);
             if(data){
-                path.forEach(function(location){
+                /*path.forEach(function(location){
                     
                     if(data[location]){
                         data = data[location];
@@ -452,9 +453,10 @@ const VariableResolver=function(item,path=[]){
                         console.warn("Variable \""+(path.join("->"))+"->"+key+"\" doesn't exist in the data object.",item);
                         return;
                     }
-                });
+                });*/
                 try{
-                    let result = new Function("return "+key+";").call(data);
+                    let joinedKey = ["this",key].join(".");
+                    let result = new Function("return "+joinedKey+";").call(data);
                     if(!isElement(result)){
                         (callback)(input.replace(new RegExp(match),result),SUCCESS,false);
                     }else{
@@ -518,7 +520,7 @@ const recursiveParser=async function(target,allowVariables,extra={},log){
                 }
                 await ComponentResolver(child,allowVariables,extra);
                 if(!child.hasAttribute("@foreach")){
-                    new VariableResolver(child,[]);
+                    new VariableResolver(child,child.hasAttribute("@bind")?child.getAttribute("@bind"):"this.data");
                 }else{
                     await ForeachResolver(child,allowVariables,extra);
                 }
