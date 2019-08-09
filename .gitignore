@@ -5,6 +5,7 @@ composer.lock
 .vscode/
 .settings/
 nbproject/
-SESSION/
-_SESSION/
+config/_SESSION/
+config/http.json
+config/routes.json
 certificate.pem

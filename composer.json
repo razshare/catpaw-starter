@@ -15,7 +15,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"":["controllers","vendor"]
+			"":["src","vendor"]
 		}
 	},
 	"minimum-stability":"dev",

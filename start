@@ -2,7 +2,7 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 use com\github\tncrazvan\CatPaw\CatPaw;
-if(count($argv) === 1) $argv[1] = __DIR__."/http.json";
+if(count($argv) === 1) $argv[1] = __DIR__."/config/http.json";
 
 error_reporting(E_ALL);
 set_time_limit(0);

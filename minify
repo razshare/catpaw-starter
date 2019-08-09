@@ -2,6 +2,7 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 use MatthiasMullie\Minify;
+use com\github\tncrazvan\CatPaw\Tools\Console;
 use com\github\tncrazvan\CatPaw\Tools\Strings;
 
 define("DEBUG",true);
@@ -36,7 +37,6 @@ $output=[
     "css"=>__DIR__."/public/css/minified.css",
     "js"=>__DIR__."/public/js/minified.js"
 ];
-
 
 Strings::minify($input["css"],$output["css"],!DEBUG);
 echo "CSS minified in ".$output["css"]."\n";

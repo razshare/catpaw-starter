@@ -245,10 +245,8 @@ const getItemBinding=function(item,fallback="this.data"){
     return item.hasAttribute("@bind")?item.getAttribute("@bind"):fallback
 }
 
-const ForeachResolver=async function(item,allowVariables,extra,bind="this.data",unbind=false){
-    let scope = unbind?"window":"this";
+const ForeachResolver=async function(item,allowVariables,extra,bind="this.data"){
     let data = new Function("return "+bind+";").call(item);
-
     if(item.hasAttribute("@foreach")){
         item.parentNode.originalHTML = item.parentNode.innerHTML;
         let targetName = item.getAttribute("@foreach");
@@ -277,11 +275,11 @@ const ForeachResolver=async function(item,allowVariables,extra,bind="this.data",
 
             clone.originalElement = item;
             clone.isClone=true;
-            new VariableResolver(clone,getItemBinding(clone),itemIsUnbound(clone));
+            new VariableResolver(clone,getItemBinding(clone))
             await ComponentResolver(clone,allowVariables,extra);
             clone.data=tmp[key];
             await recursiveParser(clone,allowVariables,extra);
-            new ConditionResolver(clone,getItemBinding(clone),itemIsUnbound(clone));
+            new ConditionResolver(clone,getItemBinding(clone))
             last = clone;
         }
         item.ghost=true;
@@ -289,8 +287,7 @@ const ForeachResolver=async function(item,allowVariables,extra,bind="this.data",
     }
 };
 
-const ConditionResolver=function(item,bind="this.data",unbind=false){
-    let scope = unbind?"window":"this";
+const ConditionResolver=function(item,bind="this.data"){
     const IF = 0, ELSE = 1, ELSEIF = 2;
     this.result=false;
     const ID = ConditionResolver.stack.length;
@@ -386,15 +383,15 @@ const ComponentResolver=async function(item,allowVariables,extra){
                             parent.appendChild(this.originalElement);
                             this.originalElement.data=this.data;
                             
-                            new VariableResolver(this.originalElement,getItemBinding(this.originalElement),itemIsUnbound(this.originalElement));
-                            await ForeachResolver(this.originalElement,allowVariables,extra,getItemBinding(this.originalElement),itemIsUnbound(this.originalElement));
+                            new VariableResolver(this.originalElement,getItemBinding(this.originalElement))
+                            await ForeachResolver(this.originalElement,allowVariables,extra,getItemBinding(this.originalElement))
                             await parseElement(this.originalElement,allowVariables,extra,true);
-                            new ConditionResolver(this.originalElement,getItemBinding(this.originalElement),itemIsUnbound(this.originalElement));
+                            new ConditionResolver(this.originalElement,getItemBinding(this.originalElement))
                         }else{
                             this.innerHTML = this.originalHTML;
-                            new VariableResolver(this,getItemBinding(item),itemIsUnbound(this));
+                            new VariableResolver(this,getItemBinding(item))
                             await recursiveParser(this,allowVariables,extra);
-                            new ConditionResolver(this,getItemBinding(this),itemIsUnbound(this));
+                            new ConditionResolver(this,getItemBinding(this))
                         }
                     };
     
@@ -469,10 +466,10 @@ const ComponentResolver=async function(item,allowVariables,extra){
     }
 };
 
-const VariableResolver=function(item,bind="this.data",unbind=false){
-    let scope = unbind?"window":"this";
+const VariableResolver=function(item,bind="this.data"){
     const REGEX = /@[A-z0-9\.]*/g;
     const SUCCESS = 0, NO_DATA = 1, NO_MATCH = 2;
+    let data = new Function("return "+bind+";").call(item);
     let resolve = function(input,callback){
         let matches = [...new Set(input.match(REGEX))];
         if(matches.length === 0){
@@ -481,10 +478,9 @@ const VariableResolver=function(item,bind="this.data",unbind=false){
         }
         matches.forEach(match=>{
             let key = match.substr(1);
-            let data = new Function("return "+bind+";").call(item);
             if(data){
                 try{
-                    let joinedKey = key === ''?scope:[scope,key].join(".");
+                    let joinedKey = key === ''?"this":["this",key].join(".");
                     let result = new Function("return "+joinedKey+";").call(data);
                     if(!isElement(result)){
                         (callback)(input.replace(new RegExp(match),result),SUCCESS,false);
@@ -551,13 +547,13 @@ const recursiveParser=async function(target,allowVariables,extra={},log){
                 }
                 await ComponentResolver(child,allowVariables,extra);
                 if(!child.hasAttribute("@foreach")){
-                    new VariableResolver(child,getItemBinding(child),itemIsUnbound(child));
+                    new VariableResolver(child,getItemBinding(child))
                 }else{
-                    await ForeachResolver(child,allowVariables,extra);
+                    await ForeachResolver(child,allowVariables,extra,getItemBinding(child));
                 }
                 await parseElement(child,allowVariables,extra,log);
                 
-                new ConditionResolver(child,getItemBinding(child),itemIsUnbound(child));
+                new ConditionResolver(child,getItemBinding(child))
             break;
         }
     }
@@ -13716,6 +13712,15 @@ Components.NavButton=function(){
     };
 };
 document.addEventListener("DOMContentLoaded", async function(event) { 
+    const ACTION_DEFAULT = 0;
+    const ACTION_INSTALL = 1;
+    window.navButtons= {
+        list: [
+            {text:"Home",view:"Views/Home",state:"/Home",action:ACTION_DEFAULT},
+            {text:"About",view:"Views/About",state:"/About",action:ACTION_INSTALL}
+        ]
+    }
+
     //loading content area
     await main.template("Wrappers/Nav");
     await main.template("Wrappers/Content");
