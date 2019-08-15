@@ -63,7 +63,7 @@ const isElement=function(obj) {
         (typeof obj.ownerDocument ==="object");
     }
 };
-const create=function(tag,content,options,allowVariables,extra={},async=false){
+const create=function(tag,content,options,extra={},async=false){
     tag = tag.split(".");
     let element;
     for(let i = 0; i < tag.length; i++){
@@ -98,11 +98,11 @@ const create=function(tag,content,options,allowVariables,extra={},async=false){
             }
         }else if(async){
             return new Promise(async function(resolve){
-                await element.applyHtml(content,allowVariables,extra);
+                await element.applyHtml(content,extra);
                 (resolve)();
             });
         }else{
-            element.applyHtml(content,allowVariables,extra)
+            element.applyHtml(content,extra)
         }
     }
 
@@ -136,12 +136,7 @@ const sortBy = function(key,reverse){
     // we want to sort the array in reverse
     // order or not.
     const moveLarger = reverse ? -1 : 1;
-  
-    /**
-     * @param  {*} a
-     * @param  {*} b
-     * @return {Number}
-     */
+    
     return (a, b) => {
         if(a === null || b === null) return 0;
         if (a[key] < b[key]) {
@@ -157,7 +152,7 @@ const sortBy = function(key,reverse){
 const insertAfter=function(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };
-const parseElement=async function(item,allowVariables,extra={},log=false){
+const parseElement=async function(item,extra={}){
 
     //if this current element has an "id" attribute set to something...
     if(item.hasAttribute("id")){
@@ -168,7 +163,7 @@ const parseElement=async function(item,allowVariables,extra={},log=false){
         const templateName = importName[0].trim();
         if(importName.length === 1 || importName[1].trim() === "*"){
             const req = await use.template(templateName,null,false);
-            item.applyHtml(req,allowVariables,{templateName:templateName});
+            item.applyHtml(req,{templateName:templateName});
         }else{
             const selectors = importName[1].trim().split(",");
             for(let i=0;i<selectors.length;i++){
@@ -178,7 +173,7 @@ const parseElement=async function(item,allowVariables,extra={},log=false){
                 if(selected === null) continue;
                 if(selected.tagName === "SCRIPT"){
                     if(selected.hasAttribute("src")){
-                        await use.js("@"+selected.getAttribute("src"));
+                        await use.js(":"+selected.getAttribute("src"));
                     }else{
                         await eval(selected.innerText);
                     }
@@ -192,8 +187,8 @@ const parseElement=async function(item,allowVariables,extra={},log=false){
                 }
             }
         }
-    }else if(item.children.length > 0 && !item.hasAttribute("@foreach")){
-        await recursiveParser(item,allowVariables,extra,log);
+    }else if(item.children.length > 0 && !item.hasAttribute(":foreach")){
+        await recursiveParser(item,extra);
     }
     
     if(item.hasAttribute("export")){
@@ -229,7 +224,7 @@ const parseElement=async function(item,allowVariables,extra={},log=false){
 };
 const uuid=function(){
     let dt = new Date().getTime();
-    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    let uuid = 'xxxxxxxx-xxxx-yxxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         let r = (dt + Math.random()*16)%16 | 0;
         dt = Math.floor(dt/16);
         return (c=='x' ? r :(r&0x3|0x8)).toString(16);
@@ -237,54 +232,55 @@ const uuid=function(){
     return uuid;
 }
 
-const itemIsUnbound=function(item){
-    return item.hasAttribute("@unbind")
-}
-
 const getItemBinding=function(item,fallback="this.data"){
-    return item.hasAttribute("@bind")?item.getAttribute("@bind"):fallback
+    return "this.data";
+    return item.hasAttribute(":bind")?item.getAttribute(":bind"):fallback
 }
 
-const ForeachResolver=async function(item,allowVariables,extra,bind="this.data"){
+const ForeachResolver=async function(item,extra,bind="this.data"){
     let data = new Function("return "+bind+";").call(item);
-    if(item.hasAttribute("@foreach")){
-        item.parentNode.originalHTML = item.parentNode.innerHTML;
-        let targetName = item.getAttribute("@foreach");
-        let last = item;
-        let joinedKey = targetName === ''?"this":["this",targetName].join(".");
-        
-        let tmp = new Function("return "+joinedKey).call(data);
-        if(item.hasAttribute("@sortby")){
-            let sort = item.getAttribute("@sortby");
-            tmp.sort(sortBy(sort,item.hasAttribute("@desc")));
-        }
-        
-        for (var key in tmp) {
-            if (!tmp.hasOwnProperty(key)) continue;
-            let clone = item.cloneNode();
-            clone.innerHTML = item.innerHTML
-            if(!clone.data){
-                clone.data={};
-            }
-            if(last.parentNode === null){
-                return;
-            }
-            insertAfter(clone, last);
-            clone.data=tmp[key];
-            clone.key=key;
-
-            clone.originalElement = item;
-            clone.isClone=true;
-            new VariableResolver(clone,getItemBinding(clone))
-            await ComponentResolver(clone,allowVariables,extra);
-            clone.data=tmp[key];
-            await recursiveParser(clone,allowVariables,extra);
-            new ConditionResolver(clone,getItemBinding(clone))
-            last = clone;
-        }
-        item.ghost=true;
-        item.parentNode.removeChild(item);
+    
+    let targetName = item.getAttribute(":foreach");
+    let last = item;
+    let clone;
+    let i;
+    let key;
+    let attribute;
+    let list = new Function("return "+targetName).call(data);
+    if(item.hasAttribute(":sortby")){
+        let sort = item.getAttribute(":sortby");
+        list.sort(sortBy(sort,item.hasAttribute(":desc")));
     }
+    
+    for(key in list){
+        if (!list.hasOwnProperty(key)) continue;
+        //clone = item.cloneNode(true);
+        clone = await create(item.tagName,item.innerHTML);
+        clone.$key = key;
+        clone.data = list[key];
+        clone.$originalElement = item;
+        clone.$originalParent = item.parentNode;
+        for(i=0;i<item.attributes.length;i++){
+            attribute = item.attributes[i];
+            if(attribute.name === ':foreach' || attribute.name === ':sortby' || attribute.name === ':desc') continue;
+            if(attribute.name === 'id'){
+                clone.setAttribute(attribute.name+''+i,attribute.value);
+            }else{
+                clone.setAttribute(attribute.name,attribute.value);
+            }
+        }
+        insertAfter(clone,last);
+        await ComponentResolver(clone,extra,true);
+        if(clone.$foreach)
+            clone.$foreach(clone);
+        await recursiveParser(clone,extra);
+    }
+
+    item.$originalElement = item;
+    item.$originalParent = item.parentNode;
+    item.parentNode.removeChild(item);
+    
+    
 };
 
 const ConditionResolver=function(item,bind="this.data"){
@@ -295,69 +291,83 @@ const ConditionResolver=function(item,bind="this.data"){
 
     let data = new Function("return "+bind+";").call(item);
 
-    if(item.hasAttribute("@if")){
+    if(item.hasAttribute(":if")){
         let result = "";
-        let statement = item.getAttribute("@if");
+        let statement = item.getAttribute(":if");
         if(statement.trim() !== ""){
             try{
-                statement = statement === ''?scope:[scope,statement].join(".");
                 result = new Function("return "+statement+";").call(data);
-                if(result){}
+                if(result){
+                    if(!item.originalDisplay) item.originalDisplay = "";
+                    item.style.display = item.originalDisplay;
+                }
                 else if(item.parentNode && item.parentNode !== null){
-                    item.parentNode.removeChild(item);
+                    item.originalDisplay = getComputedStyle(item, null).display;
+                    item.style.display = "none";
                 }
                 this.result=result;
                 ConditionResolver.stack[ID] = this;
                 this.type = IF;
             }catch(e){
-                console.error("@if statement could not be parsed ",item);
+                console.error(":if statement could not be parsed ",item);
             }
-        }else if(item.parentNode && item.parentNode !== null){
-            item.parentNode.removeChild(item);
-            console.warn("@if statement does not contain a condition in ",item);
+        }else{
+            item.originalDisplay = getComputedStyle(item, null).display;
+            item.style.display = "none";
+            console.warn(":if statement does not contain a condition in ",item);
         }
-    }else if(item.hasAttribute("@elseif") ){
-        debugger
+    }else if(item.hasAttribute(":elseif") ){
         if(PREV !== null && ConditionResolver.stack[PREV].type === IF){
-            if(ConditionResolver.stack[PREV].result && item.parentNode && item.parentNode !== null){
-                item.parentNode.removeChild(item);
+            if(ConditionResolver.stack[PREV].result){
+                item.originalDisplay = getComputedStyle(item, null).display;
+                item.style.display = "none";
             }else{
                 let result = "";
-                let statement = item.getAttribute("@elseif");
+                let statement = item.getAttribute(":elseif");
                 if(statement.trim() !== ""){
                     try{
                         statement = statement === ''?"this":["this",statement].join(".");
                         result = new Function("return "+statement+";").call(data);
-                        if(result){}
-                        else if(item.parentNode && item.parentNode !== null){
-                            item.parentNode.removeChild(item);
+                        if(result){
+                            if(!item.originalDisplay) item.originalDisplay = "";
+                            item.style.display = item.originalDisplay;
+                        }
+                        else{
+                            item.originalDisplay = getComputedStyle(item, null).display;
+                            item.style.display = "none";
                         }
                         this.result=result;
                     }catch(e){
-                        console.error("@elseif statement could not be parsed ",item);
+                        console.error(":elseif statement could not be parsed ",item);
                     }
-                }else if(item.parentNode && item.parentNode !== null){
-                    item.parentNode.removeChild(item);
-                    console.warn("@elseif statement does not contain a condition or the condition is redundant with the @if statement or a previous @elseif statement in ",item);
+                }else{
+                    item.originalDisplay = getComputedStyle(item, null).display;
+                    item.style.display = "none";
+                    console.warn(":elseif statement does not contain a condition or the condition is redundant with the :if statement or a previous :elseif statement in ",item);
                 }
-                
             }
         }else if(item.parentNode && item.parentNode !== null){
-            item.parentNode.removeChild(item);
-            console.warn("@elseif statement must follow and @if statement. No @if statement found.",item);
+            item.originalDisplay = getComputedStyle(item, null).display;
+                    item.style.display = "none";
+            console.warn(":elseif statement must follow and :if statement. No :if statement found.",item);
         }
         ConditionResolver.stack[ID] = this;
         this.type = ELSEIF;
-    }else if(item.hasAttribute("@else")){
+    }else if(item.hasAttribute(":else")){
         if(PREV !== null && (
             ConditionResolver.stack[PREV].type === IF ||
             ConditionResolver.stack[PREV].type === ELSEIF
             )){
                 if(ConditionResolver.stack[PREV].result && item.parentNode && item.parentNode !== null){
-                    item.parentNode.removeChild(item);   
+                    item.oldParentNode = item.parentNode;
+                    item.originalDisplay = getComputedStyle(item, null).display;
+                    item.style.display = "none";
+                }else if(item.oldParentNode){
+                    item.style.display = item.originalDisplay;
                 }
             }else if(item.parentNode && item.parentNode !== null){
-                item.parentNode.removeChild(item);
+                item.originalDisplay = getComputedStyle(item, null).display;
+                item.style.display = "none";
             }
         ConditionResolver.stack[ID] = this;
         this.type = ELSE;
@@ -365,60 +375,89 @@ const ConditionResolver=function(item,bind="this.data"){
 };
 ConditionResolver.stack = new Array();
 
-const Components={};
-const ComponentResolver=async function(item,allowVariables,extra){
+const inherit = function(item,map){
     const REGEX_INHERIT_LEFT_KEY = /[A-z]+.*(?=\:)/;
-    const REGEX_INHERIT_RIGHT_KEY = /\:[A-z]+.*/;
+    const REGEX_INHERIT_RIGHT_KEY = /\:\s*[A-z]+.*/;
+    let parent = item.getParentComponent();
+    let groups = map.split(/\;/);
+    groups.forEach(group=>{
+        let leftKey = group.match(REGEX_INHERIT_LEFT_KEY)[0];
+        group = group.replace(REGEX_INHERIT_LEFT_KEY,"");
+        let rightKey = group.match(REGEX_INHERIT_RIGHT_KEY)[0];
+
+        leftKey = leftKey === ''?"item":["item",leftKey].join(".");
+
+        rightKey = rightKey.replace(/\:\s*/,"");
+        rightKey = rightKey === ''?"parent":["parent",rightKey].join(".");
+
+        let tmp = new Function('parent','item',leftKey+'='+rightKey+';');
+        tmp(parent,item);
+    });
+};
+const resolveData=function(item,setCallback,getCallback){
+    if(!item.data) return item.data;
+    let object = item.data;
+    let root = JSON.parse(JSON.stringify(object));
+    let pointerRoot = root;
+    let copy = JSON.parse(JSON.stringify(object));
+    let pointerCopy = copy;
+    let dive=function(object,pointerRoot,pointerCopy){
+        for(let key in object){
+            if (!object.hasOwnProperty(key)) continue;
+            if(Object.getPrototypeOf(object[key]) === Object.prototype || Object.getPrototypeOf(object[key]) === Array.prototype){
+                dive(object[key],pointerRoot[key],pointerCopy[key]);
+            }else if(pointerCopy){
+                Object.defineProperty(pointerCopy, key, {
+                    get: function() { 
+                        if(item.$parsed) 
+                            (getCallback)();
+                        return pointerRoot[key]; 
+                    },
+                    set: function(value) {
+                        pointerRoot[key] = value;
+                        if(item.$parsed)
+                            (setCallback)();
+                    }
+                });
+            }
+        }
+    };
+
+    dive(object,pointerRoot,pointerCopy);
+
+    return copy;
+};
+
+const Components={};
+const ComponentResolver=async function(item,extra,useOldPointer=false){
+    item.$parsed = true;
+    
+    let setCallback = function(){
+        VariableResolver(item,extra);
+    };
+    let getCallback = function(){
+    };
+
+    let copy = async function(item){
+        clone = await create(item.tagName,item.innerHTML);
+        for(i=0;i<item.attributes.length;i++){
+            attribute = item.attributes[i];
+            clone.setAttribute(attribute.name,attribute.value);
+        }
+        return clone;
+    };
     let parse = async function(){
         for ( let c in Components ) {
             if(c.toLowerCase() === key.toLowerCase()){
-                item.originalHTML = item.innerHTML;
                 try{
                     let tmp = Components[c];
                     
-                    item.refresh=async function(){
-                        if(this.hasAttribute("@foreach")){
-                            let parent = this.parentNode;
-                            parent.innerHTML = "";
-                            parent.appendChild(this.originalElement);
-                            this.originalElement.data=this.data;
-                            
-                            new VariableResolver(this.originalElement,getItemBinding(this.originalElement))
-                            await ForeachResolver(this.originalElement,allowVariables,extra,getItemBinding(this.originalElement))
-                            await parseElement(this.originalElement,allowVariables,extra,true);
-                            new ConditionResolver(this.originalElement,getItemBinding(this.originalElement))
-                        }else{
-                            this.innerHTML = this.originalHTML;
-                            new VariableResolver(this,getItemBinding(item))
-                            await recursiveParser(this,allowVariables,extra);
-                            new ConditionResolver(this,getItemBinding(this))
-                        }
-                    };
-    
-                    item.ref=function(name){
-                        return item.querySelector("*[ref=\""+name+"\"]");
-                    };
-
-                    await (tmp).call(item);
-
-                    if(item.hasAttribute("@inherit")) {
-                        let groups = item.getAttribute("@inherit").split(/\;/);
-                        groups.forEach(group=>{
-                            let leftKey = group.match(REGEX_INHERIT_LEFT_KEY)[0];
-                            group = group.replace(REGEX_INHERIT_LEFT_KEY,"");
-                            let rightKey = group.match(REGEX_INHERIT_RIGHT_KEY)[0];
-
-                            leftKey = leftKey === ''?"this":["this",leftKey].join(".");
-                            let parentData = new Function("return "+leftKey+";").call(extra.bindElement);
-
-                            rightKey = rightKey.replace(/\:/,"");
-                            rightKey = rightKey === ''?"this":["this",].join(".");
-                            let localData = new Function("return "+rightKey+";").call(item); 
-
-                            let tmp = new Function('parentData','localData','localData=parentData;');
-                            tmp(parentData,localData);
-                        });
-                        //item.data = extra.bindElement.data;
+                    if(useOldPointer){
+                        let pointer = item.data;
+                        (tmp).call(item);
+                        item.data = pointer;
+                    }else{
+                        (tmp).call(item);
                     }
 
                     return;
@@ -433,8 +472,8 @@ const ComponentResolver=async function(item,allowVariables,extra){
     let getParentComponent = function(){
         let parent = item.parentNode;
         let key = parent.tagName;
-        if(parent.hasAttribute("extends")){
-            key = parent.getAttribute("extends");
+        if(parent.hasAttribute(":extends")){
+            key = parent.getAttribute(":extends");
         }
         while(true){
             for ( let c in Components ) {
@@ -445,8 +484,8 @@ const ComponentResolver=async function(item,allowVariables,extra){
             if(parent.parentNode){
                 parent = parent.parentNode;
                 key = parent.tagName;
-                if(parent.hasAttribute("extends")){
-                    key = parent.getAttribute("extends");
+                if(parent.hasAttribute(":extends")){
+                    key = parent.getAttribute(":extends");
                 }
             }else{
                 return null;
@@ -458,35 +497,41 @@ const ComponentResolver=async function(item,allowVariables,extra){
         return getParentComponent();
     };
 
+    item.ref=function(name){
+        return item.querySelector("*[ref=\""+name+"\"]");
+    };
+
+    
+
     let key = item.tagName;
     await parse();
-    if(item.hasAttribute("extends")){
-        key = item.getAttribute("extends");
-        parse();
+    if(item.hasAttribute(":extends")){
+        key = item.getAttribute(":extends");
+        await parse();
     }
+
+    item.data = resolveData(item,setCallback,getCallback);
+
+    await VariableResolver(item,extra);
+    
 };
 
-const VariableResolver=function(item,bind="this.data"){
-    const REGEX = /@[A-z0-9\.]*/g;
+const VariableResolver=async function(item,extra,bind="this.data"){
+    const REGEX_VALUE = /^\s*[A-z0-9\.]*/g;
     const SUCCESS = 0, NO_DATA = 1, NO_MATCH = 2;
-    let data = new Function("return "+bind+";").call(item);
     let resolve = function(input,callback){
-        let matches = [...new Set(input.match(REGEX))];
+        let matches = [...new Set(input.match(REGEX_VALUE))];
         if(matches.length === 0){
             (callback)(undefined,NO_MATCH);
             return;
         }
         matches.forEach(match=>{
-            let key = match.substr(1);
+            let key = match.trim();
+            let data = new Function("return "+bind+";").call(item);
             if(data){
                 try{
-                    let joinedKey = key === ''?"this":["this",key].join(".");
-                    let result = new Function("return "+joinedKey+";").call(data);
-                    if(!isElement(result)){
-                        (callback)(input.replace(new RegExp(match),result),SUCCESS,false);
-                    }else{
-                        (callback)(result,SUCCESS,true);
-                    }
+                    let result = new Function("return "+key+";").call(data);
+                    (callback)(result,SUCCESS,isElement(result));
                 }catch(e){
                     console.error("Could not resolve variable "+key,item,e);
                     (callback)(undefined,NO_DATA,false);
@@ -497,42 +542,80 @@ const VariableResolver=function(item,bind="this.data"){
             }
         });
     };
-
-    if(item.children.length === 0){
-        resolve(item.innerHTML,function(result,state,isElement){
-            
-            if(state === SUCCESS){
-                if(!isElement){
-                    item.innerHTML = result;
-                }else{
-                    item.innerHTML = "";
-                    item.appendChild(result);
-                }
-            }
-        });
-    };
-    
-
+    let i = 0;
     let attributes = [...item.attributes];
-    attributes.forEach(attribute=>{
-        resolve(attribute.value,function(result,state){
-            if(state === SUCCESS){
-                item.setAttribute(attribute.name,result)
-            }
-        });
-    });
+    for(i = 0; i < attributes.length; i++){
+        if(attributes[i].name[0] !== ":")
+            continue;
+        let callback;
+        switch(attributes[i].name){
+            case ":if":
+            case ":elseif":
+            case ":else":
+                new ConditionResolver(item);
+                continue;
+            case ":foreach":
+                    if(item.$origin)
+                        item.$origin();
+                    await ForeachResolver(item,extra);
+                continue;
+            case ":sortby":
+            case ":desc":
+                //reserved attributes
+                continue;
+            case ":html":
+                callback = function(result,state,isElement){
+                    if(state === SUCCESS){
+                        if(!isElement){
+                            item.innerHTML = result;
+                        }else{
+                            item.innerHTML = "";
+                            item.appendChild(result);
+                        }
+                    }
+                };
+            break;
+            case ":click": 
+                callback = function(result,state){
+                    if(state === SUCCESS){
+                        item.addEventListener("click",result);
+                    }
+                };
+            break;
+            case ":css":
+                callback = function(result,state){
+                    if(state === SUCCESS){
+                        item.css(result)
+                    }
+                };
+            break;
+            default:
+                callback = function(result,state){
+                    if(state === SUCCESS){
+                        item.setAttribute(attributes[i].name.substr(1),result)
+                    }
+                };
+            break;
 
-    item.variablesResolver = true;
+        }
+        resolve(attributes[i].value,callback);
+    }
 };
+VariableResolver.stack = new Array();
 
 //iterating through every child node of the provided target
-const recursiveParser=async function(target,allowVariables,extra={},log){
-    for(let i = target.children.length-1;i >= 0;i--){
-        let child = target.children[i];
+const recursiveParser=async function(target,extra={},log){
+    let children = new Array();
+    let i;
+    for(i = 0; i < target.children.length;i++){
+        children.push(target.children[i]);
+    }
+    for(i = 0; i < children.length;i++){
+        let child = children[i];
         switch(child.tagName){
             case "SCRIPT":
                 if(child.hasAttribute("src")){
-                    await use.js("@"+child.getAttribute("src"));
+                    await use.js(":"+child.getAttribute("src"));
                 }else{
                     await eval(child.innerText);
                 }
@@ -541,19 +624,11 @@ const recursiveParser=async function(target,allowVariables,extra={},log){
                 document.head.appendChild(child);
             break;
             default:
-                if(!child.hasAttribute("@prevent-data")){
-                    child.key=child.parentNode.key;
+                if(!child.hasAttribute(":prevent-data")){
                     child.data=child.parentNode.data;
                 }
-                await ComponentResolver(child,allowVariables,extra);
-                if(!child.hasAttribute("@foreach")){
-                    new VariableResolver(child,getItemBinding(child))
-                }else{
-                    await ForeachResolver(child,allowVariables,extra,getItemBinding(child));
-                }
-                await parseElement(child,allowVariables,extra,log);
-                
-                new ConditionResolver(child,getItemBinding(child))
+                await ComponentResolver(child,extra);
+                await parseElement(child,extra);
             break;
         }
     }
@@ -579,7 +654,7 @@ const isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
-const applyHtml=function(target,data,allowVariables,extra={}){
+const applyHtml=function(target,data,extra={}){
     //pushing data to the target
     //NOTE: just pushing html text into an element won't execute
     //the scripting inside the data, it will just print it as plain
@@ -590,9 +665,8 @@ const applyHtml=function(target,data,allowVariables,extra={}){
     //temporary parent element
     //I'm using this to throw in the result data
     //and parse it as child nodes.
-    allowVariables = (isset(allowVariables)?allowVariables:false);
-    target.innerHTML = data;
-    return recursiveParser(target,allowVariables,extra);
+        target.innerHTML = data;
+    return recursiveParser(target,extra);
 };
 const foreachChild=function(children,f){
     foreach(children,function(child){
@@ -958,7 +1032,7 @@ const include={
                 let file = list[i];
                 let req,text
                 if(!include.cache.templates[file]){
-                    if(file.charAt(0)==="@"){
+                    if(file.charAt(0)===":"){
                         req = await fetch(dir+file.substr(1)+"?v="+version);
                     }else{
                         req = await fetch(dir+file+".html?v="+version);
@@ -971,7 +1045,7 @@ const include={
                 
                 if(apply){
                     const templateName = file +"#"+(Object.keys(TEMPLATES).length+1);
-                    const o = await create("tmp",text,{},true,{templateName:templateName,bindElement:bindElement},true);
+                    const o = await create("tmp",text,{},{templateName:templateName,bindElement:bindElement},true);
                     /*templates[templateName] = o;
                     currentList[templateName] = o;*/
                     (f)(templateName,o);
@@ -1002,8 +1076,8 @@ const include={
 
                     let text;
                     if(!include.cache.css[file]){
-                        if(file.charAt(0)==="@"){
-                            text = await fetch(file.replace(/@/g,""));
+                        if(file.charAt(0)===":"){
+                            text = await fetch(file.replace(/\:/g,""));
                         }else{
                             text = await fetch(dir+file+".css?v="+version);
                         }
@@ -1048,8 +1122,8 @@ const include={
                     
                     let text;
                     if(!include.cache.js[file]){
-                        if(file.charAt(0)==="@"){
-                            text = await fetch(file.replace(/@/g,""));
+                        if(file.charAt(0)===":"){
+                            text = await fetch(file.replace(/\:/g,""));
                         }else{
                             text = await fetch(dir+file+".js?v="+version);
                         }
@@ -1065,8 +1139,8 @@ const include={
                     script.text = text;
                     document.head.appendChild(script);
                     (f)(script.getAttribute("src"));
+                    i++;
                     if(i<length){
-                        i++;
                         poll();
                     }else{
                         (resolve)();
@@ -1109,6 +1183,11 @@ Element.prototype.extends=function(componentName){
     let extendTmp = Components[componentName];
     (extendTmp).call(this,this);
 };
+
+Element.prototype.refresh=async function(){
+    
+};
+
 Element.prototype.addClassNames=function(classnames){
     classnames.forEach(classname=>{
         this.classList.add(classname);
@@ -1140,8 +1219,8 @@ Element.prototype.remove=function(){
     this.parentElement.removeChild(this);
 };
 
-Element.prototype.applyHtml=async function(data,allowVariables,extra={}){
-    await applyHtml(this,data,allowVariables,extra);
+Element.prototype.applyHtml=async function(data,extra={}){
+    await applyHtml(this,data,extra);
     return this;
 };
 
@@ -1198,6 +1277,7 @@ String.prototype.capitalize = function() {
 String.prototype.parseInt=function(){
     return parseInt(this);
 };
+
 /*!
  * Materialize v1.0.0 (http://materializecss.com)
  * Copyright 2014-2017 Materialize
@@ -13696,18 +13776,25 @@ Components.Button=function(){
 };
 Components.NavButton=function(){
     this.extends("Button");
-    const ACTION_DEFAULT = 0;
-    const ACTION_INSTALL = 1;
 
-    this.onclick=function(){
-        content.template(this.dataset.view);
-        state(this.dataset.state);
+    this.$foreach=item=>{
+        console.log(item.$key);
+        item.onclick=()=>{
+            content.template(item.dataset.view);
+            state(item.dataset.state);
+        };
     };
+    
 
+    
+    
     this.data={
+        enabled: true,
+        text:"Home",view:"Views/Home",state:"/Home",
+
         list: [
-            {text:"Home",view:"Views/Home",state:"/Home",action:ACTION_DEFAULT},
-            {text:"About",view:"Views/About",state:"/About",action:ACTION_INSTALL}
+            {text:"Home",view:"Views/Home",state:"/Home"},
+            {text:"About",view:"Views/About",state:"/About"}
         ]
     };
 };
