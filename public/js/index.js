@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function(event) { 
-    const ACTION_DEFAULT = 0;
-    const ACTION_INSTALL = 1;
-    window.navButtons= {
-        list: [
-            {text:"Home",view:"Views/Home",state:"/Home",action:ACTION_DEFAULT},
-            {text:"About",view:"Views/About",state:"/About",action:ACTION_INSTALL}
-        ]
-    }
+    await use.js("Component/Inputs/TextInput");
 
     //loading content area
     await main.template("Wrappers/Nav");

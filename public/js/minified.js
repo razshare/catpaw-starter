@@ -239,11 +239,11 @@ const getItemBinding=function(item,fallback="this.data"){
 
 const ForeachResolver=async function(item,extra,bind="this.data"){
     let data = new Function("return "+bind+";").call(item);
-    
     let targetName = item.getAttribute(":foreach");
     let last = item;
     let clone;
     let i;
+    let j;
     let key;
     let attribute;
     let list = new Function("return "+targetName).call(data);
@@ -251,30 +251,119 @@ const ForeachResolver=async function(item,extra,bind="this.data"){
         let sort = item.getAttribute(":sortby");
         list.sort(sortBy(sort,item.hasAttribute(":desc")));
     }
-    
-    for(key in list){
-        if (!list.hasOwnProperty(key)) continue;
-        //clone = item.cloneNode(true);
-        clone = await create(item.tagName,item.innerHTML);
-        clone.$key = key;
-        clone.data = list[key];
-        clone.$originalElement = item;
-        clone.$originalParent = item.parentNode;
-        for(i=0;i<item.attributes.length;i++){
-            attribute = item.attributes[i];
-            if(attribute.name === ':foreach' || attribute.name === ':sortby' || attribute.name === ':desc') continue;
-            if(attribute.name === 'id'){
-                clone.setAttribute(attribute.name+''+i,attribute.value);
-            }else{
-                clone.setAttribute(attribute.name,attribute.value);
+
+    let dive={
+        set: function(live,input){
+            for(let key in input){
+                if(!input.hasOwnProperty(key)) continue;
+                if((Object.getPrototypeOf(input[key]) === Object.prototype || Object.getPrototypeOf(input[key]) === Array.prototype)){
+                    dive.set(live[key],input[key]);
+                }else{
+                    live[key] = input[key];
+                }
             }
         }
-        insertAfter(clone,last);
-        await ComponentResolver(clone,extra,true);
-        if(clone.$foreach)
-            clone.$foreach(clone);
-        await recursiveParser(clone,extra);
-    }
+    };
+
+    Object.defineProperty(list, "push", {
+        enumerable: false, // hide from for...in
+        configurable: false, // prevent further meddling...
+        writable: false, // see above ^
+        value: function () {
+            for (var i = 0, n = this.length, l = arguments.length; i < l; i++, n++) {
+                list[n] = arguments[i];
+            }
+            resolveData(item,()=>{CALLBACKS.setCallback(item,extra);},CALLBACKS.getCallback);
+            return n;
+        }
+    });
+
+    Object.defineProperty(list, "remove", {
+        enumerable: false, // hide from for...in
+        configurable: false, // prevent further meddling...
+        writable: false, // see above ^
+        value: function () {
+            delete list[arguments[0]];
+            item.$clones[arguments[0]].parentNode.removeChild(item.$clones[arguments[0]]);
+            resolveData(item,()=>{CALLBACKS.setCallback(item,extra);},CALLBACKS.getCallback);
+        }
+    });
+
+    Object.defineProperty(list, "get", {
+        enumerable: false, // hide from for...in
+        configurable: false, // prevent further meddling...
+        writable: false, // see above ^
+        value: function () {
+            return list[arguments[0]];
+        }
+    });
+
+    Object.defineProperty(list, "set", {
+        enumerable: false, // hide from for...in
+        configurable: false, // prevent further meddling...
+        writable: false, // see above ^
+        value: function () {
+            if(!list[arguments[0]])
+            list[arguments[0]]={};
+            dive.set(list[arguments[0]],arguments[1]);
+            resolveData(item,()=>{CALLBACKS.setCallback(item,extra);},CALLBACKS.getCallback);
+        }
+    });
+
+    item.$removedClones = new Array();
+
+    item.$clones = new Array();
+    let check = async function(){
+        for(key=0;key < list.length;key++){
+            if (!list.hasOwnProperty(key)) continue;
+            if(item.$clones[key]) continue;
+            //clone = item.cloneNode(true);
+            clone = await create(item.tagName,item.innerHTML);
+            if(key > item.$clones.length){
+                delete list[key];
+                continue;
+            }
+            item.$clones[key] = clone;
+            clone.$key = key;
+            clone.data = list[key];
+            clone.$originalElement = item;
+            for(i=0;i<item.attributes.length;i++){
+                attribute = item.attributes[i];
+                if(attribute.name === ':foreach' || attribute.name === ':sortby' || attribute.name === ':desc') continue;
+                if(attribute.name === 'id'){
+                    clone.setAttribute(attribute.name+''+key,attribute.value);
+                }else{
+                    clone.setAttribute(attribute.name,attribute.value);
+                }
+            }
+            clone.$prev = (key === 0?item:item.$clones[key-1]);
+            while(!clone.$prev.parentNode){
+                if(clone.$prev === item.$originalElement){
+                    clone.$prev = clone.$prev.$originalParent;
+                    break;
+                }
+                clone.$prev = clone.$prev.$prev;
+                
+            }
+            if(clone.$prev === item.$originalParent){
+                clone.$originalParent =  clone.$prev;
+            }else{
+                clone.$originalParent =  (key === 0?item.parentNode:clone.$prev.$originalParent);
+            }
+            
+            insertAfter(clone,clone.$prev);
+            await ComponentResolver(clone,extra,true);
+            if(clone.$foreach)
+                clone.$foreach(clone);
+            await recursiveParser(clone,extra);
+            last = clone;
+        }
+        setTimeout(check,0);
+    };
+
+    await check();
+
+    
 
     item.$originalElement = item;
     item.$originalParent = item.parentNode;
@@ -394,6 +483,25 @@ const inherit = function(item,map){
         tmp(parent,item);
     });
 };
+
+const CLASSNAME = {
+    VARIABLE_OBJECT: 2
+};
+Object.freeze(CLASSNAME);
+const VariableObject=function(value){
+    this.$classname = CLASSNAME.VARIABLE_OBJECT;
+    this.value = value;
+};
+
+const CALLBACKS = {
+    setCallback: function(item,extra){
+        VariableResolver(item,extra);
+    },
+    getCallback: function(){
+        
+    }
+};
+
 const resolveData=function(item,setCallback,getCallback){
     if(!item.data) return item.data;
     let object = item.data;
@@ -404,25 +512,58 @@ const resolveData=function(item,setCallback,getCallback){
     let dive=function(object,pointerRoot,pointerCopy){
         for(let key in object){
             if (!object.hasOwnProperty(key)) continue;
-            if(Object.getPrototypeOf(object[key]) === Object.prototype || Object.getPrototypeOf(object[key]) === Array.prototype){
+            if((Object.getPrototypeOf(object[key]) === Object.prototype || Object.getPrototypeOf(object[key]) === Array.prototype)){
                 dive(object[key],pointerRoot[key],pointerCopy[key]);
             }else if(pointerCopy){
-                Object.defineProperty(pointerCopy, key, {
-                    get: function() { 
-                        if(item.$parsed) 
-                            (getCallback)();
-                        return pointerRoot[key]; 
-                    },
-                    set: function(value) {
-                        pointerRoot[key] = value;
-                        if(item.$parsed)
-                            (setCallback)();
-                    }
-                });
+                if(pointerCopy.$classname){
+                    continue;
+                }
+                
+                bind(object,pointerRoot,pointerCopy,key,getCallback,setCallback);
             }
         }
     };
 
+    let bind = function(object,pointerRoot,pointerCopy,key,getCallback,setCallback){
+        const ref = new VariableObject(object[key]);
+        pointerCopy[key] = ref;
+        pointerRoot[key] = ref;
+
+        Object.defineProperty(pointerCopy, key, {
+            get: function() { 
+                if(item.$parsed && !item.$ignoreDataSetter) 
+                    (getCallback)();
+                item.$ignoreDataSetter = false;
+                return pointerRoot[key].value;
+            },
+            set: function(value) {
+                if(!pointerRoot[key].$classname){
+                    pointerRoot[key] = value;
+                }else{
+                    pointerRoot[key].value = value;
+                }
+                if(item.$parsed && !item.$ignoreDataSetter)
+                    (setCallback)();
+                item.$ignoreDataSetter = false;
+            }
+        });
+
+        Object.defineProperty(object, key, {
+            get: function() { 
+                if(item.$parsed && !item.$ignoreDataSetter) 
+                    (getCallback)();
+                item.$ignoreDataSetter = false;
+                return pointerCopy[key];
+            },
+            set: function(value) {
+                    pointerCopy[key] = value;
+                if(item.$parsed && !item.$ignoreDataSetter)
+                    (setCallback)();
+                item.$ignoreDataSetter = false;
+            }
+        });
+    };
+    
     dive(object,pointerRoot,pointerCopy);
 
     return copy;
@@ -431,12 +572,6 @@ const resolveData=function(item,setCallback,getCallback){
 const Components={};
 const ComponentResolver=async function(item,extra,useOldPointer=false){
     item.$parsed = true;
-    
-    let setCallback = function(){
-        VariableResolver(item,extra);
-    };
-    let getCallback = function(){
-    };
 
     let copy = async function(item){
         clone = await create(item.tagName,item.innerHTML);
@@ -446,6 +581,7 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         }
         return clone;
     };
+
     let parse = async function(){
         for ( let c in Components ) {
             if(c.toLowerCase() === key.toLowerCase()){
@@ -510,13 +646,13 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         await parse();
     }
 
-    item.data = resolveData(item,setCallback,getCallback);
+    item.data = resolveData(item,()=>{CALLBACKS.setCallback(item,extra);},CALLBACKS.getCallback);
 
     await VariableResolver(item,extra);
-    
 };
 
 const VariableResolver=async function(item,extra,bind="this.data"){
+    let data = new Function("return "+bind+";").call(item);
     const REGEX_VALUE = /^\s*[A-z0-9\.]*/g;
     const SUCCESS = 0, NO_DATA = 1, NO_MATCH = 2;
     let resolve = function(input,callback){
@@ -527,7 +663,6 @@ const VariableResolver=async function(item,extra,bind="this.data"){
         }
         matches.forEach(match=>{
             let key = match.trim();
-            let data = new Function("return "+bind+";").call(item);
             if(data){
                 try{
                     let result = new Function("return "+key+";").call(data);
@@ -542,6 +677,8 @@ const VariableResolver=async function(item,extra,bind="this.data"){
             }
         });
     };
+    
+    let bindings = {};
     let i = 0;
     let attributes = [...item.attributes];
     for(i = 0; i < attributes.length; i++){
@@ -572,6 +709,7 @@ const VariableResolver=async function(item,extra,bind="this.data"){
                             item.innerHTML = "";
                             item.appendChild(result);
                         }
+                        bindings[attributes[i].name] = result;
                     }
                 };
             break;
@@ -579,6 +717,7 @@ const VariableResolver=async function(item,extra,bind="this.data"){
                 callback = function(result,state){
                     if(state === SUCCESS){
                         item.addEventListener("click",result);
+                        bindings[attributes[i].name] = result;
                     }
                 };
             break;
@@ -586,13 +725,23 @@ const VariableResolver=async function(item,extra,bind="this.data"){
                 callback = function(result,state){
                     if(state === SUCCESS){
                         item.css(result)
+                        bindings[attributes[i].name] = result;
+                    }
+                };
+            break;
+            case ":value":
+                callback = function(result,state){
+                    if(state === SUCCESS){
+                        item.value = result;
+                        bindings[":value"] = result;
                     }
                 };
             break;
             default:
                 callback = function(result,state){
                     if(state === SUCCESS){
-                        item.setAttribute(attributes[i].name.substr(1),result)
+                        item.setAttribute(attributes[i].name.substr(1),result);
+                        bindings[attributes[i].name] = result;
                     }
                 };
             break;
@@ -600,6 +749,65 @@ const VariableResolver=async function(item,extra,bind="this.data"){
         }
         resolve(attributes[i].value,callback);
     }
+
+    let boundName;
+    let boundNameValue;
+    let value;
+
+    if(item.hasAttribute(":value")){
+        item.addEventListener("change",()=>{
+            if(item.$ignoreDataSetter) return;
+            item.$ignoreDataSetter = true;
+            new Function('value',item.getAttribute(':value')+"= value;").call(item.data,item.value);
+        });
+    }
+
+    if(item.$originalElement){
+        const config = {subtree: true,childList: true};
+        const callback = function(mutationsList, observer) {
+            for(let mutation of mutationsList) {
+                if(mutation.type === 'childList'){
+                    mutation.removedNodes.forEach(element=>{
+                        if(element !== item.$originalElement && element === item){
+                            delete item.$originalElement.data.list[item.$key];
+                            delete item.$originalElement.$clones[item.$key];
+                        }
+                    });
+                }
+            }
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(item.$originalParent.parentNode, config);
+    }else{
+        const config = {attributes: true, subtree: true, characterData: true};
+        const callback = function(mutationsList, observer) {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'attributes') {
+                    console.log("here");
+                    boundName = ':'+mutation.attributeName;
+                    if(item.hasAttribute(boundName)){
+                        if(item.$ignoreDataSetter) continue;
+                        value = item.getAttribute(mutation.attributeName);
+                        boundNameValue = item.getAttribute(boundName);
+                        item.$ignoreDataSetter = true;
+                        new Function('value',boundNameValue+"=value;").call(item.data,value);
+                    }
+                }else if(mutation.type === 'characterData'){
+                    boundName = ':html';
+                    if(item.hasAttribute(boundName)){
+                        if(item.$ignoreDataSetter) continue;
+                        boundNameValue = item.getAttribute(boundName);
+                        item.$ignoreDataSetter = true;
+                        new Function('value',boundNameValue+"=value;").call(item.data,mutation.target.data);
+                    }
+                }
+            }
+        };
+
+        const observer = new MutationObserver(callback);
+        observer.observe(item, config);
+    }
+    
 };
 VariableResolver.stack = new Array();
 
@@ -13777,36 +13985,30 @@ Components.Button=function(){
 Components.NavButton=function(){
     this.extends("Button");
 
-    this.$foreach=item=>{
-        console.log(item.$key);
-        item.onclick=()=>{
-            content.template(item.dataset.view);
-            state(item.dataset.state);
+    this.$origin=()=>{
+        window.navbtn = this;
+        this.data={
+            enabled: true,
+            text:"Home",view:"Views/Home",state:"/Home",
+    
+            list: [
+                {text:"Home",view:"Views/Home",state:"/Home"},
+                {text:"About",view:"Views/About",state:"/About"}
+            ]
         };
     };
-    
 
-    
-    
-    this.data={
-        enabled: true,
-        text:"Home",view:"Views/Home",state:"/Home",
-
-        list: [
-            {text:"Home",view:"Views/Home",state:"/Home"},
-            {text:"About",view:"Views/About",state:"/About"}
-        ]
+    this.$foreach=()=>{
+        
+        window.lastbtn = this;
+        this.onclick=()=>{
+            content.template(this.dataset.view);
+            state(this.dataset.state);
+        };
     };
 };
 document.addEventListener("DOMContentLoaded", async function(event) { 
-    const ACTION_DEFAULT = 0;
-    const ACTION_INSTALL = 1;
-    window.navButtons= {
-        list: [
-            {text:"Home",view:"Views/Home",state:"/Home",action:ACTION_DEFAULT},
-            {text:"About",view:"Views/About",state:"/About",action:ACTION_INSTALL}
-        ]
-    }
+    await use.js("Component/Inputs/TextInput");
 
     //loading content area
     await main.template("Wrappers/Nav");
