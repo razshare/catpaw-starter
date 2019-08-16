@@ -379,7 +379,6 @@ const ConditionResolver=function(item,bind="this.data"){
     const PREV = ID-1 < 0? null: ID-1;
 
     let data = new Function("return "+bind+";").call(item);
-
     if(item.hasAttribute(":if")){
         let result = "";
         let statement = item.getAttribute(":if");
@@ -495,7 +494,11 @@ const VariableObject=function(value){
 
 const CALLBACKS = {
     setCallback: function(item,extra){
-        VariableResolver(item,extra);
+        if(!Components[item.tagName]){
+            VariableResolver(item.getParentComponent(),extra);
+        }else{
+            VariableResolver(item,extra);
+        }
     },
     getCallback: function(){
         

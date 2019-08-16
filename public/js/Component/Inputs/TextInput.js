@@ -1,5 +1,6 @@
 Components.TextInput=function(){
     this.data={
+        enabled: true,
         value: "hello world"
     };
 
