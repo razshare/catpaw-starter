@@ -379,6 +379,11 @@ const ConditionResolver=function(item,bind="this.data"){
     const PREV = ID-1 < 0? null: ID-1;
 
     let data = new Function("return "+bind+";").call(item);
+
+    if(!item.$originalDisplay) {
+        item.$originalDisplay = getComputedStyle(item, null).display;
+    }
+
     if(item.hasAttribute(":if")){
         let result = "";
         let statement = item.getAttribute(":if");
@@ -386,11 +391,8 @@ const ConditionResolver=function(item,bind="this.data"){
             try{
                 result = new Function("return "+statement+";").call(data);
                 if(result){
-                    if(!item.originalDisplay) item.originalDisplay = "";
-                    item.style.display = item.originalDisplay;
-                }
-                else if(item.parentNode && item.parentNode !== null){
-                    item.originalDisplay = getComputedStyle(item, null).display;
+                    item.style.display = item.$originalDisplay;
+                }else if(item.parentNode && item.parentNode !== null){
                     item.style.display = "none";
                 }
                 this.result=result;
@@ -400,14 +402,12 @@ const ConditionResolver=function(item,bind="this.data"){
                 console.error(":if statement could not be parsed ",item);
             }
         }else{
-            item.originalDisplay = getComputedStyle(item, null).display;
             item.style.display = "none";
             console.warn(":if statement does not contain a condition in ",item);
         }
     }else if(item.hasAttribute(":elseif") ){
         if(PREV !== null && ConditionResolver.stack[PREV].type === IF){
             if(ConditionResolver.stack[PREV].result){
-                item.originalDisplay = getComputedStyle(item, null).display;
                 item.style.display = "none";
             }else{
                 let result = "";
@@ -417,11 +417,9 @@ const ConditionResolver=function(item,bind="this.data"){
                         statement = statement === ''?"this":["this",statement].join(".");
                         result = new Function("return "+statement+";").call(data);
                         if(result){
-                            if(!item.originalDisplay) item.originalDisplay = "";
-                            item.style.display = item.originalDisplay;
+                            item.style.display = item.$originalDisplay;
                         }
                         else{
-                            item.originalDisplay = getComputedStyle(item, null).display;
                             item.style.display = "none";
                         }
                         this.result=result;
@@ -429,14 +427,12 @@ const ConditionResolver=function(item,bind="this.data"){
                         console.error(":elseif statement could not be parsed ",item);
                     }
                 }else{
-                    item.originalDisplay = getComputedStyle(item, null).display;
                     item.style.display = "none";
                     console.warn(":elseif statement does not contain a condition or the condition is redundant with the :if statement or a previous :elseif statement in ",item);
                 }
             }
         }else if(item.parentNode && item.parentNode !== null){
-            item.originalDisplay = getComputedStyle(item, null).display;
-                    item.style.display = "none";
+            item.style.display = "none";
             console.warn(":elseif statement must follow and :if statement. No :if statement found.",item);
         }
         ConditionResolver.stack[ID] = this;
@@ -447,14 +443,12 @@ const ConditionResolver=function(item,bind="this.data"){
             ConditionResolver.stack[PREV].type === ELSEIF
             )){
                 if(ConditionResolver.stack[PREV].result && item.parentNode && item.parentNode !== null){
-                    item.oldParentNode = item.parentNode;
-                    item.originalDisplay = getComputedStyle(item, null).display;
+                    item.$oldParentNode = item.parentNode;
                     item.style.display = "none";
-                }else if(item.oldParentNode){
-                    item.style.display = item.originalDisplay;
+                }else if(item.$oldParentNode){
+                    item.style.display = item.$originalDisplay;
                 }
             }else if(item.parentNode && item.parentNode !== null){
-                item.originalDisplay = getComputedStyle(item, null).display;
                 item.style.display = "none";
             }
         ConditionResolver.stack[ID] = this;
@@ -494,10 +488,10 @@ const VariableObject=function(value){
 
 const CALLBACKS = {
     setCallback: function(item,extra){
+        VariableResolver(item,extra);
         if(!Components[item.tagName]){
-            VariableResolver(item.getParentComponent(),extra);
-        }else{
-            VariableResolver(item,extra);
+            let parent = item.getParentComponent();
+            VariableResolver(parent,extra);
         }
     },
     getCallback: function(){
@@ -613,6 +607,7 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
 
     let getParentComponent = function(){
         let parent = item.parentNode;
+        if(parent === null) return null;
         let key = parent.tagName;
         if(parent.hasAttribute(":extends")){
             key = parent.getAttribute(":extends");
@@ -704,7 +699,7 @@ const VariableResolver=async function(item,extra,bind="this.data"){
                 case ":if":
                 case ":elseif":
                 case ":else":
-                    new ConditionResolver(item);
+                        new ConditionResolver(item);
                     continue;
                 case ":foreach":
                         if(item.$origin)
@@ -815,7 +810,6 @@ const VariableResolver=async function(item,extra,bind="this.data"){
         const observer = new MutationObserver(callback);
         observer.observe(item, config);
     }
-    
 };
 VariableResolver.stack = new Array();
 
