@@ -1,5 +1,8 @@
 Components.TextInput=function(){
     this.data={
+        go: function(){
+            console.log("hello world");
+        },
         enabled: true,
         value: "hello world"
     };

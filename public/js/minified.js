@@ -508,20 +508,23 @@ const CALLBACKS = {
 const resolveData=function(item,setCallback,getCallback){
     if(!item.data) return item.data;
     let object = item.data;
-    let root = JSON.parse(JSON.stringify(object));
+    let root = {};
     let pointerRoot = root;
-    let copy = JSON.parse(JSON.stringify(object));
+    let copy = {};
     let pointerCopy = copy;
     let dive=function(object,pointerRoot,pointerCopy){
         for(let key in object){
             if (!object.hasOwnProperty(key)) continue;
             if((Object.getPrototypeOf(object[key]) === Object.prototype || Object.getPrototypeOf(object[key]) === Array.prototype)){
+                pointerRoot[key] = {};
+                pointerCopy[key] = {};
                 dive(object[key],pointerRoot[key],pointerCopy[key]);
             }else if(pointerCopy){
                 if(pointerCopy.$classname){
                     continue;
                 }
-                
+                pointerRoot[key] = object[key];
+                pointerCopy[key] = object[key];
                 bind(object,pointerRoot,pointerCopy,key,getCallback,setCallback);
             }
         }
@@ -687,69 +690,72 @@ const VariableResolver=async function(item,extra,bind="this.data"){
     for(i = 0; i < attributes.length; i++){
         if(attributes[i].name[0] !== ":")
             continue;
-        let callback;
-        switch(attributes[i].name){
-            case ":if":
-            case ":elseif":
-            case ":else":
-                new ConditionResolver(item);
-                continue;
-            case ":foreach":
-                    if(item.$origin)
-                        item.$origin();
-                    await ForeachResolver(item,extra);
-                continue;
-            case ":sortby":
-            case ":desc":
-                //reserved attributes
-                continue;
-            case ":html":
-                callback = function(result,state,isElement){
-                    if(state === SUCCESS){
-                        if(!isElement){
-                            item.innerHTML = result;
-                        }else{
-                            item.innerHTML = "";
-                            item.appendChild(result);
-                        }
-                        bindings[attributes[i].name] = result;
-                    }
-                };
-            break;
-            case ":click": 
-                callback = function(result,state){
-                    if(state === SUCCESS){
-                        item.addEventListener("click",result);
-                        bindings[attributes[i].name] = result;
-                    }
-                };
-            break;
-            case ":css":
-                callback = function(result,state){
-                    if(state === SUCCESS){
-                        item.css(result)
-                        bindings[attributes[i].name] = result;
-                    }
-                };
-            break;
-            case ":value":
-                callback = function(result,state){
-                    if(state === SUCCESS){
-                        item.value = result;
-                        bindings[":value"] = result;
-                    }
-                };
-            break;
-            default:
-                callback = function(result,state){
-                    if(state === SUCCESS){
-                        item.setAttribute(attributes[i].name.substr(1),result);
-                        bindings[attributes[i].name] = result;
-                    }
-                };
-            break;
 
+        let callback;
+        if(attributes[i].name.substr(0,3) === ':on'){
+            callback = function(result,state){
+                if(state === SUCCESS){
+                    item[attributes[i].name.substr(1)]=result;
+                    bindings[attributes[i].name] = result;
+                }
+            };
+        }else{
+            switch(attributes[i].name){
+                case ":if":
+                case ":elseif":
+                case ":else":
+                    new ConditionResolver(item);
+                    continue;
+                case ":foreach":
+                        if(item.$origin)
+                            item.$origin();
+                        await ForeachResolver(item,extra);
+                    continue;
+                case ":sortby":
+                case ":desc":
+                    //reserved attributes
+                    continue;
+                case ":html":
+                    callback = function(result,state,isElement){
+                        if(state === SUCCESS){
+                            if(!isElement){
+                                item.innerHTML = result;
+                            }else{
+                                item.innerHTML = "";
+                                item.appendChild(result);
+                            }
+                            bindings[attributes[i].name] = result;
+                        }
+                    };
+                break;
+                case ":css":
+                    callback = function(result,state){
+                        if(state === SUCCESS){
+                            item.css(result)
+                            bindings[attributes[i].name] = result;
+                        }
+                    };
+                break;
+                case ":value":
+                    callback = function(result,state){
+                        if(state === SUCCESS){
+                            item.value = result;
+                            bindings[":value"] = result;
+                        }
+                    };
+                break;
+                default:
+                    callback = function(result,state){
+                        if(state === SUCCESS){
+                            item.setAttribute(attributes[i].name.substr(1),result);
+                            bindings[attributes[i].name] = result;
+                        }
+                    };
+                break;
+    
+            }
         }
+        
         resolve(attributes[i].value,callback);
     }
 
@@ -786,7 +792,6 @@ const VariableResolver=async function(item,extra,bind="this.data"){
         const callback = function(mutationsList, observer) {
             for(let mutation of mutationsList) {
                 if (mutation.type === 'attributes') {
-                    console.log("here");
                     boundName = ':'+mutation.attributeName;
                     if(item.hasAttribute(boundName)){
                         if(item.$ignoreDataSetter) continue;
