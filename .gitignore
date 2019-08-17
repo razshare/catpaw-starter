@@ -7,5 +7,6 @@ composer.lock
 nbproject/
 config/_SESSION/
 config/http.json
-config/routes.json
+config/assets.php
+config/certificate.php
 certificate.pem
