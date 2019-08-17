@@ -7,13 +7,19 @@ use com\github\tncrazvan\AsciiTable\AsciiRow;
 use com\github\tncrazvan\AsciiTable\AsciiTable;
 
 
-$table = new AsciiTable();
-
+$table = new AsciiTable(["width"=>150]);
 $table->add("Name", "Value");
-$table->add("hello world","testqwrqwrqr");
-$table2 = new AsciiTable();
+$table->add(
+    "hello world",
+    "this is a table inside a table inside another table"
+);
 
+$table2 = new AsciiTable(["width"=>100]);
 $table2->add("Name","Value");
 $table2->add("AAAAAAAAA",$table->toString(true));
 
-echo $table2->toString(true)."\n";
+$table3 = new AsciiTable(["width"=>100]);
+$table3->add("Name","Value");
+$table3->add("BBBBBBBBB", $table2->toString(false));
+
+echo $table3->toString(false)."\n";
