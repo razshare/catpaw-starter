@@ -1,14 +1,15 @@
-document.addEventListener("DOMContentLoaded", async function(event) { 
-    await use.js("Component/Inputs/TextInput");
+document.addEventListener("DOMContentLoaded", async function(event) {
 
-    //loading content area
+    //SETUP MAIN TEMPLATE
     await main.template("Wrappers/Nav");
     await main.template("Wrappers/Content");
-    //=============DEFINE ROUTES HERE
+
+    //DEFINE ROUTES
     await use.route("^/(home|start)?$",location=>{
         content.template("Views/Home");
     });
     await use.route("^/about$",location=>{
         content.template("Views/About");
     });
+    
 });

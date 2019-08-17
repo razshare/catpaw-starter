@@ -1,7 +1,18 @@
+<script>
+    Components.Nav=function(){
+        this.css({
+            position: "relative",
+            zIndex: 2,
+            left: 0,
+            right: 0,
+            top: 0,
+            display: "block "
+        });
+    }
+</script>
 <div extends="Nav" id="nav" export>
     <Container style="border-bottom: 1px solid #2e2a38;padding-bottom: 0.5em;margin-top: 1em">
-        <scope:>
-            <NavButton :foreach="this.list" :data-state="this.state" :data-view="this.view" :html="this.text"/>
-        </scope:>
+        <NavButton :foreach="this.list" :data-state="this.state" :data-view="this.view" :html="this.text"/>
     </Container>
+    <FloatingModal />
 </div>
