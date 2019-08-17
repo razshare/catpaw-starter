@@ -24,7 +24,8 @@
 		"tncrazvan/catpaw":"dev-master",
 		"tncrazvan/elk":"dev-master",
 		"tncrazvan/phporm":"dev-master",
-		"matthiasmullie/minify": "dev-master"
+		"matthiasmullie/minify": "dev-master",
+		"tncrazvan/asciitable": "dev-master"
 	},
 	"config": {
 		"preferred-install": "source"
