@@ -5,11 +5,15 @@ Components.NavButton=function(){
         window.navbtn = this;
         this.data={
             enabled: true,
-            text:"Home",view:"Views/Home",state:"/Home",
-    
             list: [
-                {text:"Home",view:"Views/Home",state:"/Home"},
-                {text:"About",view:"Views/About",state:"/About"}
+                {text:"Home",view:"Views/Home",state:"/Home",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
+                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]}
             ]
         };
     };
