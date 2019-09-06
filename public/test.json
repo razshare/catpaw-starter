@@ -1,10 +1,3 @@
-[
-    {"text":"Homess","view":"Views/Home","state":"/Home"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"},
-    {"text":"About","view":"Views/About","state":"/About"}
-]
+{
+    "text":"hello world"
+}

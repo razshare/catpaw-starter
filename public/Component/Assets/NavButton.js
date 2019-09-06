@@ -7,12 +7,6 @@ Components.NavButton=function(){
             enabled: true,
             list: [
                 {text:"Home",view:"Views/Home",state:"/Home",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]},
                 {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]}
             ]
         };
