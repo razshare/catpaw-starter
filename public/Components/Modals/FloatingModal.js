@@ -53,5 +53,4 @@ Components.FloatingModal=function(){
     this.destroy=function(){
         instance.destroy();
     };
-
 };
