@@ -12474,22 +12474,6 @@ const LinkedListElement = function(value){
     this.value = value;
 };
 
-const init = function(name,callback = null){
-    name = name.split(".");
-    let pointer = Components;
-    for(let i=0;i<name.length;i++){
-        if(!pointer[name[i]]){
-            if(callback !== null && i===name.length-1){
-                pointer[name[i]] = callback;
-            }else{
-                pointer[name[i]] = {};
-            }
-        }
-        pointer = pointer[name[i]];
-    }
-    return;
-};
-
 const create=function(tag,content,options,extra={},async=false){
     
     tag = tag.split(".");
@@ -13056,24 +13040,77 @@ const resolveData=function(object,getCallback,setCallback,item,extra,ignoreDataG
     return copy;
 };
 
-const Components={};
+window.Components={
+    $namespace: function(name,callbacks = null){
+        let pointer = Components;
+        if(name === null){
+            for(let key in callbacks){
+                if(callbacks[key].hasOwnProperty())
+                    continue;
+                key = key.trim();
+                if(key.match(/(\$init)|(\$namespace)/)){
+                    console.error("You're trying to override the core method Components."+key+" which is not allowed.");
+                    return;
+                }
+                pointer[key] = callbacks[key];
+            }
+            return;
+        }
+        name = name.split(/[\.\/]/);
+        for(let i=0;i<name.length;i++){
+            if(!pointer[name[i]]){
+                pointer[name[i]] = {};
+                if(callbacks !== null && i===name.length-1){
+                    for(let key in callbacks){
+                        if(callbacks[key].hasOwnProperty())
+                            continue;
+                        key = key.trim();
+                        pointer[name[i]][key] = callbacks[key];
+                    }
+                }
+            }
+            pointer = pointer[name[i]];
+        }
+        return;
+    },
+    $init: function(name,callback=null){
+        let namespace = name.split(/[\.\/]/);
+        name = namespace.splice(-1);
+        let obj = {};
+        obj[name] = callback;
+        return Components.$namespace(namespace.length>0?namespace.join("/"):null,obj);
+    }
+};
 
 const ComponentResolver=async function(item,extra,useOldPointer=false){
     const REGEX_MATCH_HTTP = /^https?\:\/\/.+/i;
     const REGEX_MATCH_HTTP_WITH_ARROW = /^https?\:\/\/.+(?=\=\>)/i;
     item.$parsed = true;
-
+    let namespace = null;
+    if(item.parentNode && item.parentNode.hasAttribute("@namespace")){
+        namespace = item.parentNode.getAttribute("@namespace").trim();
+    }
+    if(item.hasAttribute("@namespace")){
+        const tmp = item.getAttribute("@namespace").trim();
+        if(namespace === null)
+            name = tmp;
+        else if(tmp[0] === "/")
+            namespace = tmp.substr(1);
+        else
+            namespace += "/"+tmp
+    }
     let parse = async function(pointer,keys,index){
         if(!keys[index]) return;
         const key = keys[index];
         for (let c in pointer) {
             if(c.toLowerCase() === key.toLowerCase()){
                 if(!isFunction(pointer[c])){
-                    await parse(pointer[c],keys,index+1);
+                    return parse(pointer[c],keys,index+1);
                 }else{
                     try{
                         let tmp = pointer[c];
                         
+                        //this part refers to the "foreach" old pointer, aka the original pointer.
                         if(useOldPointer){
                             let pointer = item.data;
                             (tmp).call(item);
@@ -13136,12 +13173,18 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         return item.querySelector("*[ref=\""+name+"\"]");
     };
 
-    
+    if(!item.hasAttribute(":prevent-data")){
+        if(item.parentNode && item.parentNode !== null)
+            item.data=item.parentNode.data;
+    }
 
-    let key = item.tagName.split(".");
+    namespace = namespace !== null && namespace !== ""?namespace.split(/[\.\/]/):[];
+    item.$namespace = namespace;
+    //debugger;
+    let key = [...namespace,item.tagName];
     await parse(Components,key,0);
     if(item.hasAttribute(":extends")){
-        key = item.getAttribute(":extends");
+        key = [...namespace,item.getAttribute(":extends")];
         await parse(Components,key,0);
     }
 
@@ -13203,6 +13246,8 @@ const VariableResolver=async function(item,extra,bind="this.data"){
             };
         }else{
             switch(attributes[i].name){
+                case ":extends":
+                case "@namespace":
                 case ":fetch":
                     continue;
                 break;
@@ -13324,6 +13369,7 @@ VariableResolver.stack = new Array();
 
 //iterating through every child node of the provided target
 const recursiveParser=async function(target,extra={},log){
+    //await ComponentResolver(target,extra);
     let children = new Array();
     let i;
     for(i = 0; i < target.children.length;i++){
@@ -13343,9 +13389,6 @@ const recursiveParser=async function(target,extra={},log){
                 document.head.appendChild(child);
             break;
             default:
-                if(!child.hasAttribute(":prevent-data")){
-                    child.data=child.parentNode.data;
-                }
                 await ComponentResolver(child,extra);
                 await parseElement(child,extra);
             break;
@@ -13898,11 +13941,18 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
 Element.prototype.extends=function(componentName){
-    if(!Components[componentName]){
-        console.error("Component ",componentName," not found.");
+    let namespace = componentName.split(/[\.\/]/);
+    let name = namespace.splice(-1);
+    let pointer = Components;
+    for(let i=0;i<namespace.length;i++){
+        pointer = pointer[namespace[i]];
+    }
+
+    if(!pointer[name]){
+        console.error("Component ",[...namespace,name].join("/")," not found.");
         return;
     }
-    let extendTmp = Components[componentName];
+    let extendTmp = pointer[name];
     (extendTmp).call(this,this);
 };
 
@@ -14000,6 +14050,9 @@ String.prototype.parseInt=function(){
     return parseInt(this);
 };
 Components.Nav=function(){
+    this.data={
+        "spantest":"this is a span test"
+    };
     this.css({
         position: "relative",
         zIndex: 2,
@@ -14130,11 +14183,14 @@ Components.TextInput=function(){
         })
     ])));
 };
-Components.Button=function(){
+Components.$init("Button",function(){
     this.classList.add("waves-effect");
     this.classList.add("waves-cat");
-    this.classList.add("btn-flat");
-};
+    this.classList.add("btn-flat");  
+})
+Components.$init("Tests/Button",function(){
+    console.log(this.$namespace,this);
+});
 Components.NavButton=function(){
     this.extends("Button");
 

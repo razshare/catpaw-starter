@@ -1,4 +1,7 @@
 Components.Nav=function(){
+    this.data={
+        "spantest":"this is a span test"
+    };
     this.css({
         position: "relative",
         zIndex: 2,
