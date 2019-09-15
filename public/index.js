@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", async function(event) {
 
     //SETUP MAIN TEMPLATE
-    await main.template("Wrappers/Nav");
-    await main.template("Wrappers/Content");
+    await main.template("Wrapper/Nav");
+    await main.template("Wrapper/Content");
 
     //DEFINE ROUTES
     await use.route("^/(home|start)?$",location=>{
-        content.template("Views/Home");
+        content.template("View/Home");
     });
     await use.route("^/about$",location=>{
-        content.template("Views/About");
+        content.template("View/About");
     });
     
 });

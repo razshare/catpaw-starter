@@ -1,4 +1,4 @@
-Components.TextInput=function(){
+Components.$init("Form/Input/TextInput",function(){
     this.data={
         go: function(){
             console.log("hello world");
@@ -15,4 +15,4 @@ Components.TextInput=function(){
             type: "text"
         })
     ])));
-};
+});

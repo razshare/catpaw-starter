@@ -12,19 +12,20 @@ return [
         "vendor/tncrazvan/elk/Main.js",
 
         //WRAPPERS
-        "public/Components/Wrappers/Nav.js",
-        "public/Components/Wrappers/Content.js",
-        "public/Components/Wrappers/Container.js",
+        "public/Component/Wrapper/Nav.js",
+        "public/Component/Wrapper/Content.js",
+        "public/Component/Wrapper/Container.js",
 
         //MODALS
-        "public/Components/Modals/FloatingModal.js",
+        "public/Component/Modal/FloatingModal.js",
 
         //INPUTS
-        "public/Components/Inputs/TextInput.js",
+        "public/Component/Form/Input/TextInput.js",
 
         //BUTTONS
-        "public/Components/Assets/Button.js",
-        "public/Components/Assets/NavButton.js",
+        "public/Component/_NOT_FOUND.js",
+        "public/Component/Button.js",
+        "public/Component/NavButton.js",
 
         //INDEX
         "public/index.js"

@@ -1,4 +1,5 @@
-Components.Nav=function(){
+Components.$init("Wrapper/Nav",function(){
+    console.log("navvvv");
     this.data={
         "spantest":"this is a span test"
     };
@@ -10,4 +11,4 @@ Components.Nav=function(){
         top: 0,
         display: "block "
     });
-};
+});

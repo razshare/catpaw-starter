@@ -1,4 +1,4 @@
-Components.Content=function(){
+Components.$init("Wrapper/Content",function(){
     const ANIMATION_DURATION = 250;
     this.classList.add("row");
     this.classList.add("col");
@@ -37,4 +37,4 @@ Components.Content=function(){
             },ANIMATION_DURATION);
         });
     };
-};
+});

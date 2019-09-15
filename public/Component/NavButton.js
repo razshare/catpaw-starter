@@ -1,4 +1,4 @@
-Components.NavButton=function(){
+Components.$init("NavButton",function(){
     this.extends("Button");
 
     this.$origin=()=>{
@@ -6,8 +6,8 @@ Components.NavButton=function(){
         this.data={
             enabled: true,
             list: [
-                {text:"Home",view:"Views/Home",state:"/Home",others:["a","b","c"]},
-                {text:"About",view:"Views/About",state:"/About",others:["a","b","c"]}
+                {text:"Home",view:"View/Home",state:"/Home",others:["a","b","c"]},
+                {text:"About",view:"View/About",state:"/About",others:["a","b","c"]}
             ]
         };
     };
@@ -20,4 +20,4 @@ Components.NavButton=function(){
             state(this.dataset.state);
         };
     };
-};
+});
