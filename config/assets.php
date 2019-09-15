@@ -23,7 +23,6 @@ return [
         "public/Component/Form/Input/TextInput.js",
 
         //BUTTONS
-        "public/Component/_NOT_FOUND.js",
         "public/Component/Button.js",
         "public/Component/NavButton.js",
 

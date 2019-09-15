@@ -13132,7 +13132,8 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         let result = await lookup(Components,keys[keys.length-1]);
         if(!result){
             item.$isComponent = false;
-            console.warn("Could not find component ",keys.join("/"));
+            if(item.hasAttribute("@follow"))
+                console.warn("Component ",keys.join("/")," seems to have no definition.");
         }else{
             item.$isComponent = true;
         }
@@ -13209,14 +13210,10 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
     
     //debugger;
     let key = [...namespace,item.tagName];
-    if(!(await parse(Components,key,0))){
-        //await parse(Components,["_NOT_FOUND"],0)
-    }
+    await parse(Components,key,0)
     if(item.hasAttribute(":extends")){
         key = [...namespace,item.getAttribute(":extends")];
-        if(!(await parse(Components,key,0))){
-            //await parse(Components,["_NOT_FOUND"],0)
-        }
+        await parse(Components,key,0)
     }
     
 
@@ -14233,11 +14230,6 @@ Components.$init("Form/Input/TextInput",function(){
             type: "text"
         })
     ])));
-});
-Components.$init("_NOT_FOUND",function(){
-    this.$isComponent=false;
-    if(this.$parent)
-        this.data = this.$parent.data;
 });
 Components.$init("Button",function(){
     this.classList.add("waves-effect");
