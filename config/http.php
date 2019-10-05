@@ -1,7 +1,7 @@
 <?php
 return [
     "port" => 80,
-    "webRoot" => "../public",
+    "webRoot" => "../src/www",
     "bindAddress" => "0.0.0.0",
     "controllers" => [
         "http" => "App\\Http",

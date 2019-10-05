@@ -12492,6 +12492,16 @@ const create=function(tag,content,options,extra={},async=false){
                 element.className +=" ";
         }
     }
+
+    if(options)
+        for(let key in options){
+            if(typeof(options[key]) === "object" && key === "style"){
+                element.css(options[key]);
+            }else{
+                element.setAttribute(key,options[key]);
+            }
+        }
+
     if(isset(content) && content !== null){
         if(isElement(content)){
             element.innerHTML = "";
@@ -12519,15 +12529,6 @@ const create=function(tag,content,options,extra={},async=false){
             element.applyHtml(content,extra)
         }
     }
-
-    if(options)
-        for(let key in options){
-            if(typeof(options[key]) === "object" && key === "style"){
-                element.css(options[key]);
-            }else{
-                element.setAttribute(key,options[key]);
-            }
-        }
         
 
     return element;
@@ -12872,6 +12873,17 @@ const CLASSNAME = {
 };
 Object.freeze(CLASSNAME);
 
+const exploreElementDependents = function(component,callback){
+    if(component.$dependents){
+        for(let i=0;i<component.$dependents.length;i++){
+            callback(component.$dependents[i]);
+            if(component.$dependents[i].$dependents){
+                exploreElementDependents(component.$dependents[i],callback);
+            }
+        }
+    }
+};
+
 const CALLBACKS = {
     setCallback: function(key,item,extra,triggerForEach){
         if(item.hasAttribute(":foreach") && !triggerForEach){
@@ -12882,11 +12894,11 @@ const CALLBACKS = {
             return;
         }
         VariableResolver(item,extra);
-        if(item.$dependents){
-            for(let i=0;i<item.$dependents.length;i++){
-                VariableResolver(item.$dependents[i],extra);
-            }
-        }
+        
+        exploreElementDependents(item,target=>{
+            VariableResolver(target,extra);
+        });
+
         if(!item.$isComponent){
             let parent = item.getParentComponent();
             if(parent && parent !== null)
@@ -13021,7 +13033,7 @@ const resolveData=function(object,getCallback,setCallback,item,extra,ignoreDataG
 };
 
 window.Components={
-    $namespace: function(name,callbacks = null){
+    $namespace: function(name,callbacks = null,namespace = null){
         let pointer = Components;
         if(name === null){
             for(let key in callbacks){
@@ -13029,7 +13041,7 @@ window.Components={
                     continue;
                 key = key.trim();
                 if(key.match(/(\$init)|(\$namespace)/)){
-                    console.error("You're trying to override the core method Components."+key+" which is not allowed.");
+                    console.error("You're trying to override the core method ","Components."+key," which is not allowed.");
                     return;
                 }
                 pointer[key] = callbacks[key];
@@ -13067,7 +13079,7 @@ window.Components={
         name = namespace.splice(-1);
         let obj = {};
         obj[name] = callback;
-        return Components.$namespace(namespace.length>0?namespace.join("/"):null,obj);
+        return Components.$namespace(namespace.length>0?namespace.join("/"):null,obj,namespace);
     }
 };
 
@@ -13075,6 +13087,7 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
     const REGEX_MATCH_HTTP = /^https?\:\/\/.+/i;
     const REGEX_MATCH_HTTP_WITH_ARROW = /^https?\:\/\/.+(?=\=\>)/i;
     item.$parsed = true;
+
     let namespace = null;
     if(item.parentNode && item.parentNode.hasAttribute("@namespace")){
         namespace = item.parentNode.getAttribute("@namespace").trim();
@@ -13088,7 +13101,7 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         else
             namespace += "/"+tmp
     }
-    let parse = async function(pointer,keys,index){
+    let parse = async function(pointer,keys,index,namespace=null){
         if(!keys[index]) return;
         const key = keys[index];
         for (let c in pointer) {
@@ -13102,6 +13115,23 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
                         //this part refers to the "foreach" old pointer, aka the original pointer.
                         if(useOldPointer){
                             let p = item.data;
+                            if(namespace !== null)
+                                item.$namespace=namespace
+
+                            item.extends=async function(name){
+                                name = name.trim();
+                                name = name !== null && name !== ""?name.split(/[\.\/]/):[];
+                                let key;
+                                
+                                if(name.length > 0 && name[0] === "")
+                                    key = [...name.splice(1)];
+                                else
+                                    key = [...item.$namespace,...name];
+                                await parse(Components,key,0);
+                            };
+                            if(item.hasAttribute(":extends")){
+                                await item.extends(item.getAttribute(":extends"));
+                            }
                             (tmp).call(item);
                             item.data = p;
                         }else{
@@ -13116,6 +13146,23 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
                                     const REQUEST = await fetch(fetchUrl);
                                     item.data = await REQUEST.json();
                                 }
+                            }
+                            if(namespace !== null)
+                                item.$namespace=namespace;
+
+                            item.extends=async function(name){
+                                name = name.trim();
+                                name = name !== null && name !== ""?name.split(/[\.\/]/):[];
+                                let key;
+                                
+                                if(name.length > 0 && name[0] === "")
+                                    key = [...name.splice(1)];
+                                else
+                                    key = [...item.$namespace,...name];
+                                await parse(Components,key,0);
+                            };
+                            if(item.hasAttribute(":extends")){
+                                await item.extends(item.getAttribute(":extends"));
                             }
                             (tmp).call(item);
                         }
@@ -13140,15 +13187,16 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         return result;
     };
 
-    let lookup = async function(pointer, key){
-        key = key.toLowerCase();
+    let lookup = async function(pointer, originalKey, namespace = []){
+        key = originalKey.toLowerCase();
         //if(pointer[key]) return await parse(pointer,[key],0);
         let tmp;
         for(let c in pointer){
             if(c.toLocaleLowerCase() === key){
-                return await parse(pointer,[key],0);
+                return await parse(pointer,[key],0,namespace);
             }
-            tmp = await lookup(pointer[c],key);
+        
+            tmp = await lookup(pointer[c],key,[...namespace,c]);
             if(tmp) return true
         }
 
@@ -13197,8 +13245,8 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
     item.$dataResolved=false;
     item.$parent = item.getParentComponent();
     namespace = namespace !== null && namespace !== ""?namespace.split(/[\.\/]/):[];
-    item.$namespace = namespace;
 
+    item.$namespace = namespace;
 
     if(!item.data)
         item.data = {};
@@ -13207,15 +13255,9 @@ const ComponentResolver=async function(item,extra,useOldPointer=false){
         item.data.$parent = item.$parent.data;
     }
     item.$el = item;
-    
-    //debugger;
+
     let key = [...namespace,item.tagName];
-    await parse(Components,key,0)
-    if(item.hasAttribute(":extends")){
-        key = [...namespace,item.getAttribute(":extends")];
-        await parse(Components,key,0)
-    }
-    
+    await parse(Components,key,0);
 
     if(!item.$dataResolved && item.$isComponent){
         
@@ -13636,23 +13678,23 @@ const prependToArray=function(value,array){
     return newArray;
 };
 
-const Url=function(string){
+const url=function(string){
     return "url(\""+string+"\")";
 };
 
-const Percent=function(value){
+const percent=function(value){
     return value+"%";
 };
 
-const Pixel=function(value){
+const pixel=function(value){
     return value+"px";
 };
 
-const Rgb=function(red,green,blue){
+const rgb=function(red,green,blue){
     return new String("rgb("+red+","+green+","+blue+")");
 };
 
-const Rgba=function(red,green,blue,alfa){
+const rgba=function(red,green,blue,alfa){
     return new String("rgba("+red+","+green+","+blue+","+alfa+")");
 };
 
@@ -13985,8 +14027,11 @@ String.prototype.splice = function(start, delCount, newSubStr) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
-Element.prototype.extends=function(componentName){
-    let namespace = componentName.split(/[\.\/]/);
+//Element.prototype.extends=function(componentName){
+    /*let namespace = componentName.trim().split(/[\.\/]/);
+    if(namespace[0] !== "/")
+        namespace = [...this.$namespace,...namespace];
+
     let name = namespace.splice(-1);
     let pointer = Components;
     for(let i=0;i<namespace.length;i++){
@@ -13998,8 +14043,8 @@ Element.prototype.extends=function(componentName){
         return;
     }
     let extendTmp = pointer[name];
-    (extendTmp).call(this,this);
-};
+    (extendTmp).call(this,this);*/
+//};
 
 Element.prototype.refresh=async function(){
     
@@ -14094,6 +14139,7 @@ String.prototype.capitalize = function() {
 String.prototype.parseInt=function(){
     return parseInt(this);
 };
+
 Components.$init("Wrapper/Nav",function(){
     console.log("navvvv");
     this.data={

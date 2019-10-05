@@ -7,14 +7,9 @@ use com\github\tncrazvan\CatPaw\Tools\Strings;
 
 define("DEBUG",true);
 
-$input=include("config/assets.php");
+$assets=include("config/assets.php");
 
-$output=[
-    "css"=>"public/minified/minified.css",
-    "js"=>"public/minified/minified.js"
-];
-
-Strings::minify($input["css"],$output["css"],!DEBUG);
-echo "CSS minified in ".$output["css"]."\n";
-Strings::minify($input["js"],$output["js"],!DEBUG);
-echo "JS minified in ".$output["js"]."\n";
+Strings::minify($assets["css"]["input"],$assets["css"]["output"],!DEBUG);
+echo "CSS minified in ".$assets["css"]["output"]."\n";
+Strings::minify($assets["js"]["input"],$assets["js"]["output"],!DEBUG);
+echo "JS minified in ".$assets["js"]["output"]."\n";

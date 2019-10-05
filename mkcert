@@ -1,5 +1,10 @@
 #!/usr/bin/php
 <?php
+/**
+ * Makes a PEM certificate based on the information located in config/certificate.php
+ * @param $argv[1] Expiration date
+ * @param $argv[2] Passphrase
+ */
 /*
     NOTE: You need to have OpenSSL installed on your system.
     This has only been tested on Linux Ubuntu 18.04 LTS.

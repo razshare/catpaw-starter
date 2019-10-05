@@ -1,32 +1,38 @@
 <?php
 return [
     "css"=>[
-        "public/css/fonts/meterial.css",
-        "public/css/materialize.css"
+        "input"=>[
+            "src/www/css/fonts/meterial.css",
+            "src/www/css/materialize.css"
+        ],
+        "output"=>"src/www/minified/minified.css"
     ],
     "js"=>[
-        //MATERIALIZE
-        "public/js/Materialize/materialize.js",
-
-        //MAIN LIBS
-        "vendor/tncrazvan/elk/Main.js",
-
-        //WRAPPERS
-        "public/Component/Wrapper/Nav.js",
-        "public/Component/Wrapper/Content.js",
-        "public/Component/Wrapper/Container.js",
-
-        //MODALS
-        "public/Component/Modal/FloatingModal.js",
-
-        //INPUTS
-        "public/Component/Form/Input/TextInput.js",
-
-        //BUTTONS
-        "public/Component/Button.js",
-        "public/Component/NavButton.js",
-
-        //INDEX
-        "public/index.js"
+        "input"=>[
+            //MATERIALIZE
+            "src/www/js/Materialize/materialize.js",
+    
+            //MAIN LIBS
+            "vendor/tncrazvan/elk/Main.js",
+    
+            //WRAPPERS
+            "src/www/Component/Wrapper/Nav.js",
+            "src/www/Component/Wrapper/Content.js",
+            "src/www/Component/Wrapper/Container.js",
+    
+            //MODALS
+            "src/www/Component/Modal/FloatingModal.js",
+    
+            //INPUTS
+            "src/www/Component/Form/Input/TextInput.js",
+    
+            //BUTTONS
+            "src/www/Component/Button.js",
+            "src/www/Component/NavButton.js",
+    
+            //INDEX
+            "src/www/index.js"
+        ],
+        "output"=>"src/www/minified/minified.js"
     ]
 ];
