@@ -1,6 +1,9 @@
 <?php
 return [
-    "minifier"=> "minify/linux/minify",
+    "minifier"=> [
+        "location"=>"minify/linux/minify",
+        "sleep"=>10
+    ],
     "port" => 80,
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",
