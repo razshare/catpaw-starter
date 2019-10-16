@@ -1,5 +1,6 @@
 <?php
 return [
+    "minifier"=> "minify/linux/minify",
     "port" => 80,
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",

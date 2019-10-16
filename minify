@@ -7,7 +7,7 @@ use com\github\tncrazvan\CatPaw\Tools\Strings;
 
 define("DEBUG",true);
 
-$assets=include("config/assets.php");
+$assets=json_decode(file_get_contents(""));
 
 Strings::minify($assets["css"]["input"],$assets["css"]["output"],!DEBUG);
 echo "CSS minified in ".$assets["css"]["output"]."\n";
