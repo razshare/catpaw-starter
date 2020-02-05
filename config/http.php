@@ -8,8 +8,8 @@ return [
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",
     "controllers" => [
-        "http" => "App\\Http",
-        "ws" => "App\\Http"
+        "http" => "app\\http",
+        "ws" => "app\\http"
     ],
     "sessionName" => "_SESSION",
     "ramSession" => [
