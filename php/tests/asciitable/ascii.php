@@ -2,9 +2,9 @@
 
 require_once __DIR__.'/../../../vendor/autoload.php';
 
-use com\github\tncrazvan\AsciiTable\AsciiCel;
-use com\github\tncrazvan\AsciiTable\AsciiRow;
-use com\github\tncrazvan\AsciiTable\AsciiTable;
+use com\github\tncrazvan\asciitable\AsciiCel;
+use com\github\tncrazvan\asciitable\AsciiRow;
+use com\github\tncrazvan\asciitable\AsciiTable;
 
 
 $table = new AsciiTable(["width"=>150]);
