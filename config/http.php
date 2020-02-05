@@ -2,7 +2,7 @@
 return [
     "minifier"=> [
         "location"=>"minify/linux/minify",
-        "sleep"=>10
+        "sleep"=>1000
     ],
     "port" => 80,
     "webRoot" => "../www",

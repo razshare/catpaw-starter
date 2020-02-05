@@ -11,3 +11,7 @@ ob_implicit_flush();
 $server = new CatPaw($argv[1],function(&$context){
     
 });
+$server->whileListening(function(){
+    echo "hello world\n";
+});
+$server->start();
