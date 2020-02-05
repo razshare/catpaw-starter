@@ -1,10 +1,10 @@
 #!/usr/bin/php
 <?php
 require_once __DIR__.'/vendor/autoload.php';
-use com\github\tncrazvan\CatPaw\Tools\Session;
-use com\github\tncrazvan\CatPaw\Tools\G;
+use com\github\tncrazvan\catpaw\tools\Session;
+use com\github\tncrazvan\catpaw\tools\Server;
 if(count($argv) === 2) $argv[2] = __DIR__."/config/http.json";
-G::init($argv[2],false);
+Server::init($argv[2],false);
 switch($argv[1]){
     case "mount":
         Session::mount();
