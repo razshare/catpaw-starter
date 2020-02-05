@@ -10,7 +10,7 @@
     This has only been tested on Linux Ubuntu 18.04 LTS.
 */
 require_once __DIR__.'/vendor/autoload.php';
-use com\github\tncrazvan\CatPaw\Tools\OpenSSL;
+use com\github\tncrazvan\catpaw\tools\OpenSSL;
 
 if(!isset($argv[1])) $argv[1] = 365;
 if(!isset($argv[2])) $argv[2] = "";
