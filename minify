@@ -2,8 +2,8 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 use MatthiasMullie\Minify;
-use com\github\tncrazvan\CatPaw\Tools\Console;
-use com\github\tncrazvan\CatPaw\Tools\Strings;
+use com\github\tncrazvan\catpaw\tools\Console;
+use com\github\tncrazvan\catpaw\tools\Strings;
 
 define("DEBUG",true);
 
