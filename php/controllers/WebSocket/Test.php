@@ -1,8 +1,8 @@
 <?php
-namespace App\WebSocket;
+namespace app\websocket;
 
-use com\github\tncrazvan\CatPaw\WebSocket\WebSocketEvent;
-use com\github\tncrazvan\CatPaw\WebSocket\WebSocketController;
+use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
+use com\github\tncrazvan\catpaw\websocket\WebSocketController;
 
 class Test extends WebSocketController{
     
