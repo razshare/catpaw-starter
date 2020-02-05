@@ -2,4 +2,4 @@
 
 namespace App\WebSocket;
 
-class ControllerNotFound extends \com\github\tncrazvan\CatPaw\Controller\WebSocket\ControllerNotFound{}
+class ControllerNotFound extends \com\github\tncrazvan\catpaw\controller\websocket\ControllerNotFound{}
