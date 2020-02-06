@@ -6,16 +6,15 @@ use com\github\tncrazvan\catpaw\websocket\WebSocketController;
 
 class Test extends WebSocketController{
     
-    public function onClose(WebSocketEvent &$e, array &$args): void {
-        echo "\nWebSocket closed.";
+    public function onOpen(){
+        echo "WebSocket opened.\n";
     }
 
-    public function onMessage(WebSocketEvent &$e, string &$data, array &$args): void {
-        echo "\nMessage received: $data";
+    public function onClose(){
+        echo "WebSocket closed.\n";
     }
 
-    public function onOpen(WebSocketEvent &$e, array &$args): void {
-        echo "\nWebSocket opened.\n";
+    public function onMessage(string &$data){
+        echo "Message received: $data\n";
     }
-
 }

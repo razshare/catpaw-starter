@@ -1,15 +1,11 @@
 <?php
 return [
-    "minifier"=> [
-        "location"=>"minify/linux/minify",
-        "sleep"=>1000
-    ],
     "port" => 80,
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",
     "controllers" => [
         "http" => "app\\http",
-        "ws" => "app\\http"
+        "ws" => "app\\websocket"
     ],
     "sessionName" => "_SESSION",
     "ramSession" => [
