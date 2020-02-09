@@ -1,9 +1,11 @@
 #!/usr/bin/php
 <?php
-
-require_once __DIR__.'/vendor/autoload.php';
+chdir(dirname(__FILE__));
+require_once 'vendor/autoload.php';
 use com\github\tncrazvan\catpaw\CatPaw;
-if(count($argv) === 1) $argv[1] = __DIR__."/config/http.php";
+if(count($argv) === 1) $argv[1] = "config/http.php";
+
+\file_put_contents("config/args",$argv[1]);
 
 error_reporting(E_ALL);
 set_time_limit(0);

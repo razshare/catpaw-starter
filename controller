@@ -1,0 +1,24 @@
+#!/usr/bin/php
+<?php
+chdir(dirname(__FILE__));
+require_once 'vendor/autoload.php';
+use com\github\tncrazvan\catpaw\tools\Server;
+use com\github\tncrazvan\catpaw\tools\Session;
+use com\github\tncrazvan\catpaw\tools\Strings;
+use com\github\tncrazvan\catpaw\tools\shelltools\ControllerTools;
+use com\github\tncrazvan\asciitable\AsciiTable;
+
+$tools = ControllerTools::get();
+
+if(!file_exists("config/args")){
+    echo "Arguments file not found.\nStart your server to generate it then try again.\n";
+    exit;
+}
+
+if(!isset($argv[1])){
+    $argv[1] = "actions";
+}
+$action = $argv[1];
+$controller = isset($argv[2])?$argv[2]:"";
+Server::init(file_get_contents("config/args"),false);
+$tools->action($action,$controller);
