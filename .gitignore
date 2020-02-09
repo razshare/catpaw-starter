@@ -9,5 +9,5 @@ nbproject/
 config/_SESSION/
 config/http.json
 config/assets.php
-config/certificate.php
+config/certificate.pem
 certificate.pem
