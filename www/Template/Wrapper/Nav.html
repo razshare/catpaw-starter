@@ -1,0 +1,11 @@
+<div @namespace=Wrapper :extends="Nav" id="nav" export>
+    <Container style="border-bottom: 1px solid #2e2a38;padding-bottom: 0.5em;margin-top: 1em">
+        <NavButton :foreach="this.list" :data-state="this.state" :data-view="this.view" :html="this.text"/>
+    </Container>
+    <FloatingModal @namespace=/Modal id=modal>
+        <h4 id="modalh" :html=this.$parent.title></h4>
+        <p :html=this.$parent.message></p>
+    </FloatingModal>
+
+
+</div>

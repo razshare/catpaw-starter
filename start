@@ -3,6 +3,8 @@
 chdir(dirname(__FILE__));
 require_once 'vendor/autoload.php';
 use com\github\tncrazvan\catpaw\CatPaw;
+use com\github\tncrazvan\catpaw\tools\Minifier;
+
 if(count($argv) === 1) $argv[1] = "config/config.php";
 
 \file_put_contents("config/args",$argv[1]);
@@ -10,6 +12,8 @@ if(count($argv) === 1) $argv[1] = "config/config.php";
 error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
-
 $server = new CatPaw($argv[1]);
-$server->listen();
+$minifier = $server->minifier("minify --type=@type \"@filename\"","www/assets.json");
+$server->listen(function() use (&$minifier){
+    $minifier->minify();
+},10);
