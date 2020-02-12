@@ -5,17 +5,25 @@ require_once 'vendor/autoload.php';
 use com\github\tncrazvan\catpaw\tools\SharedObject;
 use com\github\tncrazvan\catpaw\tools\shelltools\ControllerTools;
 
-$so = new SharedObject(file_get_contents("config/args"),false);
-$tools = ControllerTools::get($so);
-
 if(!file_exists("config/args")){
-    echo "Arguments file not found.\nStart your server to generate it then try again.\n";
-    exit;
+    exit("Arguments file not found.\nStart your server to generate it then try again.\n");
 }
+
+$args = \file_get_contents("config/args");
+
+if(!\file_exists($args)){
+    exit("File '$args' doesn't seem to exist.\n");
+}
+
+$so = new SharedObject($args,false);
+$tools = ControllerTools::get($so);
 
 if(!isset($argv[1])){
     $argv[1] = "actions";
 }
 $action = $argv[1];
 $controller = isset($argv[2])?$argv[2]:"";
-$tools->action($action,$controller);
+$metadata = &$tools->action($action,$controller);
+if(!isset($metadata['filename'])) exit;
+shell_exec("composer dump-autoload -o");
+file_put_contents("config/args","NEW CONTROLLER:{$metadata['filename']}");
