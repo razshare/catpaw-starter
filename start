@@ -3,7 +3,6 @@
 chdir(dirname(__FILE__));
 require_once 'vendor/autoload.php';
 use com\github\tncrazvan\catpaw\CatPaw;
-use com\github\tncrazvan\catpaw\tools\Minifier;
 
 if(count($argv) === 1) $argv[1] = "config/config.php";
 //write down initial args
