@@ -3,7 +3,7 @@
 chdir(dirname(__FILE__));
 require_once 'vendor/autoload.php';
 use com\github\tncrazvan\catpaw\CatPaw;
-if(count($argv) === 1) $argv[1] = "config/http.php";
+if(count($argv) === 1) $argv[1] = "config/config.php";
 
 \file_put_contents("config/args",$argv[1]);
 
