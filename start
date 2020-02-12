@@ -6,8 +6,10 @@ use com\github\tncrazvan\catpaw\CatPaw;
 use com\github\tncrazvan\catpaw\tools\Minifier;
 
 if(count($argv) === 1) $argv[1] = "config/config.php";
-
+//write down initial args
 \file_put_contents("config/args",$argv[1]);
+//dump classes
+shell_exec("composer dump-autoload -o");
 
 error_reporting(E_ALL);
 set_time_limit(0);
