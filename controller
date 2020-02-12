@@ -22,8 +22,8 @@ if(!isset($argv[1])){
     $argv[1] = "actions";
 }
 $action = $argv[1];
-$controller = isset($argv[2])?$argv[2]:"";
-$metadata = &$tools->action($action,$controller);
+$arg1 = isset($argv[2])?$argv[2]:"";
+$metadata = &$tools->action($action,$arg1);
 if(!isset($metadata['filename'])) exit;
 shell_exec("composer dump-autoload -o");
-file_put_contents("config/args","NEW CONTROLLER:{$metadata['filename']}");
+file_put_contents("config/args","{$metadata['xec']}:{$metadata['filename']}");

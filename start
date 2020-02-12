@@ -2,7 +2,7 @@
 <?php
 chdir(dirname(__FILE__));
 define('AUTOLOADER','vendor/autoload.php');
-require_once AUTOLOADER;
+require AUTOLOADER;
 use com\github\tncrazvan\catpaw\CatPaw;
 
 if(count($argv) === 1) $argv[1] = "config/config.php";
@@ -12,8 +12,8 @@ shell_exec("composer dump-autoload -o");
 error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
-$server = new CatPaw($argv[1]);
-$minifier = $server->minifier("minify --type=@type \"@filename\"","www/assets.json");
+$server = new CatPaw($argv);
+$minifier = $server->minifier("config/minify/windows/minify --type=@type \"@filename\"","www/assets.json");
 $server->setAutoloader(AUTOLOADER);
 $server->listen(function() use (&$minifier){
     $minifier->minify();
