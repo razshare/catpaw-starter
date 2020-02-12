@@ -1,5 +1,7 @@
 vendor/
 tmp/
+config/tmp/
+config/args
 composer.lock
 .project
 .buildpath
