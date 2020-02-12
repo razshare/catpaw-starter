@@ -15,7 +15,7 @@ return [
         "size" => "1024M"
     ],
     "compress" => ["deflate"],
-    "header" => [
+    "headers" => [
         "Cache-Control" => "no-store"
     ]
 ];
