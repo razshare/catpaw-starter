@@ -1,4 +1,5 @@
 <?php
+use com\github\tncrazvan\catpaw\controller\http\EntryPoint;
 return [
     "port" => 80,
     "webRoot" => "../www",
@@ -8,7 +9,10 @@ return [
         "minify" => "minify --type=@type \"@filename\""
     ],
     "controllers" => [
-        "http"=>[],
+        "http"=>[
+            "/about" => EntryPoint::class,
+            "/home" => EntryPoint::class
+        ],
         "websocket"=>[]
     ],
     "sessionName" => "_SESSION",
