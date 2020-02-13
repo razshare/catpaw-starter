@@ -1,13 +1,15 @@
 <?php
 return [
     "port" => 80,
-    "editor" => "code @filename",
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",
+    "scripts" => [
+        "editor" => "code @filename",
+        "minify" => "minify --type=@type \"@filename\""
+    ],
     "controllers" => [
-        "http" => "app\\http",
-        "ws" => "app\\websocket",
-        "editorScript" => "code @filename"
+        "http"=>[],
+        "websocket"=>[]
     ],
     "sessionName" => "_SESSION",
     "ramSession" => [
