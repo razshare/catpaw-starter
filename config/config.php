@@ -1,5 +1,8 @@
 <?php
-use com\github\tncrazvan\catpaw\controller\http\EntryPoint;
+
+use app\http\About;
+use app\http\Home;
+
 return [
     "port" => 80,
     "webRoot" => "../www",
@@ -10,8 +13,8 @@ return [
     ],
     "controllers" => [
         "http"=>[
-            "/about" => EntryPoint::class,
-            "/home" => EntryPoint::class
+            "/about" => About::class,
+            "/home" => Home::class
         ],
         "websocket"=>[]
     ],
