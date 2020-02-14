@@ -1,4 +1,4 @@
 <?php
 namespace app\http;
 
-class Home extends \com\github\tncrazvan\catpaw\controller\http\App{}
+class Home extends \com\github\tncrazvan\catpaw\controller\http\EntryPoint{}
