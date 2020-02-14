@@ -7,6 +7,7 @@ return [
     "port" => 80,
     "webRoot" => "../www",
     "bindAddress" => "0.0.0.0",
+    "namespace" => "app",
     "scripts" => [
         "editor" => "code @filename",
         "minify" => "minify --type=@type \"@filename\""
