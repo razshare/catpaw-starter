@@ -13,3 +13,4 @@ config/http.json
 config/assets.php
 config/certificate.pem
 certificate.pem
+*.log
