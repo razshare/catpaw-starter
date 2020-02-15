@@ -1,7 +1,8 @@
 <?php
 
-use app\http\About;
 use app\http\Home;
+use app\http\Test;
+use app\http\About;
 
 return [
     "port" => 80,
@@ -15,7 +16,8 @@ return [
     "controllers" => [
         "http"=>[
             "/about" => About::class,
-            "/home" => Home::class
+            "/home" => Home::class,
+            "/test" => Test::class
         ],
         "websocket"=>[]
     ],
