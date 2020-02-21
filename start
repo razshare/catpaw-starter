@@ -11,5 +11,5 @@ ob_implicit_flush();
 $server = new CatPaw($argv);
 $minifier = $server->minifier($server->so->scripts["minify"],$server->so->webRoot."/imports.json");
 $server->listen(function() use (&$minifier){
-    $minifier->minify();
-},10);
+    $minifier->minify(false);
+},100);

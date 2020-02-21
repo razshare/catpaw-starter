@@ -1,21 +1,26 @@
 [
     "/css/fonts/meterial.css",
     "/css/materialize.css",
+    "/css/hopscotch.css",
+    "/css/highlighter.css",
+    "/css/style.css",
 
-    "/js/Materialize/materialize.js",
-    
-    "../vendor/tncrazvan/elk/Main.js",
+    "/js/Elk/Main.js",
+    "/js/highlighter.js",
+    "/js/materialize.js",
 
-    "/Component/Wrapper/Nav.js",
-    "/Component/Wrapper/Content.js",
-    "/Component/Wrapper/Container.js",
+    "/js/Component/Assets/Button.js",
+    "/js/Component/Assets/Coding.js",
+    "/js/Component/Assets/DeleteArticle.js",
+    "/js/Component/Assets/NavButton.js",
+    "/js/Component/Assets/SectionTitle.js",
 
-    "/Component/Modal/FloatingModal.js",
+    "/js/Component/Modals/FixedModal.js",
+    "/js/Component/Modals/FloatingModal.js",
 
-    "/Component/Form/Input/TextInput.js",
+    "/js/Component/Wrappers/Container.js",
+    "/js/Component/Wrappers/Content.js",
+    "/js/Component/Wrappers/Nav.js",
 
-    "/Component/Button.js",
-    "/Component/NavButton.js",
-
-    "/index.js"
+    "/js/index.js"
 ]

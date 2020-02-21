@@ -1,7 +1,6 @@
 <?php
 
 use app\http\Home;
-use app\http\Test;
 use app\http\About;
 
 return [
@@ -16,8 +15,7 @@ return [
     "controllers" => [
         "http"=>[
             "/about" => About::class,
-            "/home" => Home::class,
-            "/test" => Test::class
+            "/home" => Home::class
         ],
         "websocket"=>[]
     ],

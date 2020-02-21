@@ -1,0 +1,14 @@
+<div extends="Nav" id="nav" export>
+  <Container style="border-bottom: 1px solid #2e2a38;padding-bottom: 0.5em">
+      <NavButton 
+      :foreach="this.list" 
+      :data-action="this.action" 
+      :data-state="this.state" 
+      :data-view="this.view" 
+      :html="this.text"></NavButton>
+
+      <FloatingModal id="modal" 
+      header="Add to apps" 
+      message="Would you like to add this service to your app list?"></FloatingModal>
+  </Container>
+</div>
