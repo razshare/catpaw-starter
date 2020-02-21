@@ -1,13 +1,12 @@
 [
     "/css/fonts/meterial.css",
     "/css/materialize.css",
-    "/css/hopscotch.css",
     "/css/highlighter.css",
+    "/css/hopscotch.css",
     "/css/style.css",
 
-    "/js/Elk/Main.js",
-    "/js/highlighter.js",
     "/js/materialize.js",
+    "/js/Elk/Main.js",
 
     "/js/Component/Assets/Button.js",
     "/js/Component/Assets/Coding.js",
@@ -21,6 +20,8 @@
     "/js/Component/Wrappers/Container.js",
     "/js/Component/Wrappers/Content.js",
     "/js/Component/Wrappers/Nav.js",
+
+    "/js/highlighter.js",
 
     "/js/index.js"
 ]

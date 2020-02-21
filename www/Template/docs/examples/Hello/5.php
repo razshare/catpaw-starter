@@ -1,5 +1,4 @@
 <?php
-
 namespace app\http;
 
 use com\github\tncrazvan\catpaw\tools\Status;

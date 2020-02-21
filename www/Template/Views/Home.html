@@ -27,7 +27,7 @@
         this.data={
             project:{
                 location: "tncrazvan/catpawskeleton",
-                http: await (await fetch("/Template/docs/examples/config.txt")).text(),
+                http: (await (await fetch("/Template/docs/examples/config.php")).text()).replace(REGEX,""),
                 example: {
                     controller1: (await (await fetch("/Template/docs/examples/Hello/1.php")).text()).replace(REGEX,""),
                     controller3: (await (await fetch("/Template/docs/examples/Hello/3.php")).text()).replace(REGEX,""),
@@ -60,12 +60,12 @@
             In order to run the server you'll need composer.<br />
             Composer is a package manager for php and it also offser an autoloader.
             <hr>
-            <a extends="Button" style="color: #c54531" target="_blank" href="https://getcomposer.org/"><b>Download composer</b></a>
+            <a :extends="Button" style="color: #c54531" target="_blank" href="https://getcomposer.org/"><b>Download composer</b></a>
         </li>
         <li class="collection-item">
             <b>Make a project</b><br />
             Run 
-            <Coding language="bash">composer create-project <b asd :html="this.$parent.$parent.project.location"></b> ProjectName -sdev</Coding>
+            <Coding language="bash">composer create-project <b :html="this.$parent.$parent.project.location"></b> ProjectName -sdev</Coding>
             to make a new CatPaw project from the public skeleton template
         </li>
         <li class="collection-item">
@@ -120,13 +120,13 @@
                 Make a new file under <b>/controllers/http/</b> named <b>Hello.php</b> 
                 and throw in the basics: namespace and a class with the same name as the file:
             </p>
-            <Coding language="php">@this.project.example.controller1</Coding>
+            <Coding language="php" :html="this.$parent.project.example.controller1"></Coding>
         </li>
         <li class="collection-item">
             <p>
                 Now we extend the HttpController in order to allow this class to act as a controller.
             </p>
-            <Coding language="php">@this.project.example.controller3</Coding>
+            <Coding language="php" :html="this.$parent.project.example.controller3"></Coding>
         </li>
         <li class="collection-item">
             <p>
@@ -148,11 +148,11 @@
                 Note that HttpController extends HttpEvent, thus your controller inherits HttpEvent::send.<br />
                 Here's an example:
             </p>
-            <Coding language="php">@this.project.example.controller4</Coding>
+            <Coding language="php" :html="this.$parent.project.example.controller4"></Coding>
             <p>
                 Another way of replying is to return a proper HttpResponse object.
             </p>
-            <Coding language="php">@this.project.example.controller5</Coding>
+            <Coding language="php" :html="this.$parent.project.example.controller5"></Coding>
         </li>
     </ul>
 </Home>
