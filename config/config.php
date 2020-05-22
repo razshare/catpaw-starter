@@ -5,16 +5,14 @@ use app\http\About;
 
 return [
     "port" => 80,
-    "webRoot" => "../www",
+    "webRoot" => "../www/public",
     "bindAddress" => "0.0.0.0",
     "namespace" => "app",
     "scripts" => [
-        "editor" => "code @filename",
-        "minify" => "minify --type=@type \"@filename\""
+        "editor" => "code @filename"
     ],
     "controllers" => [
         "http"=>[
-            "/about" => About::class,
             "/home" => Home::class
         ],
         "websocket"=>[]
