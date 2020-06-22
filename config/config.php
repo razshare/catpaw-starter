@@ -1,7 +1,6 @@
 <?php
 
 use app\http\Home;
-use app\http\About;
 
 return [
     "port" => 80,
