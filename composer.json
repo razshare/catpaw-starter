@@ -1,9 +1,9 @@
 {
-	"name":"tncrazvan/catpawskeleton",
+	"name":"tncrazvan/catpaw-template",
 	"type": "project",
 	"description": "A php CatServer template",
 	"keywords": ["php","cli","server","http","websocket","catserver","template"],
-	"homepage": "https://github.com/tncrazvan/CatPawSkeleton",
+	"homepage": "https://github.com/tncrazvan/catpaw-template",
 	"license": "MIT",
 	"authors": [
 		{
