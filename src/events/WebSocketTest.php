@@ -1,5 +1,7 @@
 <?php
 namespace app\websockettest;
+
+use com\github\tncrazvan\catpaw\tools\LinkedList;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventInterface;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
@@ -25,9 +27,13 @@ class Message extends WebSocketEventOnMessage{
     public function __construct(WebSocketEvent $e){
         $this->e = $e;
     }
-    public function run(string &$data):void{
-        echo "Received size:".strlen($data)."\n";
-        $this->e->commit("reply:$data");
+    public function run(LinkedList &$fragments):void{
+        $fragments->iterate(LinkedList::IT_MODE_FIFO,function(LinkedList $payload) use(&$size){
+            $payload->iterate(LinkedList::IT_MODE_FIFO,function($c) use(&$size){
+                echo $c;
+            });
+        });
+        echo "\n";
     }
 }
 
