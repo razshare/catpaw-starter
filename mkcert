@@ -10,10 +10,10 @@
     This has only been tested on Linux Ubuntu 18.04 LTS.
 */
 chdir(dirname(__FILE__));
-require_once 'vendor/autoload.php';
+require_once './vendor/autoload.php';
 use com\github\tncrazvan\catpaw\tools\OpenSSL;
 
-$blueprint = include("config/certificate.php");
+$blueprint = include("./config/certificate.php");
 
 /*
 return [

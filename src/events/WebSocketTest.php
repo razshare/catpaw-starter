@@ -1,12 +1,12 @@
 <?php
 namespace app\websockettest;
-use com\github\tncrazvan\catpaw\websocket\WebSocketClassEvent;
+use com\github\tncrazvan\catpaw\websocket\WebSocketEventInterface;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnOpen;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnMessage;
 
-class WebSocketTest extends WebSocketClassEvent{
+class WebSocketTest implements WebSocketEventInterface{
     public function __construct(WebSocketEvent $event,?WebSocketEventOnOpen &$onOpen = null,?WebSocketEventOnMessage &$onMessage = null, ?WebSocketEventOnClose &$onClose = null){
         $onOpen = new Open();
         $onMessage = new Message($event);
@@ -26,8 +26,8 @@ class Message extends WebSocketEventOnMessage{
         $this->e = $e;
     }
     public function run(string &$data):void{
-        echo "Received:$data\n";
-        $this->e->commit("back at you: $data");
+        echo "Received size:".strlen($data)."\n";
+        $this->e->commit("reply:$data");
     }
 }
 
