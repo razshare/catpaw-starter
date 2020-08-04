@@ -22,23 +22,36 @@ class Open extends WebSocketEventOnOpen{
     }
 }
 
+
+
+
+
+
+
+
+
+
+
 class Message extends WebSocketEventOnMessage{
     private WebSocketEvent $e;
     public function __construct(WebSocketEvent $e){
         $this->e = $e;
     }
     public function run(LinkedList &$fragments):void{
-        $size = 0;
-        $fragments->iterate(
-            LinkedList::IT_MODE_FIFO,function(LinkedList $payload) use(&$size){
-                $payload->iterate(LinkedList::IT_MODE_FIFO,function() use(&$size){
-                    $size++;
-                }); 
-            }
-        );
-        echo "size: $size\n";
+        $message = '';
+        self::joinFragments($fragments,$message,LinkedList::IT_MODE_FIFO);
+        \file_put_contents("./test.txt",$message);
+        echo "DONE!\n";
     }
 }
+
+
+
+
+
+
+
+
 
 class Close extends WebSocketEventOnClose{
     public function run():void{
