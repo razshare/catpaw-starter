@@ -28,12 +28,15 @@ class Message extends WebSocketEventOnMessage{
         $this->e = $e;
     }
     public function run(LinkedList &$fragments):void{
-        $fragments->iterate(LinkedList::IT_MODE_FIFO,function(LinkedList $payload) use(&$size){
-            $payload->iterate(LinkedList::IT_MODE_FIFO,function($c) use(&$size){
-                echo $c;
-            });
-        });
-        echo "\n";
+        $size = 0;
+        $fragments->iterate(
+            LinkedList::IT_MODE_FIFO,function(LinkedList $payload) use(&$size){
+                $payload->iterate(LinkedList::IT_MODE_FIFO,function() use(&$size){
+                    $size++;
+                }); 
+            }
+        );
+        echo "size: $size\n";
     }
 }
 
