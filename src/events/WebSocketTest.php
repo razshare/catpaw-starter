@@ -23,15 +23,6 @@ class Open extends WebSocketEventOnOpen{
 }
 
 
-
-
-
-
-
-
-
-
-
 class Message extends WebSocketEventOnMessage{
     private WebSocketEvent $e;
     public function __construct(WebSocketEvent $e){
@@ -44,13 +35,6 @@ class Message extends WebSocketEventOnMessage{
         echo "DONE!\n";
     }
 }
-
-
-
-
-
-
-
 
 
 class Close extends WebSocketEventOnClose{
