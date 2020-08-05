@@ -5,6 +5,7 @@ use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventInterface;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
 use com\github\tncrazvan\catpaw\tools\Http;
+use com\github\tncrazvan\catpaw\tools\ServerFile;
 
 class HomePage implements HttpEventInterface{
     private string $test;
@@ -16,7 +17,7 @@ class HomePage implements HttpEventInterface{
     }
     public function run(){
         echo "Received test param:$this->test\n";
-        return Http::getFile($this->e,$this->e->listener->so->webRoot,"index.html");
+        return ServerFile::response($this->e,$this->e->listener->so->webRoot,"index.html");
     }
 }
 
