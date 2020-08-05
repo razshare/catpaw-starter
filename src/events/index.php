@@ -13,7 +13,8 @@ class HomePage implements HttpEventInterface{
     public function __construct(string $test, HttpEvent $e, ?HttpEventOnClose &$onClose = null){
         $this->test = $test;
         $this->e=$e;
-        $onClose = new Close();
+        if($onClose !== null)
+            $onClose = new Close();
     }
     public function run(){
         echo "Received test param:$this->test\n";

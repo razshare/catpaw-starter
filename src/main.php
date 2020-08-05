@@ -13,7 +13,7 @@ use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnMessage;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnOpen;
 
-$webRoot = "../public/www/";
+$webRoot = "../public";
 
 return [
     "port" => 80,
