@@ -1,6 +1,11 @@
 <?php
     use com\github\tncrazvan\catpaw\tools\scripts\Script;
+    
     list($username) = Script::args();
+
+    $session = &Script::startSession();
+
+    $session["username"] = $username;
 ?>
 
 <!DOCTYPE html>
