@@ -4,10 +4,9 @@ namespace app\homepage;
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventInterface;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
-use com\github\tncrazvan\catpaw\tools\Http;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
 
-class HomePage implements HttpEventInterface{
+class HelloPage implements HttpEventInterface{
     private string $test;
     private HttpEvent $e;
     public function __construct(string $test, HttpEvent $e, ?HttpEventOnClose &$onClose = null){
