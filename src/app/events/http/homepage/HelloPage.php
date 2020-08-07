@@ -15,7 +15,7 @@ class HelloPage implements HttpEventInterface{
         if($onClose !== null)
             $onClose = new Close();
     }
-    public function run(){
+    public function get(){
         return ServerFile::response($this->e,$this->e->listener->so->webRoot,"index.html");
     }
 }
