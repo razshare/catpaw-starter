@@ -4,9 +4,9 @@ namespace app\events\http\homepage;
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventHandler;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
+use com\github\tncrazvan\catpaw\http\methods\HttpMethodGet;
+use com\github\tncrazvan\catpaw\http\methods\HttpMethodPost;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
-use HttpMethodGet;
-use HttpMethodPost;
 
 class HelloPage extends HttpEventHandler 
     implements HttpMethodGet,HttpMethodPost{
