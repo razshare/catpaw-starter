@@ -6,8 +6,10 @@ use com\github\tncrazvan\catpaw\http\HttpEventHandler;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
 use HttpMethodGet;
+use HttpMethodPost;
 
-class HelloPage extends HttpEventHandler implements HttpMethodGet{
+class HelloPage extends HttpEventHandler 
+    implements HttpMethodGet,HttpMethodPost{
     private string $test;
     private HttpEvent $e;
     private static int $i = 0;
@@ -18,6 +20,9 @@ class HelloPage extends HttpEventHandler implements HttpMethodGet{
             $onClose = new Close();
     }
     public function get(){
+        return ServerFile::response($this->e,$this->e->listener->so->webRoot,"index.html");
+    }
+    public function post(){
         yield;
         self::$i++;
         yield;
