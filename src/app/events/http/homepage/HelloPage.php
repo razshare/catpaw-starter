@@ -17,7 +17,14 @@ class HelloPage extends HttpEventHandler implements HttpMethodGet/*,HttpMethodPo
             $onClose = new Close();
     }
     public function get(){
-        return ServerFile::response($this->e,$this->e->listener->so->webRoot,"index.html");
+        $i = 0;
+        yield;
+        $i++;
+        yield;
+        $i++;
+        yield;
+        $i++;
+        return $i;
     }
 }
 
