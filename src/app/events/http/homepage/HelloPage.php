@@ -19,8 +19,6 @@ class HelloPage extends HttpEventHandler
         $this->e=$e;
         if($onClose !== null)
             $onClose = new Close();
-
-        print_r($user);
     }
     public function get(){
         return ServerFile::response($this->e,$this->e->listener->so->webRoot,"index.html");

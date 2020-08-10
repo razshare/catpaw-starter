@@ -19,8 +19,7 @@ return [
             "/hello/{test}"  => fn(string $test,HttpEvent $e,HttpEventOnClose &$onCLose)  => new HelloPage($test,$e,$onCLose),
             "/templating/{username}" => function(string $username){
                 return ServerFile::include('../public/index.php',$username);
-            }
-                
+            }  
         ],
         "websocket"=>[
             "/test"
