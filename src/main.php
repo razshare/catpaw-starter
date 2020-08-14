@@ -1,14 +1,16 @@
 <?php
 
 use app\events\http\homepage\HelloPage;
-use app\events\websocket\websockettest\WebSocketTest;
 use com\github\tncrazvan\catpaw\http\HttpEvent;
-use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
+use events\websocket\websockettest\WebSocketTest;
+use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
+use com\github\tncrazvan\catpaw\tools\HttpConsumer;
+use com\github\tncrazvan\catpaw\tools\HttpLiveBodyInjection;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
-use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnOpen;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnMessage;
+use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnOpen;
 
 return [
     "port" => 80,
@@ -16,7 +18,20 @@ return [
     "bindAddress" => "127.0.0.1",
     "events" => [
         "http"=>[
-            "/hello/{test}"  => fn(string $test,HttpEvent $e,HttpEventOnClose &$onCLose)  => new HelloPage($test,$e,$onCLose),
+            "/asd" => [
+                "http-consumer" => true,
+                "run" => function(string &$body, HttpConsumer $consumer){
+                    $file = \fopen("./test",'a');
+                    for($consumer->rewind();$consumer->hasMore();$consumer->consume($body)){
+                        \fwrite($file,$body);
+                        yield $consumer;
+                    }
+                    \fclose($file);
+
+                    return "done";
+                }
+            ],
+            "/hello/{test}"  => fn(string $test,HttpEvent $e,HttpEventOnClose &$onCLose) => new HelloPage($test,$e,$onCLose),
             "/templating/{username}" => function(string $username){
                 return ServerFile::include('../public/index.php',$username);
             }  

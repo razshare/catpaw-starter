@@ -1,5 +1,5 @@
 <?php
-namespace app\events\models;
+namespace models;
 class InputData{
     public string $username;
     public string $password;
