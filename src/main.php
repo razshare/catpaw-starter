@@ -1,11 +1,11 @@
 <?php
 
 use app\events\http\homepage\HelloPage;
+use com\github\tncrazvan\catpaw\http\HttpConsumer;
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
 use events\websocket\websockettest\WebSocketTest;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
-use com\github\tncrazvan\catpaw\tools\HttpConsumer;
 use com\github\tncrazvan\catpaw\tools\HttpLiveBodyInjection;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
@@ -22,7 +22,7 @@ return [
                 "http-consumer" => true,
                 "run" => function(string &$body, HttpConsumer $consumer){
                     $file = \fopen("./test",'a');
-                    for($consumer->rewind();$consumer->hasMore();$consumer->consume($body)){
+                    for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
                         \fwrite($file,$body);
                         yield $consumer;
                     }
