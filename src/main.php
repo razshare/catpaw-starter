@@ -18,19 +18,23 @@ return [
     "bindAddress" => "127.0.0.1",
     "events" => [
         "http"=>[
-            "/asd" => [
-                "http-consumer" => true,
-                "run" => function(string &$body, HttpConsumer $consumer){
-                    $file = \fopen("./test",'a');
-                    for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
-                        \fwrite($file,$body);
-                        yield $consumer;
-                    }
-                    \fclose($file);
+            "/asd-old" => function(string &$body){
+                $file = \fopen("./test",'a');
+                \fwrite($file,$body);
+                \fclose($file);
 
-                    return "done";
+                return "done";
+            },
+            "/asd" => function(string &$body, HttpConsumer $consumer){
+                $file = \fopen("./test",'a');
+                for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
+                    \fwrite($file,$body);
+                    yield $consumer;
                 }
-            ],
+                \fclose($file);
+
+                return "done";
+            },
             "/hello/{test}"  => fn(string $test,HttpEvent $e,HttpEventOnClose &$onCLose) => new HelloPage($test,$e,$onCLose),
             "/templating/{username}" => function(string $username){
                 return ServerFile::include('../public/index.php',$username);
