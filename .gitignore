@@ -14,3 +14,4 @@ config/assets.php
 config/certificate.pem
 certificate.pem
 *.log
+*.exe

@@ -16,17 +16,26 @@ return [
     "port" => 80,
     "webRoot" => "../public",
     "bindAddress" => "127.0.0.1",
+    "httpMtu" => 1024*1024*5, //5 MB
     "events" => [
         "http"=>[
-            "/asd-old" => function(string &$body){
-                $file = \fopen("./test",'a');
+            "@forward" => [ //forward requests to routes (order matters)
+                "/upload/{filename}" => "/asd/{filename}",
+                "/upload-old/{filename}" => "/asd-old/{filename}",
+            ],
+            "/asd-old/{filename}" => function(string $filename, string &$body){
+                if(!\file_exists("uploads/default"))
+                    mkdir("uploads/default",0777,true);
+                $file = \fopen("./uploads/default/$filename",'a');
                 \fwrite($file,$body);
                 \fclose($file);
 
                 return "done";
             },
-            "/asd" => function(string &$body, HttpConsumer $consumer){
-                $file = \fopen("./test",'a');
+            "/asd/{filename}" => function(string $filename, string &$body, HttpConsumer $consumer){
+                if(!\file_exists("uploads/consumer"))
+                    mkdir("uploads/consumer",0777,true);
+                $file = \fopen("./uploads/consumer/$filename",'a');
                 for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
                     \fwrite($file,$body);
                     yield $consumer;
