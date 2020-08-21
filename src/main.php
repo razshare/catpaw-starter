@@ -14,7 +14,7 @@ use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnOpen;
 
 return [
     "port" => 80,
-    "webRoot" => "../www",
+    "webRoot" => "../public",
     "bindAddress" => "127.0.0.1",
     "httpMtu" => 1024*1024*5, //5 MB
     "events" => [
