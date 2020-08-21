@@ -16,6 +16,7 @@ return [
     "port" => 80,
     "webRoot" => "../public",
     "bindAddress" => "127.0.0.1",
+    "httpMaxBodyLength" => 1024*1024*200, //200 MB max for http requests (this only applies for non consumer events)
     "httpMtu" => 1024*1024*5, //5 MB
     "events" => [
         "http"=>[
