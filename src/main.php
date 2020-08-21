@@ -6,7 +6,6 @@ use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
 use events\websocket\websockettest\WebSocketTest;
 use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
-use com\github\tncrazvan\catpaw\tools\HttpLiveBodyInjection;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnClose;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEventOnMessage;
