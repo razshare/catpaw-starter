@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    hello world<br />
+    <input id="upload_old" type="file" />
+        <button id="upload_old_btn">upload whole file</button><br />
+
+    <input id="upload" type="file" />
+        <button id="upload_btn">upload whole file using consumer</button>
+    
+    <script>
+        upload_old_btn.onclick=async e=>{
+            if(upload_old.files.length === 0)
+                return;
+            let file = upload_old.files[0];
+            let response = await fetch("/upload-old/"+file.name,{
+                method: "POST",
+                body: file
+            });
+            response = await response.text();
+            console.log("response (old):",response);
+        };
+
+        upload_btn.onclick=async e=>{
+            if(upload.files.length === 0)
+                return;
+            let file = upload.files[0];
+            let response = await fetch("/upload/"+file.name,{
+                method: "POST",
+                body: file
+            });
+            response = await response.text();
+            console.log("response (old):",response);
+        };
+
+    </script>
+</body>
+</html>
