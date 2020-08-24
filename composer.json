@@ -22,7 +22,6 @@
 	"require": {
 		"php": ">=7.4.8",
 		"tncrazvan/catpaw":">=0.9.0",
-		"tncrazvan/phporm":">=1.0.0",
 		"tncrazvan/asciitable": ">=1.0.0"
 	},
 	"config": {
