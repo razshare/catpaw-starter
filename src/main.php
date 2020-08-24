@@ -16,7 +16,10 @@ return [
     "webRoot" => "../public",
     "asciiTable" => true,
     "bindAddress" => "127.0.0.1",
-    "httpMaxBodyLength" => 1024*1024*200, //200 MB max for http requests (this only applies for non consumer events)
+    "httpMaxBodyLength" => 1024*1024*200,   //200 MB max read paylod for http requests.
+                                            //The above rule will not apply to http consumers,
+                                            //http consumers have no read payload limit because they free memory with each
+                                            //sequential read, which avoid memory overflow.
     "httpMtu" => 1024*1024*5, //5 MB
     "events" => [
         "http"=>[
@@ -24,27 +27,31 @@ return [
                 "/upload/{filename}" => "/asd/{filename}",
                 "/upload-old/{filename}" => "/asd-old/{filename}",
             ],
-            "/asd-old/{filename}" => function(string $filename, string &$body){
-                if(!\file_exists("uploads/default"))
-                    mkdir("uploads/default",0777,true);
-                $file = \fopen("./uploads/default/$filename",'a');
-                \fwrite($file,$body);
-                \fclose($file);
-
-                return "done";
-            },
-            "/asd/{filename}" => function(string $filename, string &$body, HttpConsumer $consumer){
-                if(!\file_exists("uploads/consumer"))
-                    mkdir("uploads/consumer",0777,true);
-                $file = \fopen("./uploads/consumer/$filename",'a');
-                for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
+            "/asd-old/{filename}" => [
+                "POST" => function(string $filename, string &$body){
+                    if(!\file_exists("uploads/default"))
+                        mkdir("uploads/default",0777,true);
+                    $file = \fopen("./uploads/default/$filename",'a');
                     \fwrite($file,$body);
-                    yield $consumer;
+                    \fclose($file);
+    
+                    return "done";
                 }
-                \fclose($file);
-
-                return "done";
-            },
+            ],
+            "/asd/{filename}" => [
+                "POST" => function(string $filename, string &$body, HttpConsumer $consumer){
+                    if(!\file_exists("uploads/consumer"))
+                        mkdir("uploads/consumer",0777,true);
+                    $file = \fopen("./uploads/consumer/$filename",'a');
+                    for($consumer->rewind();$consumer->valid();$consumer->consume($body)){
+                        \fwrite($file,$body);
+                        yield $consumer;
+                    }
+                    \fclose($file);
+    
+                    return "done";
+                }
+            ],
             "/hello/{test}"  => fn(string $test,HttpEvent $e,HttpEventOnClose &$onCLose) => new HelloPage($test,$e,$onCLose),
             "/templating/{username}" => function(string $username){
                 return ServerFile::include('../public/index.php',$username);
