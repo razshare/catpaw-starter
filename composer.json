@@ -21,8 +21,8 @@
 	"minimum-stability":"dev",
 	"require": {
 		"php": ">=7.4.8",
-		"tncrazvan/catpaw":">=0.9.0",
-		"tncrazvan/asciitable": ">=1.0.0"
+		"tncrazvan/catpaw":"dev-master",
+		"tncrazvan/asciitable": "dev-master"
 	},
 	"config": {
 		"preferred-install": "source"
