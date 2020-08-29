@@ -18,11 +18,10 @@
 			"":["src"]
 		}
 	},
-	"minimum-stability":"dev",
 	"require": {
 		"php": ">=7.4.8",
-		"tncrazvan/catpaw":"dev-master",
-		"tncrazvan/asciitable": "dev-master"
+		"tncrazvan/catpaw":">=1.0.1",
+		"tncrazvan/asciitable": ">=1.0.0"
 	},
 	"config": {
 		"preferred-install": "source"
