@@ -16,3 +16,4 @@ certificate.pem
 *.log
 *.exe
 composer.json
+*.pem
