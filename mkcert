@@ -127,7 +127,7 @@ while(true){
     if(preg_match('/^[0-9]*$/',$validity)) break;
     echo "[Validity] must be a numeric value or empty string, in which case the value will be set to 365 days by default. Try again.\n";
 }
-$passphrase = readline("Passphrase (optional): ");
+$passphrase = OpenSSL::readLineSilent("Passphrase (optional): ");
 echo "Your certificate will be valid for $validity days.\n";
 $filename = "./config/certificate.pem";
 if(OpenSSL::mkcert($blueprint,$filename,$passphrase,intval($validity))){
