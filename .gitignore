@@ -17,3 +17,4 @@ certificate.pem
 *.exe
 composer.json
 *.pem
+public/

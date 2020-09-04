@@ -32,6 +32,7 @@ class Message extends WebSocketEventOnMessage{
         $message = '';
         self::joinFragments($fragments,$message,LinkedList::IT_MODE_FIFO);
         \file_put_contents("./test.txt",$message);
+        $this->e->commit($message);
         echo "DONE!\n";
     }
 }
