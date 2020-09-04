@@ -1,23 +1,16 @@
 #!/usr/bin/php
 <?php
 /**
- * Makes a PEM certificate based on the information located in config/certificate.php
- * @param $argv[1] Passphrase
- * @param $argv[2] Expiration (in days)
+ * Makes a PEM certificate.
+ * NOTE: You need to have OpenSSL installed on your system.
+ * Tested on Ubuntu 18.04 LTS.
  */
-/*
-    NOTE: You need to have OpenSSL installed on your system.
-    This has only been tested on Linux Ubuntu 18.04 LTS.
-*/
 chdir(dirname(__FILE__));
 require_once './vendor/autoload.php';
 use com\github\tncrazvan\catpaw\tools\OpenSSL;
 
-$blueprint = include("./config/certificate.php");
-
-/*
-return [
-    "countryName" => "_____", //your organization country
+$blueprint = [
+    "countryName" => "__", //your organization country (2 letters, for example "US")
     "stateOrProvinceName" => "_____", //your organization province or state
     "localityName" => "_____", //your organization city or town
     "organizationName" => "__________", //your organization name
@@ -25,7 +18,6 @@ return [
     "commonName" => "__________.___", //your organization website address
     "emailAddress" => "__________@__________.___" //your organization email address
 ];
-*/
 
 $first=true;
 while(true){
