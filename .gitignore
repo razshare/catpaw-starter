@@ -8,10 +8,7 @@ composer.lock
 .vscode/
 .settings/
 nbproject/
-config/_SESSION/
-config/http.json
-config/assets.php
-config/certificate.pem
+_SESSION/
 certificate.pem
 *.log
 *.exe
