@@ -121,7 +121,7 @@ while(true){
 }
 $passphrase = OpenSSL::readLineSilent("Passphrase (optional): ");
 echo "Your certificate will be valid for $validity days.\n";
-$filename = "./config/certificate.pem";
+$filename = "./certificate.pem";
 if(OpenSSL::mkcert($blueprint,$filename,$passphrase,intval($validity))){
     echo "\n$filename created.\n";
 }
