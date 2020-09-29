@@ -1,5 +1,5 @@
 <?php
-namespace events\websocket\websockettest;
+namespace api\websocket\websockettest;
 
 use com\github\tncrazvan\catpaw\tools\LinkedList;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;

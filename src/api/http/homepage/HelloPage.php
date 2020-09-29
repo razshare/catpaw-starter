@@ -1,5 +1,5 @@
 <?php
-namespace events\http\homepage;
+namespace api\http\homepage;
 
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventHandler;
