@@ -24,6 +24,6 @@
 		"tncrazvan/asciitable": ">=1.0.0"
 	},
 	"config": {
-		"preferred-install": "source"
+		"preferred-install": "dist"
 	}
 }
