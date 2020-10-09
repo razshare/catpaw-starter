@@ -1,5 +1,5 @@
 <?php
-namespace api\http\homepage;
+namespace api\http;
 
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventHandler;
@@ -7,9 +7,8 @@ use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
 use com\github\tncrazvan\catpaw\http\methods\HttpMethodGet;
 use com\github\tncrazvan\catpaw\http\methods\HttpMethodPost;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
-use User;
 
-class HelloPage extends HttpEventHandler 
+class HelloPage extends HttpEventHandler
     implements HttpMethodGet,HttpMethodPost{
     private string $test;
     private HttpEvent $e;
@@ -39,3 +38,5 @@ class Close extends HttpEventOnClose{
         
     }
 }
+
+return fn(string $test,HttpEvent $e,HttpEventOnClose &$onClose) => new HelloPage($test,$e,$onClose);

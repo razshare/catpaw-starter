@@ -1,5 +1,5 @@
 <?php
-namespace api\websocket\websockettest;
+namespace api\websocket;
 
 use com\github\tncrazvan\catpaw\tools\LinkedList;
 use com\github\tncrazvan\catpaw\websocket\WebSocketEvent;
@@ -43,3 +43,10 @@ class Close extends WebSocketEventOnClose{
         echo "bye!\n";
     }
 }
+
+return fn(
+    WebSocketEvent &$e,
+    WebSocketEventOnOpen &$onOpen,
+    WebSocketEventOnMessage &$onMessage,
+    WebSocketEventOnClose &$onClose) 
+    => new WebSocketTest($e,$onOpen,$onMessage,$onClose);
