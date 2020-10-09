@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-chdir(dirname(__FILE__));
+chdir(dirname(__FILE__).'/..');
 error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
@@ -17,16 +17,15 @@ $_current_error = '';
 $_last_error_table = null;
 while(true){
     try{
-        chdir(dirname(__FILE__).'/src');
+        chdir(dirname(__FILE__).'/../src');
         $config = require('main.php');
-        chdir(dirname(__FILE__));
         $server = new CatPaw($config);
 
         if(isset($argv[1]) && $argv[1] === 'dev'){
             $delay = isset($argv[2])?\intval($argv[2]):100;
             $server->listen(function() use (&$_files_last_changed,&$_last_error_shown,&$_current_error,&$delay){
                 $files = [];
-                Dir::findFilesRecursive(dirname(__FILE__)."/src",$files);
+                Dir::findFilesRecursive(dirname(__FILE__)."/../src",$files);
         
                 foreach($files as &$file){
                     $name = $file['name'];
@@ -36,7 +35,7 @@ while(true){
                             $_current_error = '';
                             echo "Restarting server...\n";
                             $_files_last_changed[$name] = $file['lastChange'];
-                            return -1; //stop the server
+                            exit; //stop the server
                         }
                     }
                     $_files_last_changed[$name] = $file['lastChange'];
@@ -46,7 +45,6 @@ while(true){
             });
         }else{
             $server->listen();
-            usleep(100000);
         }
     }catch(\Throwable $e){
         $trace = $e->getTraceAsString();
@@ -57,7 +55,14 @@ while(true){
         $_current_error = "$trace\n$code\n$file\n$file\n$line\n$message";
         if($_last_error_shown === '' || $_last_error_shown !== $_current_error){
             $_last_error_table = new AsciiTable();
-            $_last_error_table->add("Stack trace",$trace);
+            $_last_error_table->style(0,[
+                "width"=>50
+            ]);
+            $_last_error_table->style(1,[
+                "width"=>200
+            ]);
+
+            echo "$trace\n";
             $_last_error_table->add("Code",$code);
             $_last_error_table->add("File",$file);
             $_last_error_table->add("Line",$line);
@@ -65,6 +70,5 @@ while(true){
             echo $_last_error_table->toString()."\n";
             $_last_error_shown = $_current_error;
         }
-        usleep(100000);
     }
 }

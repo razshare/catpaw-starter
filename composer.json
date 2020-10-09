@@ -1,10 +1,15 @@
 {
 	"name":"tncrazvan/catpaw-template",
 	"type": "project",
-	"description": "A php CatServer template",
-	"keywords": ["php","cli","server","http","websocket","catserver","template"],
+	"description": "A php CatPaw template",
+	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
 	"license": "MIT",
+	"scripts":{
+		"dev": "sudo ./scripts/dev",
+		"mkcert": "sudo php ./scripts/mkcert.php",
+		"start": "sudo ./scripts/start"
+	},
 	"authors": [
 		{
 			"name": "Razvan Tanase",
@@ -15,7 +20,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"":["src"]
+			"":["scripts","src"]
 		}
 	},
 	"require": {
@@ -23,6 +28,7 @@
 		"tncrazvan/catpaw":">=1.1.3"
 	},
 	"config": {
-		"preferred-install": "dist"
+		"preferred-install": "dist",
+		"process-timeout":0
 	}
 }

@@ -1,8 +1,4 @@
 <?php
-chdir(dirname(__FILE__));
-
-use com\github\tncrazvan\catpaw\Event;
-
 return [
     "port" => 80,
     "webRoot" => "../public",
@@ -14,18 +10,18 @@ return [
                 '/upload-old/{filename}' => '/asd-old/{filename}',
             ],
 
-            "/home" => include './api/http/get_home.php',
+            "/home"                     => [    "GET"   =>      require './api/http/get_home.php'      ],
 
-            "/asd-old/{filename}" => ["POST" => include './api/http/post_asd_old.php'],
+            "/asd-old/{filename}"       => [    "POST"  =>      require './api/http/post_asd_old.php'  ],
 
-            "/asd/{filename}" => ["POST" => include './api/http/post_asd.php'],
+            "/asd/{filename}"           => [    "POST"  =>      require './api/http/post_asd.php'      ],
             
-            "/hello/{test}" => include './api/http/get_home.php',
+            "/hello/{test}"             => [    "GET"   =>      require './api/http/get_hello.php'     ],
 
-            "/templating/{username}" => include './api/http/templating.php'
+            "/templating/{username}"    => [    "GET"   =>      require './api/http/templating.php'    ],
         ],
         "websocket"=>[
-            "/test" => include './api/websocket/test.php'
+            "/test"                     => [    "GET"   =>      require './api/websocket/test.php'     ],
         ]
     ]
 ];
