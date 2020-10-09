@@ -1,6 +1,6 @@
 <?php
 return [
-    "port" => 80,
+    "port" => 80, 
     "webRoot" => "../public",
     "sessionName" => "../_SESSION",
     "events" => [

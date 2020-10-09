@@ -15,11 +15,12 @@ $_files_last_changed = [];
 $_last_error_shown = false;
 $_current_error = '';
 $_last_error_table = null;
+$count = isset($argv[3])?\intval($argv[3]):0;
 while(true){
     try{
         chdir(dirname(__FILE__).'/../src');
         $config = require('main.php');
-        $server = new CatPaw($config);
+        $server = new CatPaw($config,$count);
 
         if(isset($argv[1]) && $argv[1] === 'dev'){
             $delay = isset($argv[2])?\intval($argv[2]):100;
