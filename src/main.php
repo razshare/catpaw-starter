@@ -17,7 +17,7 @@ return [
             "/templating/{username}"    => [    "GET"   =>      require './api/http/templating.php'    ],
         ],
         "websocket"=>[
-            "/test"                     => [    "GET"   =>      require './api/websocket/test.php'     ],
+            "/test"                     => require './api/websocket/test.php',
         ]
     ]
 ];
