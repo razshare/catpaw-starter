@@ -18,7 +18,7 @@
             if(upload_old.files.length === 0)
                 return;
             let file = upload_old.files[0];
-            let response = await fetch("/upload-old/"+file.name,{
+            let response = await fetch("/file-old/"+file.name,{
                 method: "POST",
                 body: file
             });
@@ -30,7 +30,7 @@
             if(upload.files.length === 0)
                 return;
             let file = upload.files[0];
-            let response = await fetch("/upload/"+file.name,{
+            let response = await fetch("/file/"+file.name,{
                 method: "POST",
                 body: file
             });
