@@ -6,9 +6,9 @@
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
 	"license": "MIT",
 	"scripts":{
-		"dev": "sudo ./scripts/dev",
+		"dev": "sudo ./scripts/dev.sh",
 		"mkcert": "sudo php ./scripts/mkcert.php",
-		"start": "sudo ./scripts/start"
+		"start": "sudo ./scripts/start.sh"
 	},
 	"authors": [
 		{
