@@ -10,7 +10,6 @@ require 'vendor/autoload.php';
 use com\github\tncrazvan\asciitable\AsciiTable;
 use com\github\tncrazvan\catpaw\CatPaw;
 use com\github\tncrazvan\catpaw\tools\Dir;
-use com\github\tncrazvan\catpaw\tools\helpers\Event;
 use com\github\tncrazvan\catpaw\tools\helpers\Route;
 use com\github\tncrazvan\catpaw\tools\helpers\WebsocketRoute;
 
