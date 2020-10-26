@@ -1,24 +1,23 @@
 <?php
+
+use com\github\tncrazvan\catpaw\tools\helpers\Route;
+
+Route::get("/home",                     require './api/http/get_home.php');
+Route::get("/file-old/{filename}",      require './api/http/post_file_old.php');
+Route::get("/file/{filename}",          require './api/http/post_file.php');
+Route::get("/hello/{test}",             require './api/http/get_hello.php');
+Route::get("/templating/{username}",    require './api/http/templating.php');
+
+//Route::notFound(fn()=>"page not found, sorry");
+
+Route::forward('/upload/{filename}', '/asd/{filename}');
+Route::forward('/upload-old/{filename}', '/asd-old/{filename}');
+
 return [
     "port" => 80,
     "webRoot" => "../public",
     "sessionName" => "../_SESSION",
-    "asciiTable" => false,
-    "events" => [
-        "http"=>[
-            "@forward" => [
-                '/upload/{filename}' => '/asd/{filename}',
-                '/upload-old/{filename}' => '/asd-old/{filename}',
-            ],
-            "@404"                      => fn()=>"page not found, sorry",
-            "/home"                     => [    "GET"   =>      require './api/http/get_home.php'      ],
-            "/file-old/{filename}"      => [    "POST"  =>      require './api/http/post_file_old.php' ],
-            "/file/{filename}"          => [    "POST"  =>      require './api/http/post_file.php'     ],
-            "/hello/{test}"             => [    "GET"   =>      require './api/http/get_hello.php'     ],
-            "/templating/{username}"    => [    "GET"   =>      require './api/http/templating.php'    ],
-        ],
-        "websocket"=>[
-            "/test"                     => require './api/websocket/test.php',
-        ]
-    ]
+    "asciiTable" => true,
+    "httpMtu" => 1024 * 1024,
+    "httpMaxBodyLength" => 1024 * 1024 * 1024 * 20,
 ];

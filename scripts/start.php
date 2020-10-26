@@ -10,6 +10,9 @@ require 'vendor/autoload.php';
 use com\github\tncrazvan\asciitable\AsciiTable;
 use com\github\tncrazvan\catpaw\CatPaw;
 use com\github\tncrazvan\catpaw\tools\Dir;
+use com\github\tncrazvan\catpaw\tools\helpers\Event;
+use com\github\tncrazvan\catpaw\tools\helpers\Route;
+use com\github\tncrazvan\catpaw\tools\helpers\WebsocketRoute;
 
 $_files_last_changed = [];
 $count = isset($argv[3])?\intval($argv[3]):0;
@@ -76,6 +79,36 @@ set_error_handler(
 try{
     chdir(dirname(__FILE__).'/../src');
     $config = @require('main.php');
+
+    if(!isset($config["events"]))
+        $config["events"] = [
+            "http" => [],
+            "websocket" => []
+        ];
+
+    if(!isset($config["events"]["http"]))
+        $config["events"]["http"] = array();
+    
+    if(!isset($config["events"]["websocket"]))
+        $config["events"]["websocket"] = array();
+    
+
+    $extraRouteConfig = Route::getHttpEvents();
+    $extraWebsocketRouteConfig = WebsocketRoute::getWebsocketEvents();
+
+    foreach($extraRouteConfig as $path => &$block){
+        if(!isset($config["events"]["http"][$path]))
+            $config["events"]["http"][$path] = array();
+
+        foreach($block as $method => &$callback){
+            $config["events"]["http"][$path][$method] = $callback;
+        }
+    }
+
+    foreach($extraWebsocketRouteConfig as $path => &$callback){
+        $config["events"]["websocket"][$path] = $callback;
+    }
+
     $server = new CatPaw($config,$count);
 
     if(isset($argv[1]) && $argv[1] === 'dev'){
