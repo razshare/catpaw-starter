@@ -126,7 +126,6 @@ try{
             check_file_change($_files_last_changed);
             usleep(10000);
         }
-    else {
+    else 
         exit("Killing server...\n");
-    }
 }
