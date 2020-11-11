@@ -3,25 +3,23 @@ namespace api\http\handlers;
 
 use com\github\tncrazvan\catpaw\http\HttpEvent;
 use com\github\tncrazvan\catpaw\http\HttpEventHandler;
-use com\github\tncrazvan\catpaw\http\HttpEventOnClose;
-use com\github\tncrazvan\catpaw\http\methods\HttpMethodGet;
-use com\github\tncrazvan\catpaw\http\methods\HttpMethodPost;
 use com\github\tncrazvan\catpaw\tools\ServerFile;
 
-class Hello extends HttpEventHandler
-    implements HttpMethodGet,HttpMethodPost{
-    private string $test;
-    private HttpEvent $e;
+class Hello extends HttpEventHandler{
+
+    public static function map(\stdClass $e):array{
+        return [
+            static::target("GET", "/{username}", $e->get),
+            static::target("POST", "/", $e->post),
+        ];
+    }
+
+
+    public function get(HttpEvent $e, int $username){
+        return "hello $username!";
+    }
+
     private static int $i = 0;
-    public function __construct(string $test, HttpEvent $e, ?HttpEventOnClose &$onClose = null){
-        $this->test = $test;
-        $this->e=$e;
-        if($onClose !== null)
-            $onClose = new Close();
-    }
-    public function get(){
-        return ServerFile::response($this->e,$this->e->getHttpEventListener()->getSharedObject()->getWebRoot(),"index.html");
-    }
     public function post(){
         yield;
         self::$i++;
@@ -30,11 +28,5 @@ class Hello extends HttpEventHandler
         yield;
         self::$i++;
         return self::$i++;
-    }
-}
-
-class Close extends HttpEventOnClose{
-    public function run():void{
-        
     }
 }

@@ -46,7 +46,7 @@ function manage_throwable(\Throwable $e){
 
     echo "$trace\n";
     $table->add("Code",$code);
-    $table->add("File",$file);
+    $table->add("File","$file($line)");
     $table->add("Line",$line);
     $table->add("Message",$message);
     echo $table->toString()."\n";
@@ -121,8 +121,12 @@ try{
     }
 }catch(\Throwable $e){
     manage_throwable($e);
-    while(true){
-        check_file_change($_files_last_changed);
-        usleep(10000);
+    if(isset($argv[1]) && $argv[1] === 'dev') 
+        while(true){
+            check_file_change($_files_last_changed);
+            usleep(10000);
+        }
+    else {
+        exit("Killing server...\n");
     }
 }
