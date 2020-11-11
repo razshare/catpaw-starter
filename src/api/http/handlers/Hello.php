@@ -15,7 +15,7 @@ class Hello extends HttpEventHandler{
     }
 
 
-    public function get(HttpEvent $e, int $username){
+    public function get(string $username){
         return "hello $username!";
     }
 
