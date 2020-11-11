@@ -77,7 +77,22 @@ set_error_handler(
 
 try{
     chdir(dirname(__FILE__).'/../src');
-    $config = @require('main.php');
+    $config = require('main.php');
+    if(!is_array($config))
+        $config = [
+            "port" => 80,
+            "webRoot" => "../public",
+            "sessionName" => "../_SESSION",
+            "asciiTable" => false,
+            "httpMtu" => 1024 * 1024,
+            "httpMaxBodyLength" => 1024 * 1024 * 1024 * 20,
+        ];
+
+    if(!isset($config["port"]))
+        $config["port"] = 80;
+
+    if(!isset($config["webRoot"]))
+        $config["webRoot"] = "../public";
 
     if(!isset($config["events"]))
         $config["events"] = [
