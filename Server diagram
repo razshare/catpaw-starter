@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net" modified="2020-11-15T00:19:08.501Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="b2BV4nuho8yI5YO94Uhu" version="13.9.8" type="github">
+  <diagram id="8ZCvkTjQwKNvJjbv2cjB" name="Page-1">
+    <mxGraphModel dx="1422" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="lEfsinpkYx7kkaVaV9f4-1" target="lEfsinpkYx7kkaVaV9f4-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="414" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=10;endArrow=none;endFill=0;" parent="1" source="lEfsinpkYx7kkaVaV9f4-1" target="lEfsinpkYx7kkaVaV9f4-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=10;endArrow=none;endFill=0;" parent="1" source="lEfsinpkYx7kkaVaV9f4-1" target="lEfsinpkYx7kkaVaV9f4-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-1" value="new CatPaw($settings)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="350" y="50" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" parent="1" source="lEfsinpkYx7kkaVaV9f4-1" target="lEfsinpkYx7kkaVaV9f4-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="180" as="targetPoint" />
+            <mxPoint x="480" y="80" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="1" source="lEfsinpkYx7kkaVaV9f4-3" target="lEfsinpkYx7kkaVaV9f4-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-3" value="&lt;font style=&quot;font-size: 10px&quot;&gt;$server-&amp;gt;listen()&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="100" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-5" value="&lt;b&gt;new SharedObject($settings)&lt;/b&gt;&lt;br&gt;&lt;i&gt;&lt;font style=&quot;font-size: 9px&quot;&gt;&lt;u&gt;$settings&lt;/u&gt; is the array returned by the &lt;u&gt;src/main.php&lt;/u&gt;&amp;nbsp;file&lt;/font&gt;&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="530" y="50" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-6" value="&lt;b&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;Setup session manager&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 9px&quot;&gt;&lt;i&gt;If the shared object defines that ram sessions are allowed, this sessions manager will &lt;u&gt;MOUNT&lt;/u&gt; all sessions in ram disk, otherwise it will &lt;u&gt;WRITE&lt;/u&gt;&amp;nbsp;them on disk.&lt;/i&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="530" y="190" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-8" value="&lt;b&gt;Setup server socket.&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 9px&quot;&gt;&lt;i&gt;If the shared object defines a certificate, this socket will be encrypted.&lt;/i&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="530" y="120" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="1" source="lEfsinpkYx7kkaVaV9f4-11" target="lEfsinpkYx7kkaVaV9f4-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-11" value="Make sure there are no infinite recursions for the event &quot;&lt;b&gt;@forward&lt;/b&gt;&quot;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="350" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="1" source="lEfsinpkYx7kkaVaV9f4-13" target="lEfsinpkYx7kkaVaV9f4-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-13" value="Start main loop" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="350" y="220" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-16" value="Main loop" style="swimlane;html=1;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="20" y="300" width="780" height="590" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-17" value="Read HTTP" style="swimlane;html=1;startSize=20;horizontal=0;" parent="lEfsinpkYx7kkaVaV9f4-16" vertex="1">
+          <mxGeometry y="20" width="780" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-29" value="Iterate queued &lt;b&gt;&lt;i&gt;HttpEvent&lt;/i&gt;&lt;/b&gt;s and read incoming data.&lt;br&gt;&lt;div&gt;This is also where the server will detect &lt;b&gt;&lt;i&gt;yeild&lt;/i&gt;&lt;/b&gt;ing callbacks and &lt;b&gt;&lt;i&gt;HttpConsumer&lt;/i&gt;&lt;/b&gt;s.&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-17" vertex="1">
+          <mxGeometry x="30" y="10" width="370" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-18" value="Write HTTP" style="swimlane;html=1;startSize=20;horizontal=0;" parent="lEfsinpkYx7kkaVaV9f4-16" vertex="1">
+          <mxGeometry y="100" width="780" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-31" value="Iterate queued &lt;b&gt;&lt;i&gt;HttpEvent&lt;/i&gt;&lt;/b&gt;s and send 1 commit of each request to the client..&lt;br&gt;This is also where the server will deal with generators accordingly.&lt;br&gt;A request is dequeued only when all commits have been sent or when a generator produces an error." style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-18" vertex="1">
+          <mxGeometry x="30" y="10" width="460" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-38" value="each HttpEvents" style="swimlane;fontSize=10;fontStyle=1" parent="lEfsinpkYx7kkaVaV9f4-18" vertex="1">
+          <mxGeometry x="30" y="60" width="740" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-40" target="lEfsinpkYx7kkaVaV9f4-41" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-40" value="&lt;b&gt;&lt;i&gt;HttpEvent&lt;/i&gt; $e&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="10" y="140" width="120" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-44" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-41" target="lEfsinpkYx7kkaVaV9f4-43" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-74" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-41" target="lEfsinpkYx7kkaVaV9f4-73" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-41" value="is generator?" style="rhombus;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="160" y="107.5" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-43" target="lEfsinpkYx7kkaVaV9f4-46" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="324" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-43" target="lEfsinpkYx7kkaVaV9f4-48" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="324" y="50" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-43" value="is it completed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="284" y="60" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-46" value="&lt;a href=&quot;https://www.php.net/manual/en/generator.next.php&quot;&gt;next()&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="350" y="138.75" width="50" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-48" target="lEfsinpkYx7kkaVaV9f4-50" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-48" value="get returned value" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="350" y="40" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=classic;endFill=1;strokeColor=#000000;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" source="lEfsinpkYx7kkaVaV9f4-50" target="lEfsinpkYx7kkaVaV9f4-52" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-50" value="convert value into commits" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="470" y="40" width="125" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-52" value="hide generator" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="620" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-55" value="Next time the main loop iterates through through this &lt;b&gt;&lt;i&gt;HttpEvent&lt;/i&gt;&lt;/b&gt;s queue, the question &quot;&lt;b&gt;&lt;i&gt;is generator&lt;/i&gt;&lt;/b&gt;&quot; will resolve to &quot;&lt;b&gt;&lt;i&gt;no&lt;/i&gt;&lt;/b&gt;&quot;, and &lt;b&gt;&lt;i&gt;push()&lt;/i&gt;&lt;/b&gt;" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;fontSize=10;position2=0.33;direction=west;size=30;position=0.33;base=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="490" y="64" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-73" value="&lt;a href=&quot;https://github.com/tncrazvan/catpaw/blob/7022b50436b54305c243930c37cd306be043c111/src/com/github/tncrazvan/catpaw/http/HttpEventManager.php#L265&quot;&gt;push()&lt;/a&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-38" vertex="1">
+          <mxGeometry x="270" y="210" width="50" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-19" value="WebSockets" style="swimlane;html=1;startSize=20;horizontal=0;" parent="lEfsinpkYx7kkaVaV9f4-16" vertex="1">
+          <mxGeometry y="470" width="780" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="lEfsinpkYx7kkaVaV9f4-32" value="Try push messages once and then try read messages once." style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=10;" parent="lEfsinpkYx7kkaVaV9f4-19" vertex="1">
+          <mxGeometry x="30" y="10" width="280" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
