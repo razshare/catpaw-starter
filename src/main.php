@@ -1,4 +1,14 @@
 <?php
+use com\github\tncrazvan\catpaw\attributes\Entry;
+use com\github\tncrazvan\catpaw\tools\helpers\Factory;
 use com\github\tncrazvan\catpaw\tools\helpers\Route;
+Factory::make(App::class);
 
-Route::get("/test",fn()=>"this is a test");
+class App{
+    #[Entry]
+    public static function main(string ...$args){
+        Route::get("/",function(){
+            return "hello world";
+        });
+    }
+}

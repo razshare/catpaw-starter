@@ -26,7 +26,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.1.3"
+		"tncrazvan/catpaw":">=2.1.4"
 	},
 	"config": {
 		"preferred-install": "dist",
