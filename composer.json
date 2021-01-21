@@ -9,6 +9,7 @@
 		"dev": "sudo ./scripts/dev.sh",
 		"mkcert": "sudo php ./scripts/mkcert.php",
 		"start": "sudo ./scripts/start.sh",
+		"enable-scripts":"sudo chmod +x ./scripts/*",
 		"sanitize-scripts": "sudo ./scripts/sanitizeln-default.sh"
 	},
 	"authors": [
