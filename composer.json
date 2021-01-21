@@ -27,8 +27,8 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.1.8",
-		"tncrazvan/phporm":">=2.0.1"
+		"tncrazvan/catpaw":">=2.2.0",
+		"tncrazvan/php-query-builder":">=2.1.0"
 	},
 	"config": {
 		"preferred-install": "dist",
