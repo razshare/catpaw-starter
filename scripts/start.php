@@ -77,7 +77,7 @@ set_error_handler(
 
 try{
     chdir(dirname(__FILE__).'/../src');
-    $config = require('main.php');
+    $config = require('App.php');
     if(!is_array($config))
         $config = [
             "port" => 80,
