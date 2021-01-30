@@ -16,42 +16,6 @@ use com\github\tncrazvan\catpaw\tools\helpers\WebsocketRoute;
 $_files_last_changed = [];
 $count = isset($argv[3])?\intval($argv[3]):0;
 
-function manage_throwable(\Throwable $e){
-    $trace = $e->getTraceAsString();
-    $code = $e->getCode();
-    $message = $e->getMessage();
-    $line = $e->getLine();
-    $file = $e->getFile();
-
-    $table = new AsciiTable();
-    $table->style(0,[
-        "width"=>50
-    ]);
-    $table->style(1,[
-        "width"=>128
-    ]);
-
-    $message_pieces = \preg_split('/\n/',$message);
-    $message = '';
-    $size = 0;
-    foreach($message_pieces as &$piece){
-        $l_size = strlen($piece);
-        $size += $l_size;
-        if($size >= 127){
-            $message .="\n";
-            $size = $l_size;
-        }
-        $message .=$piece;
-    }
-
-    echo "$trace\n";
-    $table->add("Code",$code);
-    $table->add("File","$file($line)");
-    $table->add("Line",$line);
-    $table->add("Message",$message);
-    echo $table->toString()."\n";
-}
-
 function check_file_change(&$_files_last_changed,bool $exit_immediately = true){
     $files = [];
     Dir::findFilesRecursive(dirname(__FILE__)."/../src",$files);
@@ -135,7 +99,8 @@ try{
         $server->listen();
     }
 }catch(\Throwable $e){
-    manage_throwable($e);
+    echo $e->getMessage()."\n";
+    echo $e->getTraceAsString()."\n";
     if(isset($argv[1]) && $argv[1] === 'dev') 
         while(true){
             check_file_change($_files_last_changed);

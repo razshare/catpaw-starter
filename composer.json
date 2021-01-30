@@ -22,12 +22,13 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"":["scripts","src"]
+			"scripts\\":"scripts/",
+			"my\\company\\":"src/my/company/"
 		}
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.2.0",
+		"tncrazvan/catpaw":">=2.2.6",
 		"tncrazvan/query-builder":">=2.1.1"
 	},
 	"config": {
