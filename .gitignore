@@ -15,5 +15,6 @@ certificate.pem
 composer.json
 *.pem
 public/
+!public/diagram.svg
 composer.phar
 _SESSION
