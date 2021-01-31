@@ -23,7 +23,7 @@
 	"autoload": {
 		"psr-4": {
 			"scripts\\":"scripts/",
-			"my\\company\\":"src/my/company/"
+			"":"src/"
 		}
 	},
 	"require": {

@@ -40,8 +40,8 @@ set_error_handler(
 );
 
 try{
-    chdir(dirname(__FILE__).'/../src');
-    $config = require('App.php');
+    chdir(dirname(__FILE__).'/..');
+    $config = require('catpaw.config.php');
     if(!is_array($config))
         $config = [
             "port" => 80,
