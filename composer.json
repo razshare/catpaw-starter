@@ -28,7 +28,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.2.6",
+		"tncrazvan/catpaw":">=2.2.7",
 		"tncrazvan/query-builder":">=2.1.1"
 	},
 	"config": {
