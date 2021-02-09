@@ -7,7 +7,6 @@ ob_implicit_flush();
 ini_set('memory_limit','-1');
 require 'vendor/autoload.php';
 
-use com\github\tncrazvan\asciitable\AsciiTable;
 use com\github\tncrazvan\catpaw\CatPaw;
 use com\github\tncrazvan\catpaw\tools\Dir;
 use com\github\tncrazvan\catpaw\tools\helpers\Route;
@@ -43,20 +42,25 @@ try{
     chdir(dirname(__FILE__).'/..');
     $config = require('catpaw.config.php');
     if(!is_array($config))
-        $config = [
-            "port" => 80,
-            "webRoot" => "../public",
-            "sessionName" => "../_SESSION",
-            "asciiTable" => false,
-            "httpMtu" => 1024 * 1024,
-            "httpMaxBodyLength" => 1024 * 1024 * 1024 * 20,
-        ];
+        $config = [];
 
     if(!isset($config["port"]))
         $config["port"] = 80;
 
     if(!isset($config["webRoot"]))
         $config["webRoot"] = "../public";
+
+    if(!isset($config["sessionName"]))
+        $config["sessionName"] = "../_SESSION";
+
+    if(!isset($config["asciiTable"]))
+        $config["asciiTable"] = false;
+
+    if(!isset($config["httpMtu"]))
+        $config["httpMtu"] = 1024 * 1024;
+
+    if(!isset($config["httpMaxBodyLength"]))
+        $config["httpMaxBodyLength"] = 1024 * 1024 * 1024 * 20;
 
     if(!isset($config["events"]))
         $config["events"] = [
