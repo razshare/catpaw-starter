@@ -48,10 +48,10 @@ try{
         $config["port"] = 80;
 
     if(!isset($config["webRoot"]))
-        $config["webRoot"] = "../public";
+        $config["webRoot"] = "public";
 
     if(!isset($config["sessionName"]))
-        $config["sessionName"] = "../_SESSION";
+        $config["sessionName"] = "_SESSION";
 
     if(!isset($config["asciiTable"]))
         $config["asciiTable"] = false;
