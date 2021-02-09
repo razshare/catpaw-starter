@@ -16,3 +16,4 @@ composer.json
 *.pem
 composer.phar
 _SESSION
+.history
