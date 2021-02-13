@@ -47,61 +47,18 @@ try{
     if(!isset($config["port"]))
         $config["port"] = 80;
 
-    if(!isset($config["webRoot"]))
-        $config["webRoot"] = "public";
-
-    if(!isset($config["sessionName"]))
-        $config["sessionName"] = "_SESSION";
-
-    if(!isset($config["asciiTable"]))
-        $config["asciiTable"] = false;
-
-    if(!isset($config["httpMtu"]))
-        $config["httpMtu"] = 1024 * 1024;
-
-    if(!isset($config["httpMaxBodyLength"]))
-        $config["httpMaxBodyLength"] = 1024 * 1024 * 1024 * 20;
-
-    if(!isset($config["events"]))
-        $config["events"] = [
-            "http" => [],
-            "websocket" => []
-        ];
-
-    if(!isset($config["events"]["http"]))
-        $config["events"]["http"] = array();
-    
-    if(!isset($config["events"]["websocket"]))
-        $config["events"]["websocket"] = array();
-    
-
-    $extraRouteConfig = Route::getHttpEvents();
-    $extraWebsocketRouteConfig = WebsocketRoute::getWebsocketEvents();
-
-    foreach($extraRouteConfig as $path => &$block){
-        if(!isset($config["events"]["http"][$path]))
-            $config["events"]["http"][$path] = array();
-
-        foreach($block as $method => &$callback){
-            $config["events"]["http"][$path][$method] = $callback;
-        }
-    }
-
-    foreach($extraWebsocketRouteConfig as $path => &$callback){
-        $config["events"]["websocket"][$path] = $callback;
-    }
-
-    $server = new CatPaw($config,$count);
-
     if(isset($argv[1]) && $argv[1] === 'dev'){
         $delay = isset($argv[2])?\intval($argv[2]):100;
-        $server->listen(function() use (&$_files_last_changed,&$delay){
+        $listen = function() use (&$_files_last_changed,&$delay){
             check_file_change($_files_last_changed,false);
             return $delay; //wait for $delay ms
-        });
-    }else{
-        $server->listen();
-    }
+        };
+    }else 
+        $listen = null;
+
+    $server = new CatPaw($config["port"],$listen);
+
+    
 }catch(\Throwable $e){
     echo $e->getMessage()."\n";
     echo $e->getTraceAsString()."\n";
