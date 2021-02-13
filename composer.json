@@ -28,7 +28,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.2.7",
+		"tncrazvan/catpaw":">=2.3.3",
 		"react/react": "^1.1"
 	},
 	"config": {
