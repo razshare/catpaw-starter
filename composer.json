@@ -4,7 +4,7 @@
 	"description": "A php CatPaw template",
 	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
-	"license": "MIT",
+	"license": "Apache-2",
 	"scripts":{
 		"dev": "sudo ./scripts/dev.sh",
 		"mkcert": "sudo php ./scripts/mkcert.php",
@@ -28,7 +28,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=2.3.3",
+		"tncrazvan/catpaw":">=2.3.5",
 		"react/react": "^1.1"
 	},
 	"config": {

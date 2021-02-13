@@ -41,11 +41,6 @@ set_error_handler(
 try{
     chdir(dirname(__FILE__).'/..');
     $config = require('catpaw.config.php');
-    if(!is_array($config))
-        $config = [];
-
-    if(!isset($config["port"]))
-        $config["port"] = 80;
 
     if(isset($argv[1]) && $argv[1] === 'dev'){
         $delay = isset($argv[2])?\intval($argv[2]):100;
@@ -56,7 +51,7 @@ try{
     }else 
         $listen = null;
 
-    $server = new CatPaw($config["port"],$listen);
+    $server = new CatPaw($config,$listen);
 
     
 }catch(\Throwable $e){
