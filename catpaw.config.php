@@ -1,11 +1,16 @@
 <?php
 use com\github\tncrazvan\catpaw\attributes\http\Headers;
+use com\github\tncrazvan\catpaw\attributes\Singleton;
 use com\github\tncrazvan\catpaw\config\MainConfiguration;
 use com\github\tncrazvan\catpaw\misc\AttributeLoader;
 use com\github\tncrazvan\catpaw\tools\helpers\Route;
 use com\github\tncrazvan\catpaw\tools\Mime;
 use com\github\tncrazvan\catpaw\tools\Status;
 use Psr\Http\Message\ServerRequestInterface;
+use React\EventLoop\Factory;
+use React\EventLoop\LoopInterface;
+
+Singleton::$map[LoopInterface::class] = Factory::create();
 
 (new AttributeLoader())->setLocation(__DIR__)->load();
 
