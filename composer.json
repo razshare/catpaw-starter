@@ -4,7 +4,7 @@
 	"description": "A php CatPaw template",
 	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
-	"license": "Apache-2",
+	"license": "Apache-2.0",
 	"scripts":{
 		"dev": "sudo ./scripts/dev.sh",
 		"mkcert": "sudo php ./scripts/mkcert.php",
@@ -23,7 +23,7 @@
 	"autoload": {
 		"psr-4": {
 			"scripts\\":"scripts/",
-			"":"src/"
+			"app\\":"src/"
 		}
 	},
 	"require": {
