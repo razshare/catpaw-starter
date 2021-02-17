@@ -13,19 +13,20 @@ use React\EventLoop\LoopInterface;
 
 HelpersFactory::setObject(LoopInterface::class,Factory::create());
 
-$login = require_once './.login/database.php';
-
-HelpersFactory::setConstructorInjector(
-    SimpleQueryBuilder::class,
-    fn()=>[
-        new \PDO(
-            "{$login['driver']}:dbname={$login['dbname']};host={$login['host']}",
-            $login['username'],
-            $login['password']
-        ), //provide database login
-        HelpersFactory::make(LoopInterface::class) //provide main loop
-    ]
-);
+if(\is_file('./.login/database.php')){
+    $login = require_once './.login/database.php';
+    HelpersFactory::setConstructorInjector(
+        SimpleQueryBuilder::class,
+        fn()=>[
+            new \PDO(
+                "{$login['driver']}:dbname={$login['dbname']};host={$login['host']}",
+                $login['username'],
+                $login['password']
+            ), //provide database login
+            HelpersFactory::make(LoopInterface::class) //provide main loop
+        ]
+    );
+}
 
 
 (new AttributeLoader())->setLocation(__DIR__)->load();
