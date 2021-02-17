@@ -36,7 +36,7 @@ Route::notFound(function(
 
     if(\is_file($uri) && !\strpos($uri,'../')){
         $headers["Content-Type"] = Mime::resolveContentType($uri)??'text/plain';
-        $status->setCode(Status::SUCCESS);
+        $status->setCode(Status::OK);
         return file_get_contents($uri);
     }
     $status->setCode(Status::NOT_FOUND);
@@ -44,7 +44,8 @@ Route::notFound(function(
     return '';
 });
 
-require_once './main.php';
+if(is_file('./main.php'))
+    require_once './main.php';
 
 return new class extends MainConfiguration{
     public function __construct() {
