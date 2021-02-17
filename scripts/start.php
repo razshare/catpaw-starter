@@ -32,11 +32,11 @@ function check_file_change(&$_files_last_changed,bool $exit_immediately = true){
     }
 }
 
-set_error_handler(
-    function ($severity, $message, $file, $line) {
-        throw new ErrorException($message, $severity, $severity, $file, $line);
-    }
-);
+// set_error_handler(
+//     function ($severity, $message, $file, $line) {
+//         throw new ErrorException($message, $severity, $severity, $file, $line);
+//     }
+// );
 
 try{
     chdir(dirname(__FILE__).'/..');
