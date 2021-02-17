@@ -13,6 +13,19 @@ use React\EventLoop\LoopInterface;
 
 HelpersFactory::setObject(LoopInterface::class,Factory::create());
 
+HelpersFactory::setConstructorInjector(
+    SimpleQueryBuilder::class,
+    fn()=>[
+        new \PDO(
+            "{$login['driver']}:dbname={$login['dbname']};host={$login['host']}",
+            $login['username'],
+            $login['password']
+        ), //provide database login
+        HelpersFactory::make(LoopInterface::class) //provide main loop
+    ]
+);
+
+
 (new AttributeLoader())->setLocation(__DIR__)->load();
 
 
@@ -50,5 +63,7 @@ if(is_file('./main.php'))
 return new class extends MainConfiguration{
     public function __construct() {
         $this->uri = '127.0.0.1:8080';
+        $this->show_exception = true;
+        $this->show_stack_trace = true;
     }
 };
