@@ -13,6 +13,8 @@ use React\EventLoop\LoopInterface;
 
 HelpersFactory::setObject(LoopInterface::class,Factory::create());
 
+$login = require_once './.login/database.php';
+
 HelpersFactory::setConstructorInjector(
     SimpleQueryBuilder::class,
     fn()=>[
