@@ -10,7 +10,8 @@
 		"mkcert": "sudo php ./scripts/mkcert.php",
 		"start": "sudo ./scripts/start.sh",
 		"enable-scripts":"sudo chmod +x ./scripts/*",
-		"sanitize-scripts": "sudo ./scripts/sanitizeln-default.sh"
+		"sanitize-scripts": "sudo ./scripts/sanitizeln-default.sh",
+		"ccli":"sudo php ./scripts/ccli/main.php"
 	},
 	"authors": [
 		{
