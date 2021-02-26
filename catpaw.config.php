@@ -5,6 +5,7 @@ use com\github\tncrazvan\catpaw\config\MainConfiguration;
 use com\github\tncrazvan\catpaw\misc\AttributeLoader;
 use com\github\tncrazvan\catpaw\tools\helpers\Factory as HelpersFactory;
 use com\github\tncrazvan\catpaw\tools\helpers\Route;
+use com\github\tncrazvan\catpaw\tools\helpers\SimpleQueryBuilder;
 use com\github\tncrazvan\catpaw\tools\Mime;
 use com\github\tncrazvan\catpaw\tools\Status;
 use Psr\Http\Message\ServerRequestInterface;
