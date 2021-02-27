@@ -56,7 +56,7 @@ function start():void{
                 $conf = $config();
                 $loop = Factory::make(LoopInterface::class);
                 if($loop instanceof LoopInterface)
-                    $loop->addPeriodicTimer(1,fn()=>check_file_change());
+                    $loop->addPeriodicTimer($delay/1000,fn()=>check_file_change());
                 
                 $server = new CatPaw($conf, $loop);
             }
