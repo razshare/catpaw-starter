@@ -7,61 +7,69 @@ ob_implicit_flush();
 ini_set('memory_limit','-1');
 require 'vendor/autoload.php';
 
+use com\github\tncrazvan\catpaw\attributes\metadata\Meta;
 use com\github\tncrazvan\catpaw\CatPaw;
 use com\github\tncrazvan\catpaw\tools\Dir;
-use com\github\tncrazvan\catpaw\tools\helpers\Route;
-use com\github\tncrazvan\catpaw\tools\helpers\WebsocketRoute;
+use com\github\tncrazvan\catpaw\tools\helpers\Factory;
+use React\EventLoop\LoopInterface;
 
 $_files_last_changed = [];
-$count = isset($argv[3])?\intval($argv[3]):0;
 
-function check_file_change(&$_files_last_changed,bool $exit_immediately = true){
+$dirname = dirname(__FILE__).'/..';
+
+chdir($dirname);
+
+function check_file_change(){
+    global $_files_last_changed,$dirname;
+    chdir($dirname);
     $files = [];
-    Dir::findFilesRecursive(dirname(__FILE__)."/../src",$files);
+    Dir::findFilesRecursive("$dirname/src",$files);
 
     foreach($files as &$file){
         $name = $file['name'];
         if(isset($_files_last_changed[$name])){
             if($_files_last_changed[$name] < $file['lastChange']){
-                echo "Restarting server...\n";
-                $_files_last_changed[$name] = $file['lastChange'];
-                exit; //stop the server
+                echo "Stopping server...\n";
+                exit;
             }
         }
         $_files_last_changed[$name] = $file['lastChange'];
     }
 }
-
-// set_error_handler(
-//     function ($severity, $message, $file, $line) {
-//         throw new ErrorException($message, $severity, $severity, $file, $line);
-//     }
-// );
-
-try{
-    chdir(dirname(__FILE__).'/..');
-    $config = require('catpaw.config.php');
-
+function start():void{
+    global $server,$argv,$config;
     if(isset($argv[1]) && $argv[1] === 'dev'){
         $delay = isset($argv[2])?\intval($argv[2]):100;
-        $listen = function() use (&$_files_last_changed,&$delay){
-            check_file_change($_files_last_changed,false);
-            return $delay; //wait for $delay ms
-        };
-    }else 
-        $listen = null;
-
-    $server = new CatPaw($config,$listen);
+        while(1){
+            $pid = pcntl_fork();
+            if ($pid == -1) {
+                die('Could not fork process'.PHP_EOL);
+            } else if ($pid) {
+                // we are the parent
+                pcntl_wait($status); //Protect against Zombie children
+                usleep(1000*$delay);
+            } else {
+                opcache_reset();
+                check_file_change();
+                Meta::reset();
+                $config = include('catpaw.config.php');
+                $conf = $config();
+                $loop = Factory::make(LoopInterface::class);
+                if($loop instanceof LoopInterface)
+                    $loop->addPeriodicTimer(1,fn()=>check_file_change());
+                
+                $server = new CatPaw($conf, $loop);
+            }
+        }
+    }else {
+        $config = require('catpaw.config.php');
+        $conf = $config();
+        $loop = Factory::make(LoopInterface::class);
+        $server = new CatPaw($conf, $loop);
+    }
 
     
-}catch(\Throwable $e){
-    echo $e->getMessage()."\n";
-    echo $e->getTraceAsString()."\n";
-    if(isset($argv[1]) && $argv[1] === 'dev') 
-        while(true){
-            check_file_change($_files_last_changed);
-            usleep(10000);
-        }
-    else 
-        exit("Killing server...\n");
+
 }
+
+start();
