@@ -46,8 +46,7 @@ function start():void{
                 die('Could not fork process'.PHP_EOL);
             } else if ($pid) {
                 // we are the parent
-                pcntl_wait($status); //Protect against Zombie children
-                usleep(1000*$delay);
+                pcntl_wait($status); //wait for server to restart
             } else {
                 opcache_reset();
                 check_file_change();
