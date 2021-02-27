@@ -25,15 +25,23 @@ function check_file_change(){
     $files = [];
     Dir::findFilesRecursive("$dirname/src",$files);
 
+    $tmp = $_files_last_changed;
+
     foreach($files as &$file){
         $name = $file['name'];
         if(isset($_files_last_changed[$name])){
             if($_files_last_changed[$name] < $file['lastChange']){
-                echo "Stopping server...\n";
+                echo "Restarting server...\n";
                 exit;
             }
         }
         $_files_last_changed[$name] = $file['lastChange'];
+        unset($tmp[$name]);
+    }
+    $c = count($tmp);
+    if($c > 0){
+        echo "Restarting server...\n";
+        exit;
     }
 }
 function start():void{
@@ -46,7 +54,7 @@ function start():void{
                 die('Could not fork process'.PHP_EOL);
             } else if ($pid) {
                 // we are the parent
-                pcntl_wait($status); //wait for server to restart
+                pcntl_wait($status); //Protect against Zombie children
             } else {
                 opcache_reset();
                 check_file_change();
