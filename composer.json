@@ -6,7 +6,7 @@
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
 	"license": "Apache-2.0",
 	"scripts":{
-		"dev": "sudo ./scripts/start.php dev 100",
+		"dev": "sudo php ./scripts/start.php dev 100",
 		"mkcert": "sudo php ./scripts/mkcert.php",
 		"start": "sudo php ./scripts/start.php",
 		"enable-scripts":"sudo chmod +x ./scripts/*",
