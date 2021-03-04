@@ -1,4 +1,7 @@
 <?php
+
+use com\github\tncrazvan\catpaw\attributes\http\ResponseHeaders;
+use com\github\tncrazvan\catpaw\attributes\Request;
 use com\github\tncrazvan\catpaw\config\MainConfiguration;
 use com\github\tncrazvan\catpaw\misc\AttributeLoader;
 use com\github\tncrazvan\catpaw\tools\helpers\Factory as HelpersFactory;
@@ -46,8 +49,8 @@ return fn() => new class() extends MainConfiguration{
 
         Route::notFound(function(
             #[Status] Status $status,
-            #[Headers] array &$headers,
-            ServerRequestInterface $request
+            #[ResponseHeaders] array &$headers,
+            #[Request] ServerRequestInterface $request
         ) use(&$webroot){
             $uri = $webroot.$request->getUri()->getPath();
             if(\is_dir($uri)){
