@@ -30,7 +30,8 @@
 	"require": {
 		"php": ">=8.0",
 		"tncrazvan/catpaw":">=1.0.0",
-		"react/react": "^1.1"
+		"react/react": "^1.1",
+		"twig/twig": "^3.0"
 	},
 	"config": {
 		"preferred-install": "dist",

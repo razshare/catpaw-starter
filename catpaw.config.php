@@ -13,15 +13,17 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Factory;
 use React\EventLoop\LoopInterface;
 
-return fn() => new class() extends MainConfiguration{
+return fn()=> new class() extends MainConfiguration{
     public function __construct() {
-        $this->init('app');
         $this->uri = '127.0.0.1:8080';
         $this->show_exception = true;
         $this->show_stack_trace = true;
+        $this->webroot = __DIR__.'/public';
+        $this->init('app');
     }
 
     private function init(string $namespace = ""):void{
+        HelpersFactory::setObject(MainConfiguration::class,$this);
         HelpersFactory::setObject(LoopInterface::class,Factory::create());
 
         if(is_file('./.login/database.php')){
@@ -42,8 +44,6 @@ return fn() => new class() extends MainConfiguration{
         (new AttributeLoader())->setLocation(__DIR__)->load($namespace);
 
 
-        $webroot = __DIR__.'/public';
-
         chdir('./src');
 
 
@@ -51,8 +51,8 @@ return fn() => new class() extends MainConfiguration{
             #[Status] Status $status,
             #[ResponseHeaders] array &$headers,
             #[Request] ServerRequestInterface $request
-        ) use(&$webroot){
-            $uri = $webroot.$request->getUri()->getPath();
+        ) {
+            $uri = $this->webroot.$request->getUri()->getPath();
             if(\is_dir($uri)){
                 if(str_ends_with($uri,'/'))
                     $uri .= 'index.html';
