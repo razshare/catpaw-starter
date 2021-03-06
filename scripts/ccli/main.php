@@ -1,12 +1,12 @@
 <?php
 namespace scripts\ccli;
 
+chdir(dirname(__FILE__).'/../..');
+require_once './vendor/autoload.php';
+
 use com\github\tncrazvan\catpaw\tools\helpers\Factory;
 use React\EventLoop\Factory as EventLoopFactory;
 use React\EventLoop\LoopInterface;
-
-chdir(dirname(__FILE__).'/../..');
-require_once './vendor/autoload.php';
 
 Factory::setObject(LoopInterface::class,EventLoopFactory::create());
 
