@@ -1,18 +1,20 @@
 <?php
 namespace api;
 
-use com\github\tncrazvan\catpaw\attributes\http\methods\DELETE;
+use com\github\tncrazvan\catpaw\attributes\http\methods\GET;
 use com\github\tncrazvan\catpaw\attributes\http\Path;
 use com\github\tncrazvan\catpaw\attributes\Produces;
 use com\github\tncrazvan\catpaw\attributes\Singleton;
 
-#[Path("/api/some-test")]
 #[Singleton]
+#[Path("/api/some-test")]
 class SomeTest{
 
-    #[DELETE]
+    #[GET]
     #[Produces("text/plain,text/html")]
     public function todo():string{
         return "todo";
     }
 }
+
+
