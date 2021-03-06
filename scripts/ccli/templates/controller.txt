@@ -1,17 +1,16 @@
 <?php
-namespace api;
+namespace %NAMESPACE%;
 
 use com\github\tncrazvan\catpaw\attributes\http\methods\%HTTP_METHOD%;
 use com\github\tncrazvan\catpaw\attributes\http\Path;
 use com\github\tncrazvan\catpaw\attributes\Produces;
 use com\github\tncrazvan\catpaw\attributes\Singleton;
 
-#[Path("%HTTP_BASE_PATH%")]
 #[Singleton]
+#[Path("%HTTP_PATH%")]
 class %CLASS_NAME%{
 
     #[%HTTP_METHOD%]
-    #[Path("%HTTP_PATH%")]
     #[Produces("text/plain,text/html")]
     public function todo():string{
         return "todo";

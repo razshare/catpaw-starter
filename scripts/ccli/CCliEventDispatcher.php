@@ -1,60 +1,103 @@
 <?php
 namespace scripts\ccli;
 use com\github\tncrazvan\catpaw\attributes\Singleton;
-use com\github\tncrazvan\catpaw\services\FileReaderService;
-use React\EventLoop\LoopInterface;
-use React\Stream\WritableResourceStream;
 
 #[Singleton]
 class CCliEventDispatcher{
-    const MAKE_CONTROLLER = '/^make\s+controller(\s+[A-z]+)(\s+[A-z]+)?(\s+[A-z]+)?$/';
+    const MAKE_CONTROLLER = '/^make\s+controller(\s+[A-z]+)?(\s+[A-z]+)?(\s+[A-z]+)?$/';
+
+    const DIALOG_OK=0;
+    const DIALOG_CANCEL=1;
+    const DIALOG_HELP=2;
+    const DIALOG_EXTRA=3;
+    const DIALOG_ITEM_HELP=4;
+    const DIALOG_ESC=255;
 
     public function dispatch(
         string ...$args,
     ):CCliEventDispatcher{
         if(\preg_match(static::MAKE_CONTROLLER,implode(' ',$args),$groups))
-            return $this->_make_controller(...[...\array_splice($groups,1),'GET','/']);
+            return $this->_make_controller();
+        
         return $this;
     }
 
-    private function _make_controller(string ...$groups):CCliEventDispatcher{
+    private function _make_controller():CCliEventDispatcher{
         $filename = dirname(__FILE__).'/templates/controller.txt';
         $template = file_get_contents($filename);
-        $groups = array_map(fn($item)=>trim($item),$groups);
-        [
-            $classname,
-            $http_method,
-            $http_path
-        ] = $groups;
 
-        echo("Prepearing to create controller \api\{$classname}...\n");
+        $http_method = Shell::script(
+            'dialog',
+            '--clear',
+            '--title "Http method"',
+            '--menu "Please select and http method for your endpint." 0 0 0',
+                '"COPY" "COPY"',
+                '"DELETE" "DELETE"',
+                '"GET" "GET"',
+                '"HEAD" "HEAD"',
+                '"LINK" "LINK"',
+                '"LOCK" "LOCK"',
+                '"OPTIONS" "OPTIONS"',
+                '"PATCH" "PATCH"',
+                '"POST" "POST"',
+                '"PROPFIND" "PROPFIND"',
+                '"PURGE" "PURGE"',
+                '"PUT" "PUT"',
+                '"UNKNOWN" "UNKNOWN"',
+                '"UNLOCK" "UNLOCK"',
+                '"VIEW" "VIEW"',
+            "\nclear"
 
-        if(!str_starts_with($http_path,"/"))
-            $http_path = "/$http_path";
+        )->run();
 
-        $http_path = \explode('/',$http_path);
+        if($http_method === '' || $http_method === false)
+            die("Invalid http method\n");
 
-        $http_path_count = \count($http_path);
+        $http_path = Shell::script(
+            'dialog',
+            '--clear',
+            '--title "Http path"',
+            '--inputbox "Please specify a path for your endpoint." 0 0',
+            "\nclear"
 
-        $http_base_path = implode('/',array_splice($http_path,0,$http_path_count-1));
-        if(!str_starts_with($http_base_path,"/"))
-            $http_base_path = "/$http_base_path";
+        )->run();
 
-        if($http_path_count === 2){
-            $http_path = '/';
-        }else{
-            $http_path = implode('/',array_splice($http_path,$http_path_count-1,1));
-            if(!str_starts_with($http_path,"/"))
-                $http_path = "/$http_path";
-        }
+        if($http_path === '' || $http_path === false)
+            die("Invalid http path\n");
+
+        $path_pieces = array_map(function($item){
+            $pieces = explode('-',$item);
+            for($i = 0,$len = count($pieces); $i < $len; $i++){
+                if($i > 0){
+                    $pieces[$i] = \ucfirst($pieces[$i]);
+                }
+            }
+            return implode('',$pieces);
+        },explode('/',$http_path));
+        $namespace = preg_replace('/^\\\+/','',implode("\\",array_splice($path_pieces,0,-1)));
+        $classname = \ucfirst($path_pieces[0]??$namespace);
         
+        
+
+        print_r([
+            "namespace" => $namespace,
+            "classname" => $classname,
+            "http_method" => $http_method,
+            "http_path" => $http_path,
+        ]);
+        
+        
+        $template = str_replace("%NAMESPACE%",$namespace,$template);
+        echo("using namespace: $namespace\n");
+
         $template = str_replace("%CLASS_NAME%",$classname,$template);
+        echo("using classname: $classname\n");
+
         $template = str_replace("%HTTP_METHOD%",$http_method,$template);
         echo("using http method: $http_method\n");
-        $template = str_replace("%HTTP_BASE_PATH%",$http_base_path,$template);
-        echo("using base path: $http_base_path\n");
+
         $template = str_replace("%HTTP_PATH%",$http_path,$template);
-        echo("using local path: $http_path\n");
+        echo("using path: $http_path\n");
 
         $filename = dirname(__FILE__)."/../../src/api/$classname.php";
         $dir = dirname($filename);
