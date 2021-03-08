@@ -1,10 +1,10 @@
 <?php
 namespace %NAMESPACE%;
 
-use com\github\tncrazvan\catpaw\attributes\http\methods\%HTTP_METHOD%;
-use com\github\tncrazvan\catpaw\attributes\http\Path;
-use com\github\tncrazvan\catpaw\attributes\Produces;
-use com\github\tncrazvan\catpaw\attributes\Singleton;
+use net\razshare\catpaw\attributes\http\methods\%HTTP_METHOD%;
+use net\razshare\catpaw\attributes\http\Path;
+use net\razshare\catpaw\attributes\Produces;
+use net\razshare\catpaw\attributes\Singleton;
 
 #[Singleton]
 #[Path("%HTTP_PATH%")]

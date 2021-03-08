@@ -1,6 +1,6 @@
 <?php
 namespace scripts\ccli;
-use com\github\tncrazvan\catpaw\attributes\Singleton;
+use net\razshare\catpaw\attributes\Singleton;
 
 #[Singleton]
 class CCliEventDispatcher{

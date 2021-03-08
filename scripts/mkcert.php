@@ -6,7 +6,7 @@
  */
 chdir(dirname(__FILE__).'/..');
 require_once './vendor/autoload.php';
-use com\github\tncrazvan\catpaw\tools\OpenSSL;
+use net\razshare\catpaw\tools\OpenSSL;
 
 $blueprint = [
     "countryName" => "__", //your organization country (2 letters, for example "US")

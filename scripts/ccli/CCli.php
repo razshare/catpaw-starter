@@ -1,9 +1,9 @@
 <?php
 namespace scripts\ccli;
 
-use com\github\tncrazvan\catpaw\attributes\ApplicationScoped;
-use com\github\tncrazvan\catpaw\attributes\Entry;
-use com\github\tncrazvan\catpaw\attributes\Inject;
+use net\razshare\catpaw\attributes\ApplicationScoped;
+use net\razshare\catpaw\attributes\Entry;
+use net\razshare\catpaw\attributes\Inject;
 
 #[ApplicationScoped]
 class CCli{

@@ -1,14 +1,14 @@
 <?php
 
-use com\github\tncrazvan\catpaw\attributes\http\ResponseHeaders;
-use com\github\tncrazvan\catpaw\attributes\Request;
-use com\github\tncrazvan\catpaw\config\MainConfiguration;
-use com\github\tncrazvan\catpaw\misc\AttributeLoader;
-use com\github\tncrazvan\catpaw\tools\helpers\Factory as HelpersFactory;
-use com\github\tncrazvan\catpaw\tools\helpers\Route;
-use com\github\tncrazvan\catpaw\tools\helpers\SimpleQueryBuilder;
-use com\github\tncrazvan\catpaw\tools\Mime;
-use com\github\tncrazvan\catpaw\tools\Status;
+use net\razshare\catpaw\attributes\http\ResponseHeaders;
+use net\razshare\catpaw\attributes\Request;
+use net\razshare\catpaw\config\MainConfiguration;
+use net\razshare\catpaw\misc\AttributeLoader;
+use net\razshare\catpaw\tools\helpers\Factory as HelpersFactory;
+use net\razshare\catpaw\tools\helpers\Route;
+use net\razshare\catpaw\tools\helpers\SimpleQueryBuilder;
+use net\razshare\catpaw\tools\Mime;
+use net\razshare\catpaw\tools\Status;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Factory;
 use React\EventLoop\LoopInterface;

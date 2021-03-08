@@ -7,10 +7,10 @@ ob_implicit_flush();
 ini_set('memory_limit','-1');
 require 'vendor/autoload.php';
 
-use com\github\tncrazvan\catpaw\attributes\metadata\Meta;
-use com\github\tncrazvan\catpaw\CatPaw;
-use com\github\tncrazvan\catpaw\tools\Dir;
-use com\github\tncrazvan\catpaw\tools\helpers\Factory;
+use net\razshare\catpaw\attributes\metadata\Meta;
+use net\razshare\catpaw\CatPaw;
+use net\razshare\catpaw\tools\Dir;
+use net\razshare\catpaw\tools\helpers\Factory;
 use React\EventLoop\LoopInterface;
 
 $_files_last_changed = [];
