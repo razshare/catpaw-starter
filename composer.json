@@ -1,5 +1,5 @@
 {
-	"name":"tncrazvan/catpaw-template",
+	"name":"razshare/catpaw-template",
 	"type": "project",
 	"description": "A php CatPaw template",
 	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
@@ -29,7 +29,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"tncrazvan/catpaw":">=1.1.0",
+		"razshare/catpaw":">=1.1.0",
 		"react/react": "^1.1",
 		"twig/twig": "^3.0"
 	},
