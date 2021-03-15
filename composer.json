@@ -4,7 +4,7 @@
 	"description": "A php CatPaw template",
 	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
 	"homepage": "https://github.com/tncrazvan/catpaw-template",
-	"license": "Apache-2.0",
+	"license": "GPL-2.0-only",
 	"scripts":{
 		"dev": "sudo php ./scripts/start.php dev 100",
 		"mkcert": "sudo php ./scripts/mkcert.php",
