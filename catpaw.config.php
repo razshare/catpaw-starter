@@ -15,7 +15,7 @@ use React\EventLoop\LoopInterface;
 
 return fn()=> new class() extends MainConfiguration{
     public function __construct() {
-        $this->uri = '127.0.0.1:8080';
+        $this->uri = '0.0.0.0:8080';
         $this->show_exception = true;
         $this->show_stack_trace = true;
         $this->webroot = __DIR__.'/public';

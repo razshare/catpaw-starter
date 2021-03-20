@@ -30,8 +30,7 @@
 	"require": {
 		"php": ">=8.0",
 		"razshare/catpaw":">=1.1.0",
-		"react/react": "^1.1",
-		"twig/twig": "^3.0"
+		"react/react": "^1.1"
 	},
 	"config": {
 		"preferred-install": "dist",
