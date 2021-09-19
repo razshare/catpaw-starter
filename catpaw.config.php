@@ -41,7 +41,10 @@ return fn()=> new class() extends MainConfiguration{
             );
         }
 
-        (new AttributeLoader())->setLocation(__DIR__)->load($namespace);
+        (new AttributeLoader())
+            ->setLocation(__DIR__)
+            ->loadModulesFromNamespace($namespace)
+            ->loadClassesFromNamespace($namespace);
 
 
         chdir('./src');
