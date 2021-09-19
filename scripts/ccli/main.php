@@ -8,7 +8,7 @@ use net\razshare\catpaw\tools\helpers\Factory;
 use React\EventLoop\Factory as EventLoopFactory;
 use React\EventLoop\LoopInterface;
 
-Factory::setObject(LoopInterface::class,EventLoopFactory::create());
+Factory::setObject(LoopInterface::class,\React\EventLoop\Loop::get());
 
 Factory::setConstructorInjector(CCli::class,fn()=>[array_splice($argv,1)]);
 
