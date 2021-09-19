@@ -1,5 +1,7 @@
 <?php
 namespace scripts\ccli;
+
+use net\razshare\asciitable\AsciiTable;
 use net\razshare\catpaw\attributes\Singleton;
 
 #[Singleton]
@@ -19,9 +21,26 @@ class CCliEventDispatcher{
         if(\preg_match(static::MAKE_CONTROLLER,implode(' ',$args),$groups))
             return $this->_make_controller();
         
+        return $this->_make_commands_list();
+    }
+    
+    private function _make_commands_list():CCliEventDispatcher{
+        echo join([
+            (new AsciiTable())
+                ->add("Available commands")
+                ->add(join([
+                    (new AsciiTable())
+                        ->add("make controller")
+                        ->toString(),
+                    "\n\n",
+                    "Creates a controller."
+                ]))
+                ->toString(),
+            "\n"
+        ]);
+
         return $this;
     }
-
     private function _make_controller():CCliEventDispatcher{
         $filename = dirname(__FILE__).'/templates/controller.txt';
         $template = file_get_contents($filename);

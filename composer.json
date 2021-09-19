@@ -1,9 +1,9 @@
 {
-	"name":"razshare/catpaw-template",
+	"name":"razshare/catpaw-starter",
 	"type": "project",
-	"description": "A php CatPaw template",
-	"keywords": ["php","cli","server","http","websocket","catpaw","template"],
-	"homepage": "https://github.com/tncrazvan/catpaw-template",
+	"description": "A php CatPaw starter template",
+	"keywords": ["php","cli","server","http","websocket","catpaw","starter","template"],
+	"homepage": "https://github.com/tncrazvan/catpaw-starter",
 	"license": "GPL-2.0-only",
 	"scripts":{
 		"dev": "sudo php ./scripts/start.php dev 100",
