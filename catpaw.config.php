@@ -24,7 +24,7 @@ return fn()=> new class() extends MainConfiguration{
 
     private function init(string $namespace = ""):void{
         HelpersFactory::setObject(MainConfiguration::class,$this);
-        HelpersFactory::setObject(LoopInterface::class,Factory::create());
+        HelpersFactory::setObject(LoopInterface::class,\React\EventLoop\Loop::get());
 
         if(is_file('./.login/database.php')){
             $login = require_once './.login/database.php';
