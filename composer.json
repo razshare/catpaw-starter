@@ -6,11 +6,11 @@
 	"homepage": "https://github.com/tncrazvan/catpaw-starter",
 	"license": "GPL-2.0-only",
 	"scripts":{
-		"dev": "sudo php ./scripts/start.php dev 100",
-		"mkcert": "sudo php ./scripts/mkcert.php",
-		"start": "sudo php ./scripts/start.php",
-		"enable-scripts":"sudo chmod +x ./scripts/*",
-		"ccli":"sudo php ./scripts/ccli/main.php",
+		"dev": "sudo php ./vendor/razshare/catpaw/scripts/start.php dev 100",
+		"mkcert": "sudo php ./vendor/razshare/catpaw/scripts/mkcert.php",
+		"start": "sudo php ./vendor/razshare/catpaw/scripts/start.php",
+		"enable-scripts":"sudo chmod +x ./vendor/razshare/catpaw/scripts/*",
+		"ccli":"sudo php ./vendor/razshare/catpaw/scripts/ccli/main.php",
 		"load":"composer dump-autoload -o"
 	},
 	"authors": [
