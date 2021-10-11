@@ -8,7 +8,7 @@
 	"scripts":{
 		"dev": "sudo php ./vendor/razshare/catpaw/scripts/start.php dev 100",
 		"mkcert": "sudo php ./vendor/razshare/catpaw/scripts/mkcert.php",
-		"start": "sudo php ./vendor/razshare/catpaw/scripts/start.php",
+		"start": "php ./vendor/razshare/catpaw/scripts/start.php",
 		"enable-scripts":"sudo chmod +x ./vendor/razshare/catpaw/scripts/*",
 		"ccli":"sudo php ./vendor/razshare/catpaw/scripts/ccli/main.php",
 		"load":"composer dump-autoload -o"
@@ -29,8 +29,8 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"razshare/catpaw":">=1.2.2",
-		"react/react": ">=1.1"
+		"razshare/catpaw":"^2.0.0",
+		"amphp/amp": "^2.6"
 	},
 	"config": {
 		"preferred-install": "dist",
