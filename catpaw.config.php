@@ -1,69 +1,63 @@
 <?php
 
+use Amp\Http\Server\Request;
+use Amp\Log\ConsoleFormatter;
+use Amp\Log\StreamHandler;
+use Monolog\Logger;
 use net\razshare\catpaw\attributes\http\ResponseHeaders;
-use net\razshare\catpaw\attributes\Request;
 use net\razshare\catpaw\config\MainConfiguration;
 use net\razshare\catpaw\misc\AttributeLoader;
-use net\razshare\catpaw\tools\helpers\Factory as HelpersFactory;
+use net\razshare\catpaw\tools\helpers\Factory;
 use net\razshare\catpaw\tools\helpers\Route;
-use net\razshare\catpaw\tools\helpers\SimpleQueryBuilder;
 use net\razshare\catpaw\tools\Mime;
 use net\razshare\catpaw\tools\Status;
-use Psr\Http\Message\ServerRequestInterface;
-use React\EventLoop\Factory;
-use React\EventLoop\LoopInterface;
+use function Amp\ByteStream\getStdout;
 
-return fn()=> new class() extends MainConfiguration{
+return fn() => new class() extends MainConfiguration{
     public function __construct() {
-        $this->uri = '0.0.0.0:8080';
-        $this->show_exception = true;
-        $this->show_stack_trace = true;
         $this->webroot = __DIR__.'/public';
+		$this->showException = true;
+		$this->showStackTrace = false;
+
+		$handler = new StreamHandler(getStdout());
+		$handler->setFormatter(new ConsoleFormatter());
+		$logger = new Logger('app');
+		$logger->pushHandler($handler);
+
+		$this->logger = $logger;
+		Factory::setObject(Logger::class,$logger);
+
+		$this->interfaces = [
+			"127.0.0.1:80",
+		];
+
         $this->init('app');
     }
 
     private function init(string $namespace = ""):void{
-        HelpersFactory::setObject(MainConfiguration::class,$this);
-        HelpersFactory::setObject(LoopInterface::class,\React\EventLoop\Loop::get());
-
-        if(is_file('./.login/database.php')){
-            $login = require_once './.login/database.php';
-            HelpersFactory::setConstructorInjector(
-                SimpleQueryBuilder::class,
-                fn()=>[
-                    new PDO(
-                        "{$login['driver']}:dbname={$login['dbname']};host={$login['host']}",
-                        $login['username'],
-                        $login['password']
-                    ), //provide database login
-                    HelpersFactory::make(LoopInterface::class) //provide main loop
-                ]
-            );
-        }
+        Factory::setObject(MainConfiguration::class,$this);
 
         (new AttributeLoader())
             ->setLocation(__DIR__)
             ->loadModulesFromNamespace($namespace)
             ->loadClassesFromNamespace($namespace);
 
-
         chdir('./src');
 
-
         Route::notFound(function(
-            #[Status] Status $status,
             #[ResponseHeaders] array &$headers,
-            #[Request] ServerRequestInterface $request
+			Status $status,
+            Request $request
         ) {
-            $uri = $this->webroot.$request->getUri()->getPath();
-            if(\is_dir($uri)){
+            $uri 	= $this->webroot.$request->getUri()->getPath();
+            if(is_dir($uri)){
                 if(str_ends_with($uri,'/'))
                     $uri .= 'index.html';
                 else
                     $uri .= '/index.html';
             }
 
-            if(is_file($uri) && !\strpos($uri,'../')){
+            if(is_file($uri) && !strpos($uri,'../')){
                 $headers["Content-Type"] = Mime::resolveContentType($uri)??'text/plain';
                 $status->setCode(Status::OK);
                 return file_get_contents($uri);
