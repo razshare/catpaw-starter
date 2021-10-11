@@ -29,7 +29,7 @@
 	},
 	"require": {
 		"php": ">=8.0",
-		"razshare/catpaw":">=1.2.2",
+		"razshare/catpaw":"^1.0.0",
 		"react/react": ">=1.1"
 	},
 	"config": {
