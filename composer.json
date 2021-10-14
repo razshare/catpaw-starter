@@ -23,8 +23,7 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"scripts\\":"scripts/",
-			"app\\":"src/"
+			"App\\":"src/"
 		}
 	},
 	"require": {

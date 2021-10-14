@@ -4,13 +4,13 @@ use Amp\Http\Server\Request;
 use Amp\Log\ConsoleFormatter;
 use Amp\Log\StreamHandler;
 use Monolog\Logger;
-use net\razshare\catpaw\attributes\http\ResponseHeaders;
-use net\razshare\catpaw\config\MainConfiguration;
-use net\razshare\catpaw\misc\AttributeLoader;
-use net\razshare\catpaw\tools\helpers\Factory;
-use net\razshare\catpaw\tools\helpers\Route;
-use net\razshare\catpaw\tools\Mime;
-use net\razshare\catpaw\tools\Status;
+use CatPaw\Attributes\Http\ResponseHeaders;
+use CatPaw\Configs\MainConfiguration;
+use CatPaw\Misc\AttributeLoader;
+use CatPaw\Tools\Helpers\Factory;
+use CatPaw\Tools\Helpers\Route;
+use CatPaw\Tools\Mime;
+use CatPaw\Tools\Status;
 use function Amp\ByteStream\getStdout;
 
 return fn() => new class() extends MainConfiguration{
