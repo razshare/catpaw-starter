@@ -1,7 +1,6 @@
 <?php
-
-namespace App;
-
 use CatPaw\Tools\Helpers\Route;
 
-Route::get("/hello-world", fn()=> "hello world");
+function main(){
+	yield Route::get("/hello-world", fn()=> "hello world");
+}
