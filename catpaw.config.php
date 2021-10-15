@@ -1,9 +1,12 @@
 <?php
 
+use Amp\ByteStream\IteratorStream;
+use Amp\File\File;
 use Amp\Http\Server\Request;
 use Amp\Http\Status;
 use Amp\Log\ConsoleFormatter;
 use Amp\Log\StreamHandler;
+use Amp\Producer;
 use CatPaw\Attributes\Http\StatusCode;
 use CatPaw\Attributes\Inject;
 use Monolog\Logger;
@@ -14,6 +17,7 @@ use CatPaw\Tools\Helpers\Factory;
 use CatPaw\Tools\Helpers\Route;
 use CatPaw\Tools\Mime;
 use function Amp\ByteStream\getStdout;
+use function Amp\File\openFile;
 
 
 /**
@@ -35,7 +39,7 @@ function init(string $namespace, string $webroot, string $workdir): Generator {
 		#[Inject] #[ResponseHeaders] array &$headers,
 		#[Inject] #[StatusCode] int &$status,
 		#[Inject] Request $request
-	) use ($webroot){
+	) use ($webroot) {
 		$uri = $webroot . $request->getUri()->getPath();
 		if (is_dir($uri)) {
 			if (str_ends_with($uri, '/'))
@@ -47,7 +51,12 @@ function init(string $namespace, string $webroot, string $workdir): Generator {
 		if (is_file($uri) && !strpos($uri, '../')) {
 			$headers["Content-Type"] = Mime::resolveContentType($uri) ?? 'text/plain';
 			$status = Status::OK;
-			return file_get_contents($uri);
+			return new IteratorStream(new Producer(function (callable $emit) use ($uri) {
+				/** @var File $file */
+				$file = yield openFile($uri, 'r');
+				while (($data = yield $file->read()))
+					$emit($data);
+			}));
 		}
 		$status = Status::NOT_FOUND;
 		$headers["Content-Type"] = "text/html";
@@ -63,12 +72,12 @@ function init(string $namespace, string $webroot, string $workdir): Generator {
 	}
 }
 
-return function(){
+return function () {
 	$config = new class() extends MainConfiguration {
 		public function __construct() {
 			$this->webroot = __DIR__ . '/public';
 			$this->showException = true;
-			$this->showStackTrace = false;
+			$this->showStackTrace = true;
 
 			$handler = new StreamHandler(getStdout());
 			$handler->setFormatter(new ConsoleFormatter());
@@ -86,7 +95,7 @@ return function(){
 
 	Factory::setObject(MainConfiguration::class, $config);
 
-	yield from init("App",$config->webroot,"./src");
+	yield from init("App", $config->webroot, "./src");
 
 	return $config;
 };

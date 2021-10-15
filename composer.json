@@ -29,7 +29,8 @@
 	"require": {
 		"php": ">=8.0",
 		"razshare/catpaw":"^2.0.0",
-		"amphp/amp": "^2.6"
+		"amphp/amp": "^2.6",
+		"amphp/file": "^2.0"
 	},
 	"config": {
 		"preferred-install": "dist",
