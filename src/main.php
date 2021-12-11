@@ -8,8 +8,8 @@ namespace {
 
 	function main(MainConfiguration $config): Generator {
 		yield CatPaw::startWebServer($config);
-		
-		yield Route::get("/hello", fn() => "hello world");
+
+		yield Route::get("/plain", fn() => "this is plain text.");
 
 		echo Route::describe();
 	}
