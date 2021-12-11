@@ -3,13 +3,14 @@
 namespace {
 
 	use App\TestService;
-	use CatPaw\Attributes\Inject;
 	use CatPaw\CatPaw;
 	use CatPaw\Configs\MainConfiguration;
 	use CatPaw\Tools\Helpers\Route;
 
-	function main(#[Inject] MainConfiguration $config): Generator {
-		yield Route::get("/hello-world", fn(#[Inject] TestService $test) => $test->test());
+	function main(MainConfiguration $config): Generator {
 		yield CatPaw::startWebServer($config);
+		yield Route::get("/hello-world", fn(TestService $test) => $test->test());
+
+		echo Route::describe();
 	}
 }
