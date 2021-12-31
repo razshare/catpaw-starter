@@ -2,15 +2,12 @@
 
 namespace {
 
-	use CatPaw\CatPaw;
-	use CatPaw\Configs\MainConfiguration;
+	use CatPaw\Attributes\StartWebServer;
 	use CatPaw\Tools\Helpers\Route;
 
-	function main(MainConfiguration $config): Generator {
-		yield CatPaw::startWebServer($config);
-
-		yield Route::get("/plain", fn() => "this is plain text.");
-
+	#[StartWebServer]
+	function main() {
+		Route::get("/plain", fn() => "this is plain text.");
 		echo Route::describe();
 	}
 }
