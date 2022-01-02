@@ -35,7 +35,7 @@
   },
   "require": {
     "php": ">=8.0",
-    "razshare/catpaw": "^2.4.172",
+    "razshare/catpaw": "^2.4.173",
     "amphp/amp": "^2.6",
     "amphp/file": "^2.0"
   },
