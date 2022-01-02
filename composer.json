@@ -16,7 +16,7 @@
   "license": "GPL-2.0-only",
   "scripts": {
     "load": "@composer dump-autoload -o",
-    "script": "@php ./vendor/razshare/catpaw/scripts/start.php",
+    "script": "@php ./vendor/catpaw/core/scripts/start.php",
     "start": "@script src/main.php",
     "dev": "@script src/main.php dev 100 && @composer run dev"
   },
