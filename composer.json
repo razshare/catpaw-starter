@@ -2,18 +2,18 @@
   "name": "catpaw/starter",
   "type": "project",
   "description": "A php CatPaw starter template",
+  "homepage": "https://github.com/tncrazvan/catpaw-starter",
+  "license": "MIT",
   "keywords": [
     "php",
     "cli",
     "server",
     "http",
     "websocket",
-    "catpaw",
     "starter",
-    "template"
+    "template",
+    "catpaw"
   ],
-  "homepage": "https://github.com/tncrazvan/catpaw-starter",
-  "license": "GPL-2.0-only",
   "scripts": {
     "load": "@composer dump-autoload -o",
     "script": "@php ./vendor/catpaw/core/scripts/start.php",
