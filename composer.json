@@ -36,7 +36,6 @@
   "require": {
     "php": "^8.0",
     "catpaw/core": "^1.1",
-    "catpaw/web": "^1.0",
     "amphp/amp": "^2.6",
     "amphp/file": "^2.0"
   },
