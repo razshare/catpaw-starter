@@ -2,8 +2,8 @@
 
 namespace {
 
-	use CatPaw\Attributes\StartWebServer;
-	use CatPaw\Tools\Helpers\Route;
+    use CatPaw\Web\Attribute\Http\StartWebServer;
+    use CatPaw\Web\Utility\Route;
 
 	#[StartWebServer]
 	function main() {
