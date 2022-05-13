@@ -18,7 +18,7 @@
     "load": "@composer dump-autoload -o",
     "script": "@php ./vendor/catpaw/core/scripts/start.php",
     "start": "@script src/main.php",
-    "dev": "@start dev 100 && @composer run dev"
+    "dev": "composer start dev 100 && composer dev"
   },
   "authors": [
     {
