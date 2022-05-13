@@ -1,19 +1,22 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "start",
+            "name": "Listen (paw)",
+            "type": "php",
+            "request": "launch",
+            "port": 9003
+        },
+        {
+            "name": "Launch (paw)",
             "type": "php",
             "request": "launch",
             "program": "${workspaceFolder}/vendor/catpaw/core/scripts/start.php",
             "cwd": "${workspaceFolder}",
-            "port": 0,
             "args": [
                 "${file}"
             ],
+            "port": 0,
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes"
             ],
