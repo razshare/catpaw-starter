@@ -1,0 +1,1 @@
+php ./vendor/catpaw/core/scripts/start.php src/main.php dev 100
