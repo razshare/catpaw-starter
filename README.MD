@@ -36,7 +36,7 @@ Make new a `./.vscode/launch.json` file in your project and add the following co
 
 The first configuration will passively listen for xdebug, while the second one will launch the currently opened script.
 
-### XDebug 3.x configuration
+### XDebug 3.x configuration for VSCode
 
 In you `php.ini` file add:
 ```ini
@@ -54,6 +54,15 @@ First off pick your php interpreter:
 ![image](https://user-images.githubusercontent.com/6891346/168439592-3c8609aa-2d30-4995-ace3-8fa19fcef4b0.png)
 
 Then start listening for xdebug connections: ![image](https://user-images.githubusercontent.com/6891346/168439662-558102d8-a94d-4480-a4e5-324f85a47cab.png)
+
+### Xdebug 3.x configuratino for PHPStorm
+
+```ini
+xdebug.mode=debug
+xdebug.client_host=127.0.0.1
+xdebug.client_port=9003
+xdebug.start_with_request=yes
+```
 
 # Run & Watch
 
