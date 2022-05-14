@@ -55,7 +55,7 @@ First off pick your php interpreter:
 
 Then start listening for xdebug connections: ![image](https://user-images.githubusercontent.com/6891346/168439662-558102d8-a94d-4480-a4e5-324f85a47cab.png)
 
-### Xdebug 3.x configuratino for PHPStorm
+### Xdebug 3.x configuration for PHPStorm
 
 ```ini
 xdebug.mode=debug
