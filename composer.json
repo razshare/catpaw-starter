@@ -22,7 +22,9 @@
       "@php ./vendor/bin/php-cs-fixer fix tests"
     ],
     "test": "@php vendor/bin/phpunit tests",
-    "start": "@php ./vendor/catpaw/core/scripts/start.php src/main.php"
+    "start": "@php ./vendor/catpaw/core/scripts/start.php src/main.php",
+    "watch": "@php ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start",
+    "dev": "@watch"
   },
   "authors": [
     {
