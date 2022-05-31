@@ -21,7 +21,8 @@
       "@php ./vendor/bin/php-cs-fixer fix src",
       "@php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "test": "@php vendor/bin/phpunit tests"
+    "test": "@php vendor/bin/phpunit tests",
+    "start": "@php ./vendor/catpaw/core/scripts/start.php src/main.php"
   },
   "authors": [
     {
