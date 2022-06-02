@@ -25,6 +25,7 @@
     "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./vendor/catpaw/core/scripts/start.php src/main.php",
     "watch": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start",
     "start-prod": "php ./vendor/catpaw/core/scripts/start.php src/main.php",
+    "start-prod-persistent": "php ./vendor/catpaw/core/scripts/start.php src/main.php && composer start-prod-persistent",
     "watch-prod": "php ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start-prod",
     "dev": "@watch"
   },
