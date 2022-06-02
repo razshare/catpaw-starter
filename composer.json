@@ -15,15 +15,17 @@
     "catpaw"
   ],
   "scripts": {
-    "load": "@composer dump-autoload -o",
-    "script": "@php ./vendor/catpaw/core/scripts/start.php",
+    "load": "composer dump-autoload -o",
+    "script": "php ./vendor/catpaw/core/scripts/start.php",
     "fix": [
-      "@php ./vendor/bin/php-cs-fixer fix src",
-      "@php ./vendor/bin/php-cs-fixer fix tests"
+      "php ./vendor/bin/php-cs-fixer fix src",
+      "php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "test": "@php vendor/bin/phpunit tests",
-    "start": "@php ./vendor/catpaw/core/scripts/start.php src/main.php",
-    "watch": "@php ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start",
+    "test": "php vendor/bin/phpunit tests",
+    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./vendor/catpaw/core/scripts/start.php src/main.php",
+    "watch": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start",
+    "start-prod": "php ./vendor/catpaw/core/scripts/start.php src/main.php",
+    "watch-prod": "php ./vendor/catpaw/core/scripts/start.php src/main.php watch 100 && composer start-prod",
     "dev": "@watch"
   },
   "authors": [
