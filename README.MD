@@ -64,7 +64,7 @@ xdebug.client_port=9003
 xdebug.start_with_request=yes
 ```
 
-# Run
+# Start
 
 You should now be able to run your project by running 
 ```bash
