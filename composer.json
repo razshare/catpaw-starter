@@ -16,18 +16,12 @@
   ],
   "scripts": {
     "load": "composer dump-autoload -o",
-    "script": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start",
     "fix": [
       "php ./vendor/bin/php-cs-fixer fix src",
       "php ./vendor/bin/php-cs-fixer fix tests"
     ],
     "test": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug vendor/bin/phpunit tests",
-    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start src/main.php",
-    "watch": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start src/main.php watch 100 && composer start",
-    "start-prod": "php ./bin/start src/main.php",
-    "start-prod-persistent": "php ./bin/start src/main.php && composer start-prod-persistent",
-    "watch-prod": "php ./bin/start src/main.php watch 100 && composer start-prod",
-    "dev": "@watch"
+    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -f'src/main.php' -s'src/lib/' -v"
   },
   "authors": [
     {

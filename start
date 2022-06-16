@@ -1,1 +1,1 @@
-php ./vendor/catpaw/core/scripts/start.php src/main.php
+php ./bin/start -f"src/main.php" -s"src/lib/" -v
