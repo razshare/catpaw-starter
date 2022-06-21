@@ -50,7 +50,7 @@ $spawnProcess = $spawnProcessLong  ?? $spawnProcessShort;
 
 if ($singletons) {
     $singletons = realpath($singletons);
-    if(!$singletons) die(Strings::red("Path \"$singletons\" does not exist."))
+    if(!$singletons) die(Strings::red("Path \"$singletons\" does not exist."));
 } else {
     $singletons = '';
 }
