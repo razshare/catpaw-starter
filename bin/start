@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 use CatPaw\Bootstrap;
+use CatPaw\Utilities\Strings;
 
 require 'vendor/autoload.php';
 
@@ -49,6 +50,7 @@ $spawnProcess = $spawnProcessLong  ?? $spawnProcessShort;
 
 if ($singletons) {
     $singletons = realpath($singletons);
+    if(!$singletons) die(Strings::red("Path \"$singletons\" does not exist."))
 } else {
     $singletons = '';
 }
