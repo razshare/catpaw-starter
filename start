@@ -1,1 +1,1 @@
-php ./bin/start -f"src/main.php" -s"src/lib/" -v
+php -dxdebug.start_with_request=no -dxdebug.mode=off ./bin/start -fsrc/main.php -ssrc/lib/ -v
