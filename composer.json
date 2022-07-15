@@ -4,14 +4,6 @@
   "description": "A php CatPaw starter template",
   "homepage": "https://github.com/tncrazvan/catpaw-starter",
   "license": "MIT",
-  "keywords": [
-    "php",
-    "cli",
-    "starter",
-    "catpaw",
-    "async",
-    "di"
-  ],
   "scripts": {
     "load": "composer dump-autoload -o",
     "fix": [
