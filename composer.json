@@ -7,12 +7,10 @@
   "keywords": [
     "php",
     "cli",
-    "server",
-    "http",
-    "websocket",
     "starter",
-    "template",
-    "catpaw"
+    "catpaw",
+    "async",
+    "di"
   ],
   "scripts": {
     "load": "composer dump-autoload -o",
