@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/bin/start",
             "cwd": "${workspaceFolder}",
             "args": [
-                "src/main.php"
+                "-fsrc/main.php"
             ],
             "port": 0,
             "runtimeArgs": [
