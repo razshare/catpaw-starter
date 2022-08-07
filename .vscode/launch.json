@@ -2,18 +2,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Main (paw)",
+            "name": "Listen (paw)",
+            "type": "php",
+            "request": "launch",
+            "port": 9003
+        },
+        {
+            "name": "Launch (paw)",
             "type": "php",
             "request": "launch",
             "program": "${workspaceFolder}/bin/start",
             "cwd": "${workspaceFolder}",
             "args": [
-                "-fsrc/main.php"
+                "-e${file}"
             ],
-            "port": 0,
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
-                "-dxdebug.mode=debug"
+                "-dxdebug.mode=debug=yes",
             ],
             "env": {
                 "XDEBUG_MODE": "debug,develop",
@@ -21,24 +26,35 @@
             }
         },
         {
-            "name": "Listen (paw)",
-            "type": "php",
-            "request": "launch",
-            "port": 9003
-        },
-        {
-            "name": "Launch file (paw)",
+            "name": "Main (paw)",
             "type": "php",
             "request": "launch",
             "program": "${workspaceFolder}/bin/start",
             "cwd": "${workspaceFolder}",
             "args": [
-                "${file}"
+                "-e${workspaceFolder}/src/main.php"
             ],
-            "port": 0,
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
-                "-dxdebug.mode=debug"
+                "-dxdebug.mode=debug=yes",
+            ],
+            "env": {
+                "XDEBUG_MODE": "debug,develop",
+                "XDEBUG_CONFIG": "client_port=${port}"
+            }
+        },
+        {
+            "name": "Export (paw)",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/start",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-eexport.php"
+            ],
+            "runtimeArgs": [
+                "-dxdebug.start_with_request=yes",
+                "-dxdebug.mode=debug=yes",
             ],
             "env": {
                 "XDEBUG_MODE": "debug,develop",
