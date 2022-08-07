@@ -11,8 +11,8 @@
       "php ./vendor/bin/php-cs-fixer fix tests"
     ],
     "action:test": "php vendor/bin/phpunit tests",
-    "start": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -esrc/main.php -lsrc/lib/ -i",
-    "watch": "php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
+    "start": "XDEBUG_MODE='debug,develop' XDEBUG_CONFIG='client_port=9003' php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -esrc/main.php -lsrc/lib/ -i",
+    "watch": "XDEBUG_MODE='debug,develop' XDEBUG_CONFIG='client_port=9003' php -dxdebug.start_with_request=yes -dxdebug.mode=debug ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
   },
   "authors": [
     {
