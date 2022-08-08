@@ -11,8 +11,8 @@
       "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix tests"
     ],
     "action:test": "XDEBUG_MODE='off' php vendor/bin/phpunit tests",
-    "start": "XDEBUG_MODE='debug' XDEBUG_CONFIG='client_port=9003' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
-    "watch": "XDEBUG_MODE='debug' XDEBUG_CONFIG='client_port=9003' php ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
+    "start": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
+    "watch": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
   },
   "authors": [
     {
