@@ -10,7 +10,7 @@
       "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix src",
       "XDEBUG_MODE='off' php ./vendor/bin/php-cs-fixer fix tests"
     ],
-    "action:test": "XDEBUG_MODE='off' php vendor/bin/phpunit tests",
+    "action:test": "XDEBUG_MODE='off' php vendor/bin/phpunit tests/*",
     "start": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i",
     "watch": "XDEBUG_MODE='debug' php ./bin/start -esrc/main.php -lsrc/lib/ -i -w"
   },
