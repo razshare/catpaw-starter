@@ -1,6 +1,4 @@
 <?php
-namespace {
-    function main() {
-        echo "hello world\n";
-    }
+function main() {
+    echo "hello world\n";
 }
