@@ -19,7 +19,7 @@
             ],
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
-                "-dxdebug.mode=debug",
+                "-dxdebug.mode=debug"
             ],
             "env": {
                 "XDEBUG_MODE": "debug",
