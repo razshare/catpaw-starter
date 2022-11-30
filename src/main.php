@@ -1,9 +1,4 @@
 <?php
-
-use CatPaw\Attributes\Option;
-
-function main(
-    #[Option("--test")] string $test,
-) {
-    echo "$test\n";
+function main() {
+    echo "hello world\n";
 }
