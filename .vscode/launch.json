@@ -16,7 +16,7 @@
             "args": [
                 "-l./src/lib/",
                 "-e=\"./src/main.php\"",
-                "--sync"
+                "--test=\"hello \\\"world\""
             ],
             "runtimeArgs": [
                 "-dxdebug.start_with_request=yes",
