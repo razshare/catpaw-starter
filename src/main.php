@@ -1,4 +1,11 @@
 <?php
+
+use function CatPaw\readline;
+
 function main() {
-    echo "hello world\n";
+    $username = yield readline("What is your username? ");
+    echo "username: $username";
+
+    $password = yield readline("What is your password? ");
+    echo "password: $password";
 }
