@@ -1,5 +1,7 @@
 <?php
 
 function main():void {
-    echo "hello world\n";
+    $info = ($_ENV["info"]??false)?'yes':'no';
+
+    echo "info:$info\n";
 }
