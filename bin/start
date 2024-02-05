@@ -1,14 +1,9 @@
 #!/usr/bin/env php
 <?php
-
 use CatPaw\Core\Attributes\Option;
 use CatPaw\Core\Bootstrap;
-$_ENV = [
-    ...$_ENV,
-    ...getenv(),
-];
-require 'vendor/autoload.php';
 
+require 'vendor/autoload.php';
 
 $entry       = new Option('--entry');
 $name        = new Option('--name');
@@ -26,7 +21,7 @@ $resources   = $resources->findValue('string', true)   ?? '';
 $dieOnChange = $dieOnChange->findValue('bool')         ?? false;
 $watch       = $watch->findValue('bool')               ?? false;
 $php         = $php->findValue('string', true)         ?? 'php';
-$environment = $environment->findValue('string', true) ?? './env.yml';
+$environment = $environment->findValue('string', true) ?? '';
 
 try {
     if ($watch) {

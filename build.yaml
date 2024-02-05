@@ -2,4 +2,4 @@ name: app
 entry: ./src/main.php
 libraries: ./src/lib
 environment: ./env.yaml
-match: /(^\.\/(\.build-cache|src|vendor|server|bin)\/.*)|(\.\/env)|(\.yaml)|(\.yml)/
+match: /(^\.\/(\.build-cache|src|vendor|bin)\/.*)|(^\.\/(\.env|env\.yaml|env\.yml))/
