@@ -1,4 +1,15 @@
-Create a new project using
+Catpaw Web Starter
+
+Start the development application using
+
 ```bash
-composer create-project catpaw/starter
+composer dev:start
 ```
+
+or
+
+```bash
+composer dev:watch
+```
+
+which will restart the application whenever a change is detected in your _src_ directory.
