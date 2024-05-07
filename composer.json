@@ -15,7 +15,7 @@
     "dev:build": "@php -dphar.readonly=0 ./catpaw.phar --build --environment='./build.yaml'",
     "dev:test": "@php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/phpunit tests",
     "dev:fix": "@php -dxdebug.mode=off ./vendor/bin/php-cs-fixer fix .",
-    "dev:precommit": "pre-commit install && pre-commit autoupdate",
+    "dev:install-pre-commit": "@prod:start --install-pre-commit='composer prod:fix && composer prod:test'",
     "dev:tips": "[ ! -f catpaw.phar ] && echo '' || php catpaw.phar --tips",
     "download:catpaw": "[ ! -f catpaw.phar ] && wget https://github.com/tncrazvan/catpaw/releases/latest/download/catpaw.phar || echo ''",
     "post-autoload-dump": [
@@ -48,7 +48,7 @@
     "ext-openssl": "*",
     "ext-zlib": "*",
     "ext-yaml": "*",
-    "catpaw/catpaw": "^2.0"
+    "catpaw/catpaw": "^3.0"
   },
   "autoload-dev": {
     "psr-4": {
