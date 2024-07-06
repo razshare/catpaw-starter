@@ -1,4 +1,4 @@
-Catpaw Web Starter
+Catpaw Starter
 
 Start the development application using
 
