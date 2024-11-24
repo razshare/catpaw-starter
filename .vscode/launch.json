@@ -9,7 +9,7 @@
       "type": "php",
       "request": "launch",
       "program": "${workspaceRoot}/bin/start",
-      "args": ["--libraries='./src/lib'", "--main='./src/main.php'"],
+      "args": ["--libraries=./src/lib", "--main=./src/main.php"],
       "cwd": "${workspaceRoot}",
       "runtimeArgs": ["-dxdebug.start_with_request=yes"],
       "env": {
