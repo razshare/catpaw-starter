@@ -2,14 +2,45 @@ load:
 	composer update
 	composer dump-autoload -o
 
-dev: src/main.php
-	php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/catpaw --libraries=src/lib --main=src/main.php
+test: vendor/bin/phpunit
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	vendor/bin/phpunit tests
 
-watch: src/main.php
-	php -dxdebug.mode=debug -dxdebug.start_with_request=yes vendor/bin/catpaw --libraries=src/lib --main=src/main.php --watch --php='php -dxdebug.mode=debug -dxdebug.start_with_request=yes'
+fix: vendor/bin/php-cs-fixer
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	vendor/bin/php-cs-fixer fix .
 
-start: src/main.php
-	php -dopcache.enable_cli=1 -dopcache.jit_buffer_size=100M vendor/bin/catpaw --libraries=src/lib --main=src/main.php
+dev: vendor/bin/catpaw src/main.php
+	php \
+	-dxdebug.mode=debug \
+	-dxdebug.start_with_request=yes \
+	vendor/bin/catpaw \
+	--libraries=src/lib \
+	--main=src/main.php
+
+watch: vendor/bin/catpaw src/main.php
+	php \
+	-dxdebug.mode=debug \
+	-dxdebug.start_with_request=yes \
+	vendor/bin/catpaw \
+	--libraries=src/lib \
+	--main=src/main.php \
+	--watch \
+	--spawner='php -dxdebug.mode=debug -dxdebug.start_with_request=yes'
+
+start: vendor/bin/catpaw src/main.php
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	-dopcache.enable_cli=1 \
+	-dopcache.jit_buffer_size=100M \
+	vendor/bin/catpaw \
+	--libraries=src/lib \
+	--main=src/main.php
 
 configure:
 	@printf "\
@@ -17,12 +48,20 @@ configure:
 	main = src/main.php\n\
 	libraries = src/lib\n\
 	environment = env.ini\n\
-	match = \"/(^\.\/(\.build-cache|src|vendor|bin)\/.*)|(^\.\/(\.env|env\.ini|env\.yml))/\"\n\
+	match = \"/(^\.\/(\.build-cache|src|vendor)\/.*)|(^\.\/(\.env|env\.ini|env\.yml))/\"\n\
 	" > build.ini && printf "Build configuration file restored.\n"
 
 clean:
 	rm app.phar -f
 	rm vendor -fr
 
-build: clean load
-	php -dphar.readonly=0 vendor/bin/catpaw-cli --build --optimize
+build: vendor/bin/catpaw-cli
+	test -f build.ini || make configure
+	test -d out || mkdir out
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	-dphar.readonly=0 \
+	bin/catpaw-cli \
+	--build \
+	--optimize
