@@ -33,6 +33,7 @@ jobs:
 
     - name: Load dependencies
       run: make load
+      
     - name: Run tests
       run: make test
       
