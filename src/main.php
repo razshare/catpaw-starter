@@ -1,4 +1,4 @@
 <?php
 function main():void {
-    echo "hello world!!\n";
+    echo "Hello world.\n";
 }
