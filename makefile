@@ -14,6 +14,17 @@ fix: vendor/bin/php-cs-fixer
 	-dxdebug.start_with_request=no \
 	vendor/bin/php-cs-fixer fix .
 
+start: vendor/bin/catpaw src/main.php
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	-dopcache.enable_cli=1 \
+	-dopcache.jit_buffer_size=100M \
+	vendor/bin/catpaw \
+	--environment=env.ini \
+	--libraries=src/lib \
+	--main=src/main.php
+
 dev: vendor/bin/catpaw src/main.php
 	php \
 	-dxdebug.mode=debug \
@@ -35,14 +46,6 @@ watch: vendor/bin/catpaw src/main.php
 	--watch \
 	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes"
 
-start: vendor/bin/catpaw src/main.php
-	php \
-	-dopcache.enable_cli=1 \
-	-dopcache.jit_buffer_size=100M \
-	vendor/bin/catpaw \
-	--environment=env.ini \
-	--libraries=src/lib \
-	--main=src/main.php
 
 configure:
 	@printf "\
