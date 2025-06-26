@@ -13,7 +13,7 @@ clean:
 	rm app.phar -f
 	rm vendor -fr
 
-update:
+dev:
 	composer update
 
 test: vendor/bin/phpunit
@@ -39,7 +39,7 @@ start: vendor/bin/catpaw src/main.php
 	--libraries=src/lib \
 	--main=src/main.php
 
-dev: vendor/bin/catpaw src/main.php
+debug: vendor/bin/catpaw src/main.php
 	php \
 	-dxdebug.mode=debug \
 	-dxdebug.start_with_request=yes \
