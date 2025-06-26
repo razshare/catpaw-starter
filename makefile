@@ -39,7 +39,7 @@ start: vendor/bin/catpaw src/main.php
 	--libraries=src/lib \
 	--main=src/main.php
 
-debug: vendor/bin/catpaw src/main.php
+inspect: vendor/bin/catpaw src/main.php
 	php \
 	-dxdebug.mode=debug \
 	-dxdebug.start_with_request=yes \
