@@ -13,6 +13,9 @@ clean:
 	rm app.phar -f
 	rm vendor -fr
 
+update:
+	composer update
+
 test: vendor/bin/phpunit
 	php \
 	-dxdebug.mode=off \
