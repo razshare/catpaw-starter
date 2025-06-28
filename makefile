@@ -6,30 +6,30 @@ update:
 	composer update
 	composer dump-autoload -o
 
-dev: vendor/bin/catpaw src/server/main.php
+dev: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
 	vendor/bin/catpaw \
 	--environment=env.ini \
 	--libraries=src/lib \
-	--main=src/server/main.php
+	--main=src/main.php
 
-watch: vendor/bin/catpaw src/server/main.php
+watch: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
 	vendor/bin/catpaw \
 	--environment=env.ini \
 	--libraries=src/lib \
-	--main=src/server/main.php \
+	--main=src/main.php \
 	--resources=src/server \
 	--watch \
 	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes"
 
 
-start: vendor/bin/catpaw src/server/main.php
+start: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
 	vendor/bin/catpaw \
 	--environment=env.ini \
 	--libraries=src/lib \
-	--main=src/server/main.php
+	--main=src/main.php
 
 build: vendor/bin/catpaw-cli
 	mkdir out -p
@@ -47,7 +47,7 @@ clean:
 configure:
 	@printf "\
 	name = out/catpaw\n\
-	main = src/server/main.php\n\
+	main = src/main.php\n\
 	libraries = src/lib\n\
 	environment = env.ini\n\
 	match = \"/(^\.\/(\.build-cache|src|vendor|bin)\/.*)|(^\.\/(\.env|env\.ini|env\.yml))/\"\n\
@@ -65,10 +65,10 @@ check: vendor/bin/php-cs-fixer
 test: vendor/bin/phpunit
 	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit tests/server
 
-hooks: vendor/bin/catpaw src/server/main.php
+hooks: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
 	vendor/bin/catpaw \
 	--environment=env.ini \
 	--libraries=src/lib \
-	--main=src/server/main.php \
+	--main=src/main.php \
 	--install-pre-commit="make test"
