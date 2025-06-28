@@ -19,7 +19,7 @@ watch: vendor/bin/catpaw src/main.php
 	--environment=env.ini \
 	--libraries=src/lib \
 	--main=src/main.php \
-	--resources=src/server \
+	--resources=src \
 	--watch \
 	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes"
 
@@ -55,15 +55,15 @@ configure:
 	make install
 
 fix: vendor/bin/php-cs-fixer
-	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer fix src/server && \
-	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer fix tests/server
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer fix src && \
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer fix tests
 
 check: vendor/bin/php-cs-fixer
-	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check src/server && \
-	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check tests/server
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check src && \
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check tests
 
 test: vendor/bin/phpunit
-	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit tests/server
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit tests
 
 hooks: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
