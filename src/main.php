@@ -1,4 +1,8 @@
 <?php
+
+use function CatPaw\Core\env;
+
 function main():void {
-    echo "Hello world.\n";
+    $name = env("name");
+    echo "Hello $name.\n";
 }
