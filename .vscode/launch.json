@@ -5,14 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Inspect",
+      "name": "Debug",
       "type": "php",
       "request": "launch",
       "program": "${workspaceRoot}/vendor/bin/catpaw",
       "args": [
         "--environment=env.in",
         "--libraries=src/lib",
-        "--main=src/main.php"
+        "--main=src/server/main.php"
       ],
       "cwd": "${workspaceRoot}",
       "runtimeArgs": ["-dxdebug.mode=debug", "-dxdebug.start_with_request=yes"],
