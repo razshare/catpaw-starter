@@ -1,3 +1,11 @@
+install:
+	composer install
+	composer dump-autoload -o
+
+update:
+	composer update
+	composer dump-autoload -o
+
 configure:
 	@printf "\
 	name = out/app\n\
@@ -6,21 +14,11 @@ configure:
 	environment = env.ini\n\
 	match = \"/(^\.\/(\.build-cache|src|vendor)\/.*)|(^\.\/(\.env|env\.ini|env\.yml))/\"\n\
 	" > build.ini && printf "Build configuration file restored.\n"
-	composer update
-	composer dump-autoload -o
+	make install
 
 clean:
 	rm app.phar -f
 	rm vendor -fr
-
-update:
-	composer update
-
-test: vendor/bin/phpunit
-	php \
-	-dxdebug.mode=off \
-	-dxdebug.start_with_request=no \
-	vendor/bin/phpunit tests
 
 fix: vendor/bin/php-cs-fixer
 	php \
@@ -70,3 +68,9 @@ build: vendor/bin/catpaw-cli
 	vendor/bin/catpaw-cli \
 	--build \
 	--optimize
+
+test: vendor/bin/phpunit
+	php \
+	-dxdebug.mode=off \
+	-dxdebug.start_with_request=no \
+	vendor/bin/phpunit tests

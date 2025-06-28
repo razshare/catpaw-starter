@@ -19,7 +19,5 @@
 /SESSION
 /node_modules
 /package
-/composer.lock
-/package-lock.json
 /.php-cs-fixer.cache
 /.phpunit.result.cache
