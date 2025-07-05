@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e309ff388f01f2cf461405ce93c88110",
+    "content-hash": "70d9eae4ccabbb5a772b3d025850664b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1665,16 +1665,16 @@
         },
         {
             "name": "catpaw/catpaw",
-            "version": "4.3.11",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/razshare/catpaw.git",
-                "reference": "1b7e13df2416fabd50388d763adc9d196e9e5b92"
+                "reference": "20cfb714c4c9f360a28e01b91567df09931f7e87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/razshare/catpaw/zipball/1b7e13df2416fabd50388d763adc9d196e9e5b92",
-                "reference": "1b7e13df2416fabd50388d763adc9d196e9e5b92",
+                "url": "https://api.github.com/repos/razshare/catpaw/zipball/20cfb714c4c9f360a28e01b91567df09931f7e87",
+                "reference": "20cfb714c4c9f360a28e01b91567df09931f7e87",
                 "shasum": ""
             },
             "require": {
@@ -1765,9 +1765,9 @@
             ],
             "support": {
                 "issues": "https://github.com/razshare/catpaw/issues",
-                "source": "https://github.com/razshare/catpaw/tree/4.3.11"
+                "source": "https://github.com/razshare/catpaw/tree/4.4.0"
             },
-            "time": "2025-07-02T07:32:40+00:00"
+            "time": "2025-07-05T17:35:12+00:00"
         },
         {
             "name": "daverandom/libdns",
@@ -3393,16 +3393,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.76.0",
+            "version": "v3.77.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "0e3c484cef0ae9314b0f85986a36296087432c40"
+                "reference": "4d6e9da6185f50b87c38b032f940526f6ea18ac8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/0e3c484cef0ae9314b0f85986a36296087432c40",
-                "reference": "0e3c484cef0ae9314b0f85986a36296087432c40",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4d6e9da6185f50b87c38b032f940526f6ea18ac8",
+                "reference": "4d6e9da6185f50b87c38b032f940526f6ea18ac8",
                 "shasum": ""
             },
             "require": {
@@ -3486,7 +3486,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.76.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.77.0"
             },
             "funding": [
                 {
@@ -3494,20 +3494,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-06-30T14:15:06+00:00"
+            "time": "2025-07-05T13:22:53+00:00"
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.13.1",
+            "version": "1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c"
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/1720ddd719e16cf0db4eb1c6eca108031636d46c",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/faed855a7b5f4d4637717c2b3863e277116beb36",
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36",
                 "shasum": ""
             },
             "require": {
@@ -3546,7 +3546,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.1"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.3"
             },
             "funding": [
                 {
@@ -3554,7 +3554,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-29T12:36:36+00:00"
+            "time": "2025-07-05T12:25:42+00:00"
         },
         {
             "name": "nikic/php-parser",
