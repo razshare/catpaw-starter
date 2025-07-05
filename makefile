@@ -21,7 +21,6 @@ watch: vendor/bin/catpaw src/main.php
 	-r -P --format '%e' src | make dev); \
 	done
 
-
 start: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
 	vendor/bin/catpaw \
