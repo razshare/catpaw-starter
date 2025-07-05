@@ -23,7 +23,8 @@ watch: vendor/bin/catpaw src/main.php
 	--environment=env.ini \
 	--libraries=src/lib \
 	--main=src/main.php \
-	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes"
+	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes" \
+	--wait
 
 start: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
