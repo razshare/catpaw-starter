@@ -15,11 +15,15 @@ dev: vendor/bin/catpaw src/main.php
 	--die-on-stdin
 
 watch: vendor/bin/catpaw src/main.php
-	while true; do \
-	(inotifywait \
+	inotifywait \
 	-e modify,create,delete_self,delete,move_self,moved_from,moved_to \
-	-r -P --format '%e' src | make dev); \
-	done
+	-r -m -P --format '%e' src | \
+	php -dxdebug.mode=off -dxdebug.start_with_request=no \
+	vendor/bin/catpaw \
+	--environment=env.ini \
+	--libraries=src/lib \
+	--main=src/main.php \
+	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes"
 
 start: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
@@ -63,9 +67,5 @@ test: vendor/bin/phpunit
 	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpunit tests
 
 hooks: vendor/bin/catpaw src/main.php
-	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
-	vendor/bin/catpaw \
-	--environment=env.ini \
-	--libraries=src/lib \
-	--main=src/main.php \
-	--install-pre-commit="make test"
+	php -dxdebug.mode=off -dxdebug.start_with_request=no \
+	vendor/bin/catpaw-cli --install-pre-commit="make test"
