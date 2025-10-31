@@ -11,8 +11,7 @@ dev: vendor/bin/catpaw src/main.php
 	vendor/bin/catpaw \
 	--environment=env.ini \
 	--libraries=src/lib \
-	--main=src/main.php \
-	--die-on-stdin
+	--main=src/main.php
 
 watch: vendor/bin/catpaw src/main.php
 	inotifywait \
