@@ -60,6 +60,8 @@ fix: vendor/bin/php-cs-fixer
 	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer fix tests
 
 check: vendor/bin/php-cs-fixer
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpstan analyse --error-format=table src && \
+	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/phpstan analyse --error-format=table tests && \
 	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check src && \
 	php -dxdebug.mode=off -dxdebug.start_with_request=no vendor/bin/php-cs-fixer check tests
 
