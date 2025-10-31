@@ -7,13 +7,6 @@ update:
 	composer dump-autoload -o
 
 dev: vendor/bin/catpaw src/main.php
-	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
-	vendor/bin/catpaw \
-	--environment=env.ini \
-	--libraries=src/lib \
-	--main=src/main.php
-
-watch: vendor/bin/catpaw src/main.php
 	inotifywait \
 	-e modify,create,delete_self,delete,move_self,moved_from,moved_to \
 	-r -m -P --format '%e' src | \
@@ -24,6 +17,13 @@ watch: vendor/bin/catpaw src/main.php
 	--main=src/main.php \
 	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes" \
 	--wait
+
+start-debug: vendor/bin/catpaw src/main.php
+	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
+	vendor/bin/catpaw \
+	--environment=env.ini \
+	--libraries=src/lib \
+	--main=src/main.php
 
 start: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=off -dxdebug.start_with_request=no \
