@@ -18,7 +18,7 @@ dev: vendor/bin/catpaw src/main.php
 	--spawner="php -dxdebug.mode=debug -dxdebug.start_with_request=yes" \
 	--wait
 
-start-debug: vendor/bin/catpaw src/main.php
+preview: vendor/bin/catpaw src/main.php
 	php -dxdebug.mode=debug -dxdebug.start_with_request=yes \
 	vendor/bin/catpaw \
 	--environment=env.ini \
